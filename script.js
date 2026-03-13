@@ -55,6 +55,7 @@ const EVENTS_RAW = [
     id: 'continental-club',
     emoji: '🎸',
     name: 'Continental Club',
+    category: 'bar',
     type: 'drinking',
     location: 'South Congress',
     desc: 'Austin\'s most beloved live music bar. Always great acts, legendary atmosphere — no bad nights here.',
@@ -75,6 +76,7 @@ const EVENTS_RAW = [
     id: 'aba',
     emoji: '🫒',
     name: 'Aba',
+    category: 'restaurant',
     type: 'drinking',
     location: 'South Congress',
     desc: 'Upscale Mediterranean with a stunning rooftop terrace on SoCo. Great cocktails, shareable plates, and a beautiful space — perfect for a group dinner or drinks.',
@@ -92,6 +94,7 @@ const EVENTS_RAW = [
     id: 'loro',
     emoji: '🔥',
     name: 'Loro',
+    category: 'restaurant',
     type: 'drinking',
     location: 'South Lamar',
     desc: 'Asian smokehouse from the teams behind Uchi and Franklin BBQ. Outdoor patio, craft cocktails, smoked meats — one of Austin\'s best vibes.',
@@ -109,6 +112,7 @@ const EVENTS_RAW = [
     id: 'gueros',
     emoji: '🌵',
     name: 'Güero\'s Taco Bar',
+    category: 'restaurant',
     type: 'drinking',
     location: 'South Congress',
     desc: 'Honestly the food is mid, but the Oak Garden patio is the move — live music, frozen margaritas, string lights, big group energy. Great for day drinking.',
@@ -126,6 +130,7 @@ const EVENTS_RAW = [
     id: 'perlas',
     emoji: '🦞',
     name: 'Perla\'s Seafood',
+    category: 'restaurant',
     type: 'drinking',
     location: 'South Congress',
     desc: 'Upscale seafood with a gorgeous SoCo patio. Oysters, cocktails, and great people-watching — feels special without being stuffy.',
@@ -143,6 +148,7 @@ const EVENTS_RAW = [
     id: 'spa-day',
     emoji: '💆',
     name: 'Spa Day — Milk + Honey',
+    category: 'other',
     type: 'non-drinking',
     location: 'South Congress',
     desc: 'Austin\'s favorite local spa. Massages, facials, and full relaxation. Book the group package for a private experience.',
@@ -161,6 +167,7 @@ const EVENTS_RAW = [
     id: 'broken-spoke',
     emoji: '🤠',
     name: 'Broken Spoke',
+    category: 'bar',
     type: 'drinking',
     location: 'South Lamar',
     desc: 'The real deal — oldest honky tonk in Austin since 1964. Live country music, two-stepping, cold Lone Stars.',
@@ -181,6 +188,7 @@ const EVENTS_RAW = [
     id: 'driftwood-winery',
     emoji: '🍷',
     name: 'Driftwood Estate Winery + Salt Lick BBQ',
+    category: 'other',
     type: 'drinking',
     location: 'Hill Country',
     desc: 'Wine tasting at a Hill Country winery, then BBQ at the legendary Salt Lick next door. A classic Austin day trip.',
@@ -199,6 +207,7 @@ const EVENTS_RAW = [
     id: 'horseback-riding',
     emoji: '🐴',
     name: 'Horseback Riding',
+    category: 'other',
     type: 'non-drinking',
     location: 'Hill Country',
     desc: 'Trail ride through the Hill Country outside Austin. Beginner-friendly, all experience levels welcome.',
@@ -217,6 +226,7 @@ const EVENTS_RAW = [
     id: 'fredericksburg',
     emoji: '🍷',
     name: 'Fredericksburg Day Trip',
+    category: 'other',
     type: 'drinking',
     location: 'Hill Country',
     desc: 'Charming Texas Hill Country town known for wineries, peach stands, and Main Street shops. A full day out — plan for the whole afternoon. Note: it\'s about 1.5 hrs from Austin each way, so this is a commit.',
@@ -236,6 +246,7 @@ const EVENTS_RAW = [
     id: 'de-nada-margs',
     emoji: '🍹',
     name: 'De Nada Cantina — Frozen Margs',
+    category: 'bar',
     type: 'drinking',
     location: 'East 6th',
     desc: 'Best frozen margaritas in Austin and it\'s not close. Famously strong. Great stop before or after anything.',
@@ -254,6 +265,7 @@ const EVENTS_RAW = [
     id: 'taco-speakeasy',
     emoji: '🌮',
     name: 'Taco Speakeasy',
+    category: 'restaurant',
     type: 'drinking',
     location: 'East 6th',
     desc: 'Hidden bar behind a taco shop — find the secret entrance. Craft cocktails, tacos, and serious late-night energy.',
@@ -271,6 +283,7 @@ const EVENTS_RAW = [
     id: 'comedy-mothership',
     emoji: '🎤',
     name: 'Comedy Mothership',
+    category: 'other',
     type: 'drinking',
     location: 'Dirty 6th / Red River',
     desc: 'Joe Rogan\'s comedy club on Red River. World-class stand-up in a sick venue — tickets sell out fast.',
@@ -289,6 +302,7 @@ const EVENTS_RAW = [
     id: 'rooftop-bars',
     emoji: '🥂',
     name: 'Rooftop Bar Hop',
+    category: 'bar',
     type: 'drinking',
     location: 'Dirty 6th / Red River',
     desc: 'Hit Austin\'s best rooftops back to back — skyline views, great cocktails, bachelorette-party energy.',
@@ -307,6 +321,7 @@ const EVENTS_RAW = [
     id: 'donns-depot',
     emoji: '🚂',
     name: 'Donn\'s Depot',
+    category: 'bar',
     type: 'drinking',
     location: 'West 6th',
     desc: 'Funky bar built inside old train cars on 5th Street. Donn\'s house band plays classics every weekend.',
@@ -327,6 +342,7 @@ const EVENTS_RAW = [
     id: 'cocktail-class',
     emoji: '🍸',
     name: 'Cocktail Making Class',
+    category: 'other',
     type: 'drinking',
     location: 'Downtown',
     desc: 'A private mixologist teaches the group 2–3 signature cocktails. Hands-on, fun, and you drink what you make.',
@@ -344,6 +360,7 @@ const EVENTS_RAW = [
     id: 'town-lake-cruise',
     emoji: '🚢',
     name: 'Town Lake Evening Cruise',
+    category: 'other',
     type: 'non-drinking',
     location: 'Downtown',
     desc: 'Sunset boat cruise on Lady Bird Lake. Relaxed, cheap, and a great way to see the city from the water.',
@@ -361,6 +378,7 @@ const EVENTS_RAW = [
     id: 'austin-city-limits',
     emoji: '📺',
     name: 'Austin City Limits Taping',
+    category: 'other',
     type: 'non-drinking',
     location: 'Downtown',
     desc: 'Free tickets to a live taping of the longest-running music TV show in America. If there\'s a taping that weekend — legendary.',
@@ -379,6 +397,7 @@ const EVENTS_RAW = [
     id: 'escape-room',
     emoji: '🔐',
     name: 'Escape Room',
+    category: 'other',
     type: 'non-drinking',
     location: 'Downtown',
     desc: 'Work as a team to solve the puzzle before time runs out. Always a good time for a group.',
@@ -396,6 +415,7 @@ const EVENTS_RAW = [
     id: 'barton-springs',
     emoji: '🏊',
     name: 'Barton Springs Pool',
+    category: 'other',
     type: 'non-drinking',
     location: 'Zilker / Town Lake',
     desc: 'Natural spring-fed pool in Zilker Park. Crystal clear 68°F water — perfect escape from July heat.',
@@ -414,6 +434,7 @@ const EVENTS_RAW = [
     id: 'kayak-paddleboard',
     emoji: '🛶',
     name: 'Kayak / Paddleboard Town Lake',
+    category: 'other',
     type: 'non-drinking',
     location: 'Zilker / Town Lake',
     desc: 'Rent a kayak or paddleboard on Lady Bird Lake. Austin skyline views, easy paddling, great for a group.',
@@ -432,6 +453,7 @@ const EVENTS_RAW = [
     id: 'cooking-class',
     emoji: '👩‍🍳',
     name: 'Cheese & Wine Pairing Class',
+    category: 'other',
     type: 'non-drinking',
     location: 'Zilker / Town Lake',
     desc: 'Antonelli\'s Cheese Shop does amazing pairing classes — hands-on, educational, and delicious.',
@@ -449,6 +471,7 @@ const EVENTS_RAW = [
     id: 'ski-shores',
     emoji: '⛵',
     name: 'Ski Shores Cafe',
+    category: 'restaurant',
     type: 'non-drinking',
     location: 'Lake Austin',
     desc: 'Waterfront spot on Lake Austin. Great food, cold drinks, beautiful hill views — worth the 30 min drive.',
@@ -465,11 +488,16 @@ const EVENTS_RAW = [
   },
 ];
 
-// Sort events by location order
+// Sort events by location, then by category (restaurant → bar → other)
+const CATEGORY_ORDER = ['restaurant', 'bar', 'other'];
 const EVENTS = [...EVENTS_RAW].sort((a, b) => {
   const ai = LOCATION_ORDER.indexOf(a.location);
   const bi = LOCATION_ORDER.indexOf(b.location);
-  return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+  const locDiff = (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+  if (locDiff !== 0) return locDiff;
+  const ac = CATEGORY_ORDER.indexOf(a.category || 'other');
+  const bc = CATEGORY_ORDER.indexOf(b.category || 'other');
+  return ac - bc;
 });
 
 // Slot assignments — which agenda slot each event competes for
@@ -877,7 +905,7 @@ function voterChipsHTML(eventId) {
     const isMaybe = v.vote_type === 'maybe';
     const initials = isBride ? '💍' : v.voter_name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
     const classes = ['voter-chip', isMe ? 'me' : '', isBride ? 'bride' : '', isMaybe ? 'maybe' : ''].filter(Boolean).join(' ');
-    return `<span class="${classes}" title="${v.voter_name}${isMaybe ? ' (maybe)' : ''}">${initials}</span>`;
+    return `<span class="${classes}" title="${v.voter_name}${isMaybe ? ' (interested)' : ''}">${initials}</span>`;
   }).join('');
 
   const extraChip = extra > 0 ? `<span class="voter-chip extra">+${extra}</span>` : '';
@@ -885,7 +913,7 @@ function voterChipsHTML(eventId) {
   const maybeVoters = voters.filter(v => v.vote_type === 'maybe');
   const parts = [];
   if (yesVoters.length) parts.push(yesVoters.map(v => v.voter_name).join(', '));
-  if (maybeVoters.length) parts.push(`maybe: ${maybeVoters.map(v => v.voter_name).join(', ')}`);
+  if (maybeVoters.length) parts.push(`interested: ${maybeVoters.map(v => v.voter_name).join(', ')}`);
   const countLabel = `<span class="voter-names-label">${parts.join(' · ')}</span>`;
 
   return chips + extraChip + countLabel;
@@ -924,7 +952,7 @@ function updateCardUI(eventId) {
   card.querySelector('.vote-btn').classList.toggle('voted', voted);
   card.querySelector('.vote-btn').textContent = voted ? "✓ I'm in!" : "I'm in for this!";
   card.querySelector('.maybe-btn').classList.toggle('maybed', maybed);
-  card.querySelector('.maybe-btn').textContent = maybed ? "~ Maybe!" : "Maybe";
+  card.querySelector('.maybe-btn').textContent = maybed ? "~ Interested!" : "Interested";
   card.querySelector('.vote-fill').style.width = pct + '%';
   const labelParts = [];
   if (yesCount) labelParts.push(`${yesCount} in`);
@@ -1193,7 +1221,7 @@ function renderEvents() {
             ${voted ? "✓ I'm in!" : "I'm in for this!"}
           </button>
           <button class="maybe-btn ${maybed ? 'maybed' : ''}" data-event-id="${event.id}">
-            ${maybed ? "~ Maybe!" : "Maybe"}
+            ${maybed ? "~ Interested!" : "Interested"}
           </button>
         </div>
       </div>
