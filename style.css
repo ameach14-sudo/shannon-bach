@@ -445,6 +445,39 @@ body {
   transform: scale(0.93);
 }
 
+.quick-pick-tile.selected {
+  background: var(--rose-dark);
+  border-color: var(--rose-dark);
+}
+
+.quick-pick-tile.selected .quick-pick-label,
+.quick-pick-tile.selected .quick-pick-sub {
+  color: var(--white);
+}
+
+.quick-pick-submit-btn {
+  width: 100%;
+  padding: 13px;
+  border-radius: 50px;
+  background: var(--rose-dark);
+  color: var(--white);
+  border: none;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.quick-pick-submit-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.quick-pick-submit-btn:not(:disabled):hover {
+  background: var(--brown);
+}
+
 .quick-pick-emoji {
   font-size: 2rem;
   line-height: 1;

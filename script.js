@@ -931,9 +931,13 @@ function updateNavWithPersona() {
   }
 }
 
+// Tracks which tile indices are currently selected in the picker
+const selectedPickIdxs = new Set();
+
 function renderVibePicker() {
   const container = document.getElementById('quick-pick-container');
   if (!container) return;
+  selectedPickIdxs.clear();
   const savedPersona = localStorage.getItem('bach_persona');
   const personaLine = savedPersona && PERSONAS[savedPersona]
     ? `<button class="quiz-trigger-btn quiz-trigger-taken" id="quiz-open-picker">${PERSONAS[savedPersona].emoji} ${PERSONAS[savedPersona].title} · Retake quiz</button>`
@@ -941,7 +945,7 @@ function renderVibePicker() {
 
   container.innerHTML = `
     <p class="vote-path-label">Don't care, just excited?</p>
-    <p class="quick-pick-prompt">Tap your vibe — we'll vote for you</p>
+    <p class="quick-pick-prompt">Pick your vibes — tap as many as you want</p>
     <div class="quick-pick-grid">
       ${QUICK_PICKS.map((pick, i) => `
         <button class="quick-pick-tile" data-idx="${i}">
@@ -951,40 +955,54 @@ function renderVibePicker() {
         </button>
       `).join('')}
     </div>
+    <button class="quick-pick-submit-btn" id="quick-pick-submit" disabled>Vote for my picks →</button>
     ${personaLine}
   `;
+
   container.querySelectorAll('.quick-pick-tile').forEach(tile => {
-    tile.addEventListener('click', () => selectQuickPick(parseInt(tile.dataset.idx)));
+    tile.addEventListener('click', () => {
+      const idx = parseInt(tile.dataset.idx);
+      if (selectedPickIdxs.has(idx)) {
+        selectedPickIdxs.delete(idx);
+        tile.classList.remove('selected');
+      } else {
+        selectedPickIdxs.add(idx);
+        tile.classList.add('selected');
+      }
+      document.getElementById('quick-pick-submit').disabled = selectedPickIdxs.size === 0;
+    });
   });
+
+  document.getElementById('quick-pick-submit').addEventListener('click', submitPickSelections);
   const quizBtn = document.getElementById('quiz-open-picker');
   if (quizBtn) quizBtn.addEventListener('click', openQuizModal);
 }
 
-async function selectQuickPick(idx) {
+async function submitPickSelections() {
   if (!voterName) {
-    _pendingQuickPick = idx;
+    _pendingQuickPick = -1; // signal: re-submit after name set
     showNameModal();
     return;
   }
   _pendingQuickPick = null;
-  const pick = QUICK_PICKS[idx];
 
-  // Collect unique event IDs across all vibes for this pick
-  const eventIds = [...new Set(pick.vibes.flatMap(v => VIBES[v] || []))];
+  // Collect unique event IDs across all selected picks
+  const picks = [...selectedPickIdxs].map(i => QUICK_PICKS[i]);
+  const eventIds = [...new Set(picks.flatMap(p => p.vibes.flatMap(v => VIBES[v] || [])))];
   const toVote = eventIds.filter(eid => myVotes.get(eid) !== 'yes');
 
-  // Show result immediately (optimistic UI)
-  showQuickPickResult(pick, toVote.length);
+  showMultiPickResult(picks, toVote.length);
 
-  // Cast votes in background
   for (const eid of toVote) {
     await castVote(eid, 'yes');
   }
 }
 
-function showQuickPickResult(pick, count) {
+function showMultiPickResult(picks, count) {
   const container = document.getElementById('quick-pick-container');
   if (!container) return;
+  const emojis = picks.map(p => p.emoji).join(' ');
+  const labels = picks.map(p => p.label).join(' · ');
   const msg = count > 0
     ? `Voted you in for ${count} activit${count === 1 ? 'y' : 'ies'} 🙌`
     : 'You\'re already in for all of those!';
@@ -995,11 +1013,11 @@ function showQuickPickResult(pick, count) {
 
   container.innerHTML = `
     <div class="quick-pick-result">
-      <span class="quick-pick-result-emoji">${pick.emoji}</span>
-      <p class="quick-pick-result-title">${pick.result}</p>
+      <span class="quick-pick-result-emoji">${emojis}</span>
+      <p class="quick-pick-result-title">${labels}</p>
       <p class="quick-pick-result-sub">${msg}</p>
       <div class="quick-pick-result-actions">
-        <button class="quick-pick-reset-btn" id="quick-pick-reset">Pick another vibe</button>
+        <button class="quick-pick-reset-btn" id="quick-pick-reset">Change picks</button>
         <a href="#events" class="quick-pick-see-btn">See votes →</a>
       </div>
       <button class="quiz-trigger-btn" id="quiz-open-result">${quizLabel}</button>
@@ -1113,11 +1131,10 @@ async function submitName() {
     renderAgenda();
   }
 
-  // If the vibe picker triggered the name modal, resume that pick now
+  // If the vibe picker triggered the name modal, resume the submission now
   if (_pendingQuickPick !== null) {
-    const idx = _pendingQuickPick;
     _pendingQuickPick = null;
-    selectQuickPick(idx);
+    submitPickSelections();
   }
 }
 
