@@ -1610,6 +1610,43 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 });
 
 // =========================================
+// COUNTDOWN
+// =========================================
+function renderCountdown() {
+  const el = document.getElementById('hero-countdown');
+  if (!el) return;
+
+  const target = new Date('2026-07-24T00:00:00');
+  const now = new Date();
+  const diff = target - now;
+
+  if (diff <= 0) {
+    el.innerHTML = '<span class="countdown-done">It\'s time 🌸</span>';
+    return;
+  }
+
+  const days    = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours   = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+  el.innerHTML = [
+    { num: days,    label: 'Days'    },
+    { num: hours,   label: 'Hours'   },
+    { num: minutes, label: 'Minutes' },
+    { num: seconds, label: 'Seconds' },
+  ].map(u => `
+    <div class="countdown-unit">
+      <span class="countdown-num">${String(u.num).padStart(2, '0')}</span>
+      <span class="countdown-label">${u.label}</span>
+    </div>
+  `).join('');
+}
+
+renderCountdown();
+setInterval(renderCountdown, 1000);
+
+// =========================================
 // INIT
 // =========================================
 async function init() {
@@ -1785,7 +1822,7 @@ function renderArrivals() {
   }
 
   // Group by date
-  const DATE_ORDER = ['Thursday, July 16', 'Friday, July 17', 'Saturday, July 18', 'Sunday, July 19'];
+  const DATE_ORDER = ['Thursday, July 23', 'Friday, July 24', 'Saturday, July 25', 'Sunday, July 26'];
   const groups = {};
   arrivals.forEach(a => {
     if (!groups[a.arrival_date]) groups[a.arrival_date] = [];
