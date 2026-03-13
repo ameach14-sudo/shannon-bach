@@ -294,7 +294,7 @@ body {
    ========================================= */
 .how-it-works {
   background: var(--white);
-  padding: 48px 0;
+  padding: 40px 0;
   border-bottom: 1px solid var(--cream-dark);
 }
 
@@ -409,7 +409,7 @@ body {
 .easy-vibe-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
 }
 
 .easy-vibe-hint {
@@ -466,17 +466,19 @@ body {
 }
 
 .vibe-chip {
-  padding: 7px 14px;
+  padding: 11px 18px;
   border-radius: 50px;
-  border: 1.5px solid var(--cream-dark);
+  border: 2px solid var(--cream-dark);
   background: var(--white);
   color: var(--brown-mid);
   font-family: 'Inter', sans-serif;
-  font-size: 0.82rem;
+  font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.15s;
   white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
 .vibe-chip:hover {
@@ -486,9 +488,15 @@ body {
 }
 
 .vibe-chip.selected {
-  background: var(--rose-light);
+  background: var(--rose-dark);
   border-color: var(--rose-dark);
-  color: var(--rose-dark);
+  color: var(--white);
+  font-weight: 700;
+}
+
+.vibe-chip.selected::after {
+  content: ' ✓';
+  font-weight: 700;
 }
 
 /* Toast */
@@ -2186,21 +2194,59 @@ body {
     font-size: 3rem;
   }
 
-  .step-arrow {
-    display: none;
-  }
-
+  /* Vote paths — easy mode first on mobile */
   .vote-paths {
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
+  }
+
+  .vote-path-easy {
+    order: -1;
   }
 
   .vote-path-divider {
+    order: 0;
     padding: 0;
+    font-size: 0.78rem;
   }
 
-  .vote-path {
+  /* Collapse the "Got opinions?" panel on mobile — just a link */
+  .vote-path:not(.vote-path-easy) {
+    padding: 14px 20px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: transparent;
+    border: 1.5px solid var(--cream-dark);
+  }
+
+  .vote-path:not(.vote-path-easy) .steps,
+  .vote-path:not(.vote-path-easy) .vote-path-label {
+    display: none;
+  }
+
+  .vote-path:not(.vote-path-easy)::before {
+    content: 'Want to pick specific activities?';
+    font-size: 0.85rem;
+    color: var(--brown-mid);
+    font-weight: 500;
+  }
+
+  .vote-path-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-size: 0.82rem;
+    padding: 9px 16px;
+    margin-top: 0;
+  }
+
+  .vote-path-easy {
     padding: 20px;
+  }
+
+  .step-arrow {
+    display: none;
   }
 
   .events-grid {
