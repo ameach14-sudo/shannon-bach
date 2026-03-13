@@ -772,7 +772,7 @@ function showToast(msg, duration = 2800) {
 // Pending vibe — remembered if modal interrupts a vibe click
 let _pendingVibe = null;
 
-// Cast votes for all events matching a vibe
+// Cast or retract votes for all events matching a vibe
 async function castVibeVotes(vibeId) {
   if (!voterName) {
     _pendingVibe = vibeId;
@@ -782,17 +782,31 @@ async function castVibeVotes(vibeId) {
   _pendingVibe = null;
   const eventIds = VIBES[vibeId];
   if (!eventIds) return;
-  const unvoted = eventIds.filter(eid => myVotes.get(eid) !== 'yes');
-  if (unvoted.length === 0) {
-    showToast('You\'re already in for all of those! 🎉');
-    return;
+
+  const chips = document.querySelectorAll(`.vibe-chip[data-vibe="${vibeId}"]`);
+  const isSelected = chips.length > 0 && chips[0].classList.contains('selected');
+
+  if (isSelected) {
+    // Unselect — remove 'yes' votes for events in this vibe that the user voted on
+    const toRemove = eventIds.filter(eid => myVotes.get(eid) === 'yes');
+    for (const eid of toRemove) {
+      await castVote(eid, 'yes'); // calling same type triggers delete in castVote
+    }
+    chips.forEach(el => el.classList.remove('selected'));
+    if (toRemove.length > 0) showToast(`Removed ${toRemove.length} vote${toRemove.length === 1 ? '' : 's'}`);
+  } else {
+    // Select — vote 'yes' for any not already voted
+    const unvoted = eventIds.filter(eid => myVotes.get(eid) !== 'yes');
+    for (const eid of unvoted) {
+      await castVote(eid, 'yes');
+    }
+    chips.forEach(el => el.classList.add('selected'));
+    if (unvoted.length > 0) {
+      showToast(`Voted for ${unvoted.length} activit${unvoted.length === 1 ? 'y' : 'ies'} 🙌`);
+    } else {
+      showToast('You\'re already in for all of those! 🎉');
+    }
   }
-  for (const eid of unvoted) {
-    await castVote(eid, 'yes');
-  }
-  showToast(`Voted for ${unvoted.length} activit${unvoted.length === 1 ? 'y' : 'ies'} 🙌`);
-  // Mark all chips with this vibe as selected (they appear in multiple places)
-  document.querySelectorAll(`.vibe-chip[data-vibe="${vibeId}"]`).forEach(el => el.classList.add('selected'));
 }
 
 // Show name modal if name not yet set
