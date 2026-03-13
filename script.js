@@ -769,9 +769,17 @@ function showToast(msg, duration = 2800) {
   el._timer = setTimeout(() => el.classList.add('hidden'), duration);
 }
 
+// Pending vibe — remembered if modal interrupts a vibe click
+let _pendingVibe = null;
+
 // Cast votes for all events matching a vibe
 async function castVibeVotes(vibeId) {
-  if (!voterName) { showNameModal(); return; }
+  if (!voterName) {
+    _pendingVibe = vibeId;
+    showNameModal();
+    return;
+  }
+  _pendingVibe = null;
   const eventIds = VIBES[vibeId];
   if (!eventIds) return;
   const unvoted = eventIds.filter(eid => myVotes.get(eid) !== 'yes');
@@ -889,6 +897,13 @@ async function submitName() {
     });
     renderEvents();
     renderAgenda();
+  }
+
+  // If a vibe chip triggered the name modal, cast those votes now
+  if (_pendingVibe) {
+    const pending = _pendingVibe;
+    _pendingVibe = null;
+    castVibeVotes(pending);
   }
 }
 
