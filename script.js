@@ -62,10 +62,10 @@ const EVENTS_RAW = [
     price: '$10–15 cover',
     address: '1315 S Congress Ave, Austin, TX 78704',
     tips: [
-      '🎸 Fri July 17 — The Blues Specialists at 6:30 PM',
-      '🎸 Sat July 18 — The Peterson Brothers at 8:00 PM',
-      '🎸 Sun July 19 — Marshall Hood at 2:30 PM · Heybale! at 6:00 PM',
-      '🎸 Mon July 20 — Eve Monsees & Mike Buck 6:30 PM · Dale Watson 10:15 PM',
+      '🎸 Fri July 24 — check continentalclub.com for that week\'s lineup',
+      '🎸 Sat July 25 — check continentalclub.com for that week\'s lineup',
+      '🎸 Sun July 26 — check continentalclub.com for that week\'s lineup',
+      '🎸 Mon July 27 — check continentalclub.com for that week\'s lineup',
       'Two stages — main room downstairs and Gallery upstairs (sometimes free)',
       'Standing room only mostly, gets packed after 10pm',
       'Right on South Congress — easy walk from dinner',
@@ -697,7 +697,7 @@ EVENTS.forEach(e => { e.links = EVENT_LINKS[e.id] || []; });
 // =========================================
 const SCHEDULE = [
   {
-    day: 'Friday', date: 'July 17', highlight: false,
+    day: 'Friday', date: 'July 24', highlight: false,
     items: [
       { type: 'locked', time: 'Afternoon', name: 'Arrivals & Check In',  note: 'Get settled, freshen up' },
       { type: 'locked', time: 'Afternoon', name: '🛍️ South Congress',     note: 'Boutiques, vintage shops, people watching', mapUrl: 'https://maps.apple.com/?q=South+Congress+Avenue+Austin+TX' },
@@ -706,7 +706,7 @@ const SCHEDULE = [
     ],
   },
   {
-    day: 'Saturday', date: 'July 18', highlight: true,
+    day: 'Saturday', date: 'July 25', highlight: true,
     items: [
       { type: 'locked',  time: 'Morning',   name: '💅 Nails',             note: 'Group mani/pedi', mapUrl: 'https://maps.apple.com/?q=nail+salon+Austin+TX' },
       { type: 'locked',  time: 'Lunch',     name: '🌮 Matt\'s El Rancho', note: 'Austin Tex-Mex legend since 1952 — walk-in only, join the waitlist below', mapUrl: 'https://maps.apple.com/?q=Matt%27s+El+Rancho+Austin+TX', reserveUrl: 'https://www.opentable.com/booking/restref/details?restRef=278602', reserveLabel: '📋 Join Waitlist' },
@@ -717,7 +717,7 @@ const SCHEDULE = [
     ],
   },
   {
-    day: 'Sunday', date: 'July 19', highlight: false,
+    day: 'Sunday', date: 'July 26', highlight: false,
     items: [
       { type: 'locked',  time: 'Lunch',     name: '🥩 Terry Black\'s BBQ', note: 'Shannon specifically wants this', mapUrl: 'https://maps.apple.com/?q=Terry+Black%27s+BBQ+Austin+TX' },
       { type: 'dynamic', time: 'Afternoon', slot: 'day-activity',   rank: 1, label: 'Day Activity' },
@@ -726,7 +726,7 @@ const SCHEDULE = [
     ],
   },
   {
-    day: 'Monday', date: 'July 20', highlight: false,
+    day: 'Monday', date: 'July 27', highlight: false,
     items: [
       { type: 'locked', time: 'Morning', name: '☕ Farewell Brunch', note: 'Last meal together before everyone heads out', mapUrl: 'https://maps.apple.com/?q=brunch+Austin+TX' },
     ],
@@ -847,13 +847,12 @@ let quizAnswers = [];
 
 function openQuizModal() {
   quizAnswers = [];
-  const overlay = document.getElementById('quiz-modal');
-  overlay.classList.remove('hidden');
+  document.getElementById('quiz-modal').classList.add('visible');
   renderQuizQuestion(0);
 }
 
 function closeQuizModal() {
-  document.getElementById('quiz-modal').classList.add('hidden');
+  document.getElementById('quiz-modal').classList.remove('visible');
 }
 
 function renderQuizQuestion(idx) {
