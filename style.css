@@ -616,8 +616,13 @@ body {
   text-align: right;
 }
 
+.vote-btns {
+  display: flex;
+  gap: 8px;
+}
+
 .vote-btn {
-  width: 100%;
+  flex: 2;
   padding: 12px;
   border-radius: var(--radius-sm);
   border: 2px solid var(--rose-light);
@@ -648,6 +653,46 @@ body {
 .vote-btn.voted:hover {
   background: var(--brown);
   border-color: var(--brown);
+}
+
+.maybe-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  border: 2px dashed #ccc;
+  background: transparent;
+  color: var(--gray);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.maybe-btn:hover {
+  border-color: var(--gold);
+  color: #8a6a00;
+  background: #fffbee;
+}
+
+.maybe-btn.maybed {
+  background: #fffbee;
+  border-color: var(--gold);
+  border-style: solid;
+  color: #8a6a00;
+  font-weight: 600;
+}
+
+.voter-chip.maybe {
+  background: transparent;
+  border: 2px dashed #ccc;
+  color: var(--gray);
+}
+
+.voter-chip.maybe.me {
+  border-color: var(--rose-dark);
+  color: var(--rose-dark);
+  background: transparent;
 }
 
 .event-card.hidden {

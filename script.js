@@ -772,46 +772,41 @@ async function loadVotes() {
 
   const { data, error } = await supabaseClient
     .from('votes')
-    .select('event_id, voter_id, voter_name');
+    .select('event_id, voter_id, voter_name, vote_type');
 
   if (error) { console.error('Error loading votes:', error); return; }
 
   voterData = {};
-  myVotes = new Set();
+  myVotes = new Map(); // eventId → 'yes' | 'maybe'
 
   data.forEach(row => {
     if (!voterData[row.event_id]) voterData[row.event_id] = [];
-    voterData[row.event_id].push({ voter_id: row.voter_id, voter_name: row.voter_name });
-    if (row.voter_id === voterId) myVotes.add(row.event_id);
+    voterData[row.event_id].push({ voter_id: row.voter_id, voter_name: row.voter_name, vote_type: row.vote_type || 'yes' });
+    if (row.voter_id === voterId) myVotes.set(row.event_id, row.vote_type || 'yes');
   });
 }
 
 // =========================================
 // VOTE / UNVOTE
 // =========================================
-async function castVote(eventId) {
+async function castVote(eventId, type = 'yes') {
   if (!voterName) {
     showNameModal();
-    // Store pending vote to cast after name is entered
     document.getElementById('name-submit-btn').dataset.pendingVote = eventId;
+    document.getElementById('name-submit-btn').dataset.pendingVoteType = type;
     return;
   }
 
-  if (!supabaseClient) {
-    // Demo mode — local only
-    if (myVotes.has(eventId)) {
+  const current = myVotes.get(eventId); // undefined | 'yes' | 'maybe'
+
+  // Clicking the same type again = remove vote
+  if (current === type) {
+    if (!supabaseClient) {
       myVotes.delete(eventId);
       voterData[eventId] = (voterData[eventId] || []).filter(v => v.voter_id !== voterId);
-    } else {
-      myVotes.add(eventId);
-      if (!voterData[eventId]) voterData[eventId] = [];
-      voterData[eventId].push({ voter_id: voterId, voter_name: voterName });
+      updateCardUI(eventId);
+      return;
     }
-    updateCardUI(eventId);
-    return;
-  }
-
-  if (myVotes.has(eventId)) {
     const { error } = await supabaseClient.from('votes').delete()
       .eq('event_id', eventId).eq('voter_id', voterId);
     if (!error) {
@@ -819,27 +814,43 @@ async function castVote(eventId) {
       voterData[eventId] = (voterData[eventId] || []).filter(v => v.voter_id !== voterId);
       updateCardUI(eventId);
     }
-  } else {
-    const { error } = await supabaseClient.from('votes')
-      .insert({ event_id: eventId, voter_id: voterId, voter_name: voterName });
-    if (!error) {
-      myVotes.add(eventId);
-      if (!voterData[eventId]) voterData[eventId] = [];
-      voterData[eventId].push({ voter_id: voterId, voter_name: voterName });
-      updateCardUI(eventId);
-    }
+    return;
+  }
+
+  // Switching type or new vote — upsert
+  if (!supabaseClient) {
+    myVotes.set(eventId, type);
+    voterData[eventId] = (voterData[eventId] || []).filter(v => v.voter_id !== voterId);
+    voterData[eventId].push({ voter_id: voterId, voter_name: voterName, vote_type: type });
+    updateCardUI(eventId);
+    return;
+  }
+
+  const { error } = await supabaseClient.from('votes')
+    .upsert({ event_id: eventId, voter_id: voterId, voter_name: voterName, vote_type: type }, { onConflict: 'event_id,voter_id' });
+  if (!error) {
+    myVotes.set(eventId, type);
+    voterData[eventId] = (voterData[eventId] || []).filter(v => v.voter_id !== voterId);
+    voterData[eventId].push({ voter_id: voterId, voter_name: voterName, vote_type: type });
+    updateCardUI(eventId);
   }
 }
 
 // Handle pending vote after name is submitted
-const origSubmitName = submitName;
 document.getElementById('name-submit-btn').addEventListener('click', () => {
   const pending = document.getElementById('name-submit-btn').dataset.pendingVote;
+  const pendingType = document.getElementById('name-submit-btn').dataset.pendingVoteType || 'yes';
   if (pending && voterName) {
     delete document.getElementById('name-submit-btn').dataset.pendingVote;
-    castVote(pending);
+    delete document.getElementById('name-submit-btn').dataset.pendingVoteType;
+    castVote(pending, pendingType);
   }
-}, true); // capture phase so it fires before the existing listener
+}, true);
+
+// Weighted vote score: yes=1, maybe=0.5
+function voteScore(eventId) {
+  return (voterData[eventId] || []).reduce((sum, v) => sum + (v.vote_type === 'maybe' ? 0.5 : 1), 0);
+}
 
 // =========================================
 // VOTER CHIP HTML
@@ -855,14 +866,19 @@ function voterChipsHTML(eventId) {
   const chips = shown.map(v => {
     const isBride = v.voter_name.trim().toLowerCase() === 'shannon';
     const isMe = v.voter_id === voterId;
+    const isMaybe = v.vote_type === 'maybe';
     const initials = isBride ? '💍' : v.voter_name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-    const classes = ['voter-chip', isMe ? 'me' : '', isBride ? 'bride' : ''].filter(Boolean).join(' ');
-    return `<span class="${classes}" title="${v.voter_name}">${initials}</span>`;
+    const classes = ['voter-chip', isMe ? 'me' : '', isBride ? 'bride' : '', isMaybe ? 'maybe' : ''].filter(Boolean).join(' ');
+    return `<span class="${classes}" title="${v.voter_name}${isMaybe ? ' (maybe)' : ''}">${initials}</span>`;
   }).join('');
 
   const extraChip = extra > 0 ? `<span class="voter-chip extra">+${extra}</span>` : '';
-  const names = voters.map(v => v.voter_name).join(', ');
-  const countLabel = `<span class="voter-names-label">${voters.length} ${voters.length === 1 ? 'person' : 'people'}: ${names}</span>`;
+  const yesVoters = voters.filter(v => v.vote_type !== 'maybe');
+  const maybeVoters = voters.filter(v => v.vote_type === 'maybe');
+  const parts = [];
+  if (yesVoters.length) parts.push(yesVoters.map(v => v.voter_name).join(', '));
+  if (maybeVoters.length) parts.push(`maybe: ${maybeVoters.map(v => v.voter_name).join(', ')}`);
+  const countLabel = `<span class="voter-names-label">${parts.join(' · ')}</span>`;
 
   return chips + extraChip + countLabel;
 }
@@ -875,13 +891,17 @@ function updateCardUI(eventId) {
   if (!card) return;
 
   const voters = voterData[eventId] || [];
-  const count = voters.length;
-  const voted = myVotes.has(eventId);
-  const maxVotes = Math.max(...Object.values(voterData).map(v => v.length), 1);
-  const pct = Math.round((count / maxVotes) * 100);
+  const myType = myVotes.get(eventId); // 'yes' | 'maybe' | undefined
+  const voted = myType === 'yes';
+  const maybed = myType === 'maybe';
+  const score = voteScore(eventId);
+  const maxScore = Math.max(...Object.keys(voterData).map(id => voteScore(id)), 1);
+  const pct = Math.round((score / maxScore) * 100);
+  const yesCount = voters.filter(v => v.vote_type !== 'maybe').length;
+  const maybeCount = voters.filter(v => v.vote_type === 'maybe').length;
 
   const brideVoted = voters.some(v => v.voter_name.trim().toLowerCase() === 'shannon');
-  card.classList.toggle('voted', voted);
+  card.classList.toggle('voted', voted || maybed);
   card.classList.toggle('bride-pick', brideVoted);
   const existingBrideBadge = card.querySelector('.bride-pick-badge');
   if (brideVoted && !existingBrideBadge) {
@@ -895,8 +915,13 @@ function updateCardUI(eventId) {
   }
   card.querySelector('.vote-btn').classList.toggle('voted', voted);
   card.querySelector('.vote-btn').textContent = voted ? "✓ I'm in!" : "I'm in for this!";
+  card.querySelector('.maybe-btn').classList.toggle('maybed', maybed);
+  card.querySelector('.maybe-btn').textContent = maybed ? "~ Maybe!" : "Maybe";
   card.querySelector('.vote-fill').style.width = pct + '%';
-  card.querySelector('.vote-count-label').textContent = count === 1 ? '1 vote' : count + ' votes';
+  const labelParts = [];
+  if (yesCount) labelParts.push(`${yesCount} in`);
+  if (maybeCount) labelParts.push(`${maybeCount} maybe`);
+  card.querySelector('.vote-count-label').textContent = labelParts.join(' · ') || '0 votes';
   card.querySelector('.voters-row').innerHTML = voterChipsHTML(eventId);
 
   refreshAllBars();
@@ -904,13 +929,19 @@ function updateCardUI(eventId) {
 }
 
 function refreshAllBars() {
-  const maxVotes = Math.max(...Object.values(voterData).map(v => v.length), 1);
+  const maxScore = Math.max(...Object.keys(voterData).map(id => voteScore(id)), 1);
   document.querySelectorAll('.event-card').forEach(card => {
     const eventId = card.dataset.eventId;
-    const count = (voterData[eventId] || []).length;
-    const pct = Math.round((count / maxVotes) * 100);
+    const voters = voterData[eventId] || [];
+    const score = voteScore(eventId);
+    const pct = Math.round((score / maxScore) * 100);
+    const yesCount = voters.filter(v => v.vote_type !== 'maybe').length;
+    const maybeCount = voters.filter(v => v.vote_type === 'maybe').length;
+    const labelParts = [];
+    if (yesCount) labelParts.push(`${yesCount} in`);
+    if (maybeCount) labelParts.push(`${maybeCount} maybe`);
     card.querySelector('.vote-fill').style.width = pct + '%';
-    card.querySelector('.vote-count-label').textContent = count === 1 ? '1 vote' : count + ' votes';
+    card.querySelector('.vote-count-label').textContent = labelParts.join(' · ') || '0 votes';
   });
 }
 
@@ -981,9 +1012,7 @@ document.getElementById('detail-modal').addEventListener('click', e => {
 // =========================================
 function topVotedBySlot(slot, rank = 0) {
   const candidates = EVENTS.filter(e => e.slot === slot);
-  const sorted = [...candidates].sort((a, b) =>
-    (voterData[b.id] || []).length - (voterData[a.id] || []).length
-  );
+  const sorted = [...candidates].sort((a, b) => voteScore(b.id) - voteScore(a.id));
   return sorted[rank] || null;
 }
 
@@ -1011,8 +1040,11 @@ function renderAgenda() {
 
       // Dynamic slot
       const winner = topVotedBySlot(item.slot, item.rank);
-      const votes = winner ? (voterData[winner.id] || []).length : 0;
-      const voters = winner ? (voterData[winner.id] || []).map(v => v.voter_name).join(', ') : '';
+      const votes = winner ? voteScore(winner.id) : 0;
+      const winnerVoters = winner ? (voterData[winner.id] || []) : [];
+      const yesNames = winnerVoters.filter(v => v.vote_type !== 'maybe').map(v => v.voter_name).join(', ');
+      const maybeNames = winnerVoters.filter(v => v.vote_type === 'maybe').map(v => v.voter_name).join(', ');
+      const voters = [yesNames, maybeNames ? `maybe: ${maybeNames}` : ''].filter(Boolean).join(' · ');
 
       // Check for a tie (rank > 0 may equal rank 0 count)
       if (item.rank === 1) {
@@ -1043,7 +1075,7 @@ function renderAgenda() {
       // Check for a tie at this rank
       const candidates = EVENTS.filter(e => e.slot === item.slot);
       const tiedWith = candidates.filter(e =>
-        e.id !== winner.id && (voterData[e.id] || []).length === votes
+        e.id !== winner.id && voteScore(e.id) === votes
       );
 
       const tieNote = tiedWith.length
@@ -1084,11 +1116,6 @@ function renderEvents() {
   let lastGroup = null;
 
   EVENTS.forEach(event => {
-    const voted = myVotes.has(event.id);
-    const voters = voterData[event.id] || [];
-    const count = voters.length;
-    const maxVotes = Math.max(...Object.values(voterData).map(v => v.length), 1);
-    const pct = count > 0 ? Math.round((count / maxVotes) * 100) : 0;
 
     // Location section heading
     if (event.location && event.location !== lastGroup) {
@@ -1116,9 +1143,21 @@ function renderEvents() {
     }
 
     const brideVoted = (voterData[event.id] || []).some(v => v.voter_name.trim().toLowerCase() === 'shannon');
+    const myType = myVotes.get(event.id);
+    const voted = myType === 'yes';
+    const maybed = myType === 'maybe';
+    const score = voteScore(event.id);
+    const maxScore = Math.max(...Object.keys(voterData).map(id => voteScore(id)), 1);
+    const pct = score > 0 ? Math.round((score / maxScore) * 100) : 0;
+    const yesCount = (voterData[event.id] || []).filter(v => v.vote_type !== 'maybe').length;
+    const maybeCount = (voterData[event.id] || []).filter(v => v.vote_type === 'maybe').length;
+    const labelParts = [];
+    if (yesCount) labelParts.push(`${yesCount} in`);
+    if (maybeCount) labelParts.push(`${maybeCount} maybe`);
+    const countLabel = labelParts.join(' · ') || '0 votes';
 
     const card = document.createElement('div');
-    card.className = 'event-card' + (voted ? ' voted' : '') + (event.confirmed ? ' confirmed' : '') + (brideVoted ? ' bride-pick' : '');
+    card.className = 'event-card' + (voted || maybed ? ' voted' : '') + (event.confirmed ? ' confirmed' : '') + (brideVoted ? ' bride-pick' : '');
     card.dataset.eventId = event.id;
     card.dataset.type = event.type;
     card.dataset.group = event.location || '';
@@ -1139,18 +1178,27 @@ function renderEvents() {
       <div class="vote-area">
         <div class="vote-bar-wrap">
           <div class="vote-bar"><div class="vote-fill" style="width: ${pct}%"></div></div>
-          <span class="vote-count-label">${count === 1 ? '1 vote' : count + ' votes'}</span>
+          <span class="vote-count-label">${countLabel}</span>
         </div>
-        <button class="vote-btn ${voted ? 'voted' : ''}" data-event-id="${event.id}">
-          ${voted ? "✓ I'm in!" : "I'm in for this!"}
-        </button>
+        <div class="vote-btns">
+          <button class="vote-btn ${voted ? 'voted' : ''}" data-event-id="${event.id}">
+            ${voted ? "✓ I'm in!" : "I'm in for this!"}
+          </button>
+          <button class="maybe-btn ${maybed ? 'maybed' : ''}" data-event-id="${event.id}">
+            ${maybed ? "~ Maybe!" : "Maybe"}
+          </button>
+        </div>
       </div>
       <button class="details-btn">See details →</button>
     `;
 
     card.querySelector('.vote-btn').addEventListener('click', e => {
       e.stopPropagation();
-      castVote(event.id);
+      castVote(event.id, 'yes');
+    });
+    card.querySelector('.maybe-btn').addEventListener('click', e => {
+      e.stopPropagation();
+      castVote(event.id, 'maybe');
     });
     card.querySelector('.details-btn').addEventListener('click', e => {
       e.stopPropagation();
