@@ -17,6 +17,7 @@
     <div class="nav-links">
       <a href="#vrbo" class="nav-link nav-link-highlight">The House</a>
       <a href="#agenda" class="nav-link">Agenda</a>
+      <a href="#whos-coming" class="nav-link">Who's Coming</a>
       <a href="#events" class="nav-link">Vote</a>
       <a href="#arrivals" class="nav-link">Flights</a>
       <a href="#suggestions" class="nav-link">Ideas</a>
@@ -219,6 +220,17 @@
     </div>
   </section>
 
+  <!-- WHO'S COMING -->
+  <section class="personas-section" id="whos-coming">
+    <div class="container">
+      <div class="section-header">
+        <h2>Who's Coming 🌸</h2>
+        <p>Take the persona quiz to add yourself to the list.</p>
+      </div>
+      <div id="personas-grid"></div>
+    </div>
+  </section>
+
   <!-- EVENTS -->
   <section class="events-section" id="events">
     <div class="container">
@@ -391,11 +403,12 @@
   <!-- NAV ACTIVE STATE -->
   <script>
     const navSections = [
-      { id: 'hero',    link: document.querySelector('.nav-brand') },
-      { id: 'vrbo',    link: document.querySelector('a[href="#vrbo"]') },
-      { id: 'agenda',  link: document.querySelector('a[href="#agenda"]') },
-      { id: 'events',  link: document.querySelector('a[href="#events"]') },
-      { id: 'arrivals',link: document.querySelector('a[href="#arrivals"]') },
+      { id: 'hero',        link: document.querySelector('.nav-brand') },
+      { id: 'vrbo',        link: document.querySelector('a[href="#vrbo"]') },
+      { id: 'agenda',      link: document.querySelector('a[href="#agenda"]') },
+      { id: 'whos-coming', link: document.querySelector('a[href="#whos-coming"]') },
+      { id: 'events',      link: document.querySelector('a[href="#events"]') },
+      { id: 'arrivals',    link: document.querySelector('a[href="#arrivals"]') },
     ];
     function updateNav() {
       const scrollY = window.scrollY + 80;

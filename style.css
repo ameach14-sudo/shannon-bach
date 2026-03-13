@@ -1806,6 +1806,77 @@ body {
 }
 
 /* =========================================
+   WHO'S COMING — PERSONAS GRID
+   ========================================= */
+.personas-section {
+  padding: 72px 0;
+  background: var(--cream);
+}
+
+#personas-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.persona-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: var(--white);
+  border: 2px solid var(--cream-dark);
+  border-radius: 18px;
+  padding: 20px 24px 16px;
+  min-width: 120px;
+  text-align: center;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.persona-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(61, 43, 43, 0.1);
+}
+
+.persona-card-me {
+  border-color: var(--rose);
+  box-shadow: 0 0 0 1px var(--rose);
+}
+
+.persona-card-bride {
+  border-color: #c9a84c;
+  box-shadow: 0 0 0 1px #c9a84c;
+}
+
+.persona-card-emoji {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.persona-card-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--brown);
+}
+
+.persona-card-title {
+  font-size: 0.75rem;
+  color: var(--gray);
+  font-style: italic;
+}
+
+.no-personas {
+  text-align: center;
+  color: var(--gray);
+  font-style: italic;
+  font-size: 0.9rem;
+  padding: 24px 0;
+  width: 100%;
+}
+
+/* =========================================
    SCHEDULE
    ========================================= */
 .schedule-section {

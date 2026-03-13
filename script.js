@@ -898,10 +898,13 @@ function showPersonaResult() {
   const winner = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
   const persona = PERSONAS[winner];
 
-  // Store persona
+  // Store persona locally
   localStorage.setItem('bach_persona', winner);
   updateNavWithPersona();
   updateQuizCta();
+
+  // Save to Supabase if signed in
+  savePersonaToSupabase(winner);
 
   const box = document.getElementById('quiz-modal-box');
   box.innerHTML = `
@@ -1610,6 +1613,57 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 });
 
 // =========================================
+// PERSONAS — save & display
+// =========================================
+let allPersonas = []; // [{ voter_id, voter_name, persona }]
+
+async function savePersonaToSupabase(personaKey) {
+  if (!supabaseClient || !voterName) return;
+  const { error } = await supabaseClient.from('personas').upsert(
+    { voter_id: voterId, voter_name: voterName, persona: personaKey },
+    { onConflict: 'voter_id' }
+  );
+  if (!error) {
+    allPersonas = allPersonas.filter(p => p.voter_id !== voterId);
+    allPersonas.push({ voter_id: voterId, voter_name: voterName, persona: personaKey });
+    renderPersonas();
+  }
+}
+
+async function loadPersonas() {
+  if (!supabaseClient) return;
+  const { data, error } = await supabaseClient.from('personas').select('voter_id, voter_name, persona').order('voter_name');
+  if (!error) {
+    allPersonas = data || [];
+    renderPersonas();
+  }
+}
+
+function renderPersonas() {
+  const grid = document.getElementById('personas-grid');
+  if (!grid) return;
+
+  if (allPersonas.length === 0) {
+    grid.innerHTML = '<p class="no-personas">No one\'s taken the quiz yet — be first! 👆</p>';
+    return;
+  }
+
+  grid.innerHTML = allPersonas.map(p => {
+    const persona = PERSONAS[p.persona];
+    if (!persona) return '';
+    const isMe = p.voter_id === voterId;
+    const isBride = p.voter_name.trim().toLowerCase() === 'shannon';
+    return `
+      <div class="persona-card ${isMe ? 'persona-card-me' : ''} ${isBride ? 'persona-card-bride' : ''}">
+        <span class="persona-card-emoji">${isBride ? '💍' : persona.emoji}</span>
+        <span class="persona-card-name">${p.voter_name}${isMe ? ' (you)' : ''}</span>
+        <span class="persona-card-title">${persona.title}</span>
+      </div>
+    `;
+  }).join('');
+}
+
+// =========================================
 // COUNTDOWN
 // =========================================
 function renderCountdown() {
@@ -1689,6 +1743,14 @@ async function init() {
         })
         .subscribe();
 
+      await loadPersonas();
+      supabaseClient
+        .channel('personas-channel')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'personas' }, async () => {
+          await loadPersonas();
+        })
+        .subscribe();
+
       await loadSuggestions();
       supabaseClient
         .channel('suggestions-channel')
@@ -1725,6 +1787,7 @@ async function init() {
 
   renderEvents();
   renderAgenda();
+  renderPersonas();
 }
 
 init();
