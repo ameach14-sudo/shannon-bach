@@ -742,6 +742,7 @@ let voterName = null;
 let voterData = {};   // { eventId: [ { voter_id, voter_name } ] }
 let myVotes = new Set();
 let usingFallback = false;
+let _pendingPersona = null; // persona key waiting for name to be set
 
 // =========================================
 // VOTER IDENTITY
@@ -1126,6 +1127,21 @@ async function submitName() {
   if (_pendingQuickPick !== null) {
     _pendingQuickPick = null;
     submitPickSelections();
+  }
+
+  // If a persona was taken before signing in, save it now
+  if (_pendingPersona) {
+    savePersonaToSupabase(_pendingPersona);
+  } else {
+    // Update name on existing persona entry if already saved
+    const existing = allPersonas.find(p => p.voter_id === voterId);
+    if (existing && existing.voter_name !== input) {
+      existing.voter_name = input;
+      renderPersonas();
+      if (supabaseClient) {
+        supabaseClient.from('personas').update({ voter_name: input }).eq('voter_id', voterId);
+      }
+    }
   }
 }
 
@@ -1618,16 +1634,24 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
 let allPersonas = []; // [{ voter_id, voter_name, persona }]
 
 async function savePersonaToSupabase(personaKey) {
-  if (!supabaseClient || !voterName) return;
+  if (!voterName) {
+    _pendingPersona = personaKey;
+    renderPersonas(); // show local fallback immediately
+    return;
+  }
+  _pendingPersona = null;
+
+  // Always update local list immediately (works even without Supabase table)
+  allPersonas = allPersonas.filter(p => p.voter_id !== voterId);
+  allPersonas.push({ voter_id: voterId, voter_name: voterName, persona: personaKey });
+  renderPersonas();
+
+  if (!supabaseClient) return;
   const { error } = await supabaseClient.from('personas').upsert(
     { voter_id: voterId, voter_name: voterName, persona: personaKey },
     { onConflict: 'voter_id' }
   );
-  if (!error) {
-    allPersonas = allPersonas.filter(p => p.voter_id !== voterId);
-    allPersonas.push({ voter_id: voterId, voter_name: voterName, persona: personaKey });
-    renderPersonas();
-  }
+  if (error) console.warn('Persona save error (table may not exist yet):', error.message);
 }
 
 async function loadPersonas() {
@@ -1643,12 +1667,19 @@ function renderPersonas() {
   const grid = document.getElementById('personas-grid');
   if (!grid) return;
 
-  if (allPersonas.length === 0) {
+  // Include current user from localStorage if not already in the list
+  const localPersonaKey = localStorage.getItem('bach_persona');
+  let displayList = [...allPersonas];
+  if (localPersonaKey && voterId && !displayList.find(p => p.voter_id === voterId)) {
+    displayList.push({ voter_id: voterId, voter_name: voterName || 'You', persona: localPersonaKey });
+  }
+
+  if (displayList.length === 0) {
     grid.innerHTML = '<p class="no-personas">No one\'s taken the quiz yet — be first! 👆</p>';
     return;
   }
 
-  grid.innerHTML = allPersonas.map(p => {
+  grid.innerHTML = displayList.map(p => {
     const persona = PERSONAS[p.persona];
     if (!persona) return '';
     const isMe = p.voter_id === voterId;
