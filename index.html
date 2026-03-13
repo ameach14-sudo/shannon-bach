@@ -45,24 +45,52 @@
     </div>
   </header>
 
-  <!-- HOW IT WORKS -->
+  <!-- HOW IT WORKS / EASY MODE -->
   <section class="how-it-works">
     <div class="container">
-      <div class="steps">
-        <div class="step">
-          <span class="step-num">1</span>
-          <p>Browse the activities below</p>
+      <div class="vote-paths">
+
+        <!-- Path A: I care -->
+        <div class="vote-path">
+          <p class="vote-path-label">Got opinions?</p>
+          <div class="steps steps-compact">
+            <div class="step">
+              <span class="step-num">1</span>
+              <p>Browse activities below</p>
+            </div>
+            <div class="step-arrow">→</div>
+            <div class="step">
+              <span class="step-num">2</span>
+              <p>Vote on what you want</p>
+            </div>
+            <div class="step-arrow">→</div>
+            <div class="step">
+              <span class="step-num">3</span>
+              <p>Top picks build the agenda</p>
+            </div>
+          </div>
+          <a href="#events" class="vote-path-btn">Browse Activities →</a>
         </div>
-        <div class="step-arrow">→</div>
-        <div class="step">
-          <span class="step-num">2</span>
-          <p>Vote for everything you're in for</p>
+
+        <div class="vote-path-divider">or</div>
+
+        <!-- Path B: I don't care -->
+        <div class="vote-path vote-path-easy">
+          <p class="vote-path-label">Don't care, just excited?</p>
+          <div class="easy-vibe-chips" id="easy-vibe-chips">
+            <button class="vibe-chip" data-vibe="honky-tonk">🤠 Honky Tonk</button>
+            <button class="vibe-chip" data-vibe="bbq">🍖 BBQ</button>
+            <button class="vibe-chip" data-vibe="tex-mex">🌮 Tex-Mex</button>
+            <button class="vibe-chip" data-vibe="live-music">🎸 Live Music</button>
+            <button class="vibe-chip" data-vibe="outdoor">🌊 Outdoors</button>
+            <button class="vibe-chip" data-vibe="upscale">🥂 Fancy Nights</button>
+            <button class="vibe-chip" data-vibe="wine">🍷 Wine &amp; Hill Country</button>
+            <button class="vibe-chip" data-vibe="party">🎉 Party Mode</button>
+            <button class="vibe-chip" data-vibe="chill">😌 Low Key</button>
+          </div>
+          <p class="easy-vibe-hint">Pick your vibes — we'll vote for you</p>
         </div>
-        <div class="step-arrow">→</div>
-        <div class="step">
-          <span class="step-num">3</span>
-          <p>We'll build the final itinerary from the top picks</p>
-        </div>
+
       </div>
     </div>
   </section>
@@ -73,22 +101,6 @@
       <div class="section-header">
         <h2>Help Us Decide</h2>
         <p>A few things still need a group vote — click everything you're in for.</p>
-      </div>
-
-      <!-- Vibe quick-picks -->
-      <div class="vibe-section">
-        <p class="vibe-label">Not trying to scroll through everything? Just pick your vibes and we'll vote for you 👇</p>
-        <div class="vibe-chips" id="vibe-chips">
-          <button class="vibe-chip" data-vibe="honky-tonk">🤠 Honky Tonk</button>
-          <button class="vibe-chip" data-vibe="bbq">🍖 BBQ</button>
-          <button class="vibe-chip" data-vibe="tex-mex">🌮 Tex-Mex</button>
-          <button class="vibe-chip" data-vibe="live-music">🎸 Live Music</button>
-          <button class="vibe-chip" data-vibe="outdoor">🌊 Outdoors</button>
-          <button class="vibe-chip" data-vibe="upscale">🥂 Fancy Nights</button>
-          <button class="vibe-chip" data-vibe="wine">🍷 Wine &amp; Hill Country</button>
-          <button class="vibe-chip" data-vibe="party">🎉 Party Mode</button>
-          <button class="vibe-chip" data-vibe="chill">😌 Low Key</button>
-        </div>
       </div>
 
       <!-- Filter tabs -->

@@ -35,7 +35,7 @@ const LOCATION_DESCRIPTIONS = {
   'Downtown':             'The city center. Lady Bird Lake waterfront, the Capitol, and Rainey Street — Austin\'s bar strip (see the Rainey Street card for the honest take).',
   'Zilker / Town Lake':   'Where Austinites spend their weekends. Barton Springs Pool, Zilker Park, and Lady Bird Lake all in one spot. Kayaking, hiking the trail, and the iconic keep-Austin-weird outdoor life.',
   'Lake Austin':          'The scenic stretch of the Colorado River west of the city. Quiet coves, boat rentals, and waterfront restaurants. This is where the boat day happens.',
-  'Hill Country':         'Rolling cedar hills and Texas sky west of Austin. Wineries, wildflowers, swimming holes, and small towns. Options here range from 30 min away (Driftwood, Salt Lick) to 1.5 hrs away (Fredericksburg) — great if the group wants a full day out of the city.',
+  'Hill Country':         'Rolling cedar hills and Texas sky west of Austin. Wineries, wildflowers, swimming holes, and small towns. Options range from 30 min away (Driftwood winery) to 1.5 hrs away (Fredericksburg) — great if the group wants a full day out of the city.',
 };
 
 const LOCATION_ORDER = [
@@ -187,21 +187,20 @@ const EVENTS_RAW = [
   {
     id: 'driftwood-winery',
     emoji: '🍷',
-    name: 'Driftwood Estate Winery + Salt Lick BBQ',
+    name: 'Driftwood Estate Winery',
     category: 'other',
     type: 'drinking',
     location: 'Hill Country',
-    desc: 'Wine tasting at a Hill Country winery, then BBQ at the legendary Salt Lick next door. A classic Austin day trip.',
-    price: '$50–70/person',
-    address: 'Driftwood Estate — 1700 Elder Hill Rd, Driftwood, TX 78619',
+    desc: 'Wine tasting at a beautiful Hill Country winery about 35 minutes southwest of Austin. Scenic drive, great wine, very laid back.',
+    price: '$30–50/person',
+    address: '1700 Elder Hill Rd, Driftwood, TX 78619',
     tips: [
       'About 35 minutes southwest of downtown — scenic Hill Country drive',
-      'Salt Lick BBQ is BYOB (cash only, get there before 1pm on weekends)',
-      'Driftwood Winery: tasting room open daily, no reservation needed usually',
-      'Combine both in one afternoon — BBQ lunch then wine tasting',
-      'Truly a "this is Austin" experience — highly recommend',
+      'Tasting room open daily, no reservation needed usually',
+      'Outdoor patio with Hill Country views — perfect for a summer afternoon',
+      'Pair with a stop in Driftwood or continue out toward Fredericksburg if the group wants more',
     ],
-    website: 'driftwoodestatewinery.com | saltlickbbq.com',
+    website: 'driftwoodestatewinery.com',
   },
   {
     id: 'horseback-riding',
@@ -587,60 +586,60 @@ EVENTS.forEach(e => { e.slot = SLOT_MAP[e.id] || null; });
 // Ideas get multiple option links so people can compare.
 const EVENT_LINKS = {
   'aba': [
-    { label: '📍 Google Maps', url: 'https://maps.google.com/?q=Aba+Austin+TX' },
+    { label: '📍 Maps', url: 'https://maps.apple.com/?q=Aba+Austin+TX' },
     { label: '🗓️ Reserve on OpenTable', url: 'https://www.opentable.com/r/aba-austin-reservations-austin?restref=1280941' },
   ],
   'loro': [
-    { label: '📍 Google Maps', url: 'https://maps.google.com/?q=Loro+Austin+TX' },
+    { label: '📍 Maps', url: 'https://maps.apple.com/?q=Loro+Austin+TX' },
     { label: '🌐 loroeats.com', url: 'https://www.loroeats.com/locations/austin/south-lamar' },
   ],
   'gueros': [
-    { label: '📍 Google Maps',    url: 'https://maps.google.com/?q=Guero%27s+Taco+Bar+Austin+TX' },
+    { label: '📍 Maps',    url: 'https://maps.apple.com/?q=Guero%27s+Taco+Bar+Austin+TX' },
     { label: '🗓️ Reserve on OpenTable', url: 'https://www.opentable.com/gueros-taco-bar' },
   ],
   'perlas': [
-    { label: '📍 Google Maps',         url: 'https://maps.google.com/?q=Perla%27s+Seafood+Austin+TX' },
+    { label: '📍 Maps',         url: 'https://maps.apple.com/?q=Perla%27s+Seafood+Austin+TX' },
     { label: '🗓️ Reserve on OpenTable', url: 'https://www.opentable.com/r/perlas-seafood-and-oyster-bar-austin' },
   ],
   'continental-club': [
-    { label: '📍 Google Maps',   url: 'https://maps.google.com/?q=Continental+Club+Austin+TX' },
+    { label: '📍 Maps',   url: 'https://maps.apple.com/?q=Continental+Club+Austin+TX' },
     { label: '🎸 Show Schedule', url: 'https://continentalclub.com/austin' },
   ],
   'spa-day': [
     { label: '🗓️ Book Online', url: 'https://book.milkandhoneyspa.com' },
-    { label: '📍 Google Maps', url: 'https://maps.google.com/?q=Milk+and+Honey+Spa+Austin+TX' },
+    { label: '📍 Maps', url: 'https://maps.apple.com/?q=Milk+and+Honey+Spa+Austin+TX' },
   ],
   'broken-spoke': [
-    { label: '📍 Google Maps',   url: 'https://maps.google.com/?q=Broken+Spoke+Austin+TX' },
+    { label: '📍 Maps',   url: 'https://maps.apple.com/?q=Broken+Spoke+Austin+TX' },
     { label: '🤠 Show Schedule', url: 'https://www.brokenspokeaustintx.net/events-calendar' },
   ],
   'driftwood-winery': [
-    { label: 'Driftwood Estate Winery', url: 'https://maps.google.com/?q=Driftwood+Estate+Winery+Driftwood+TX' },
-    { label: 'Salt Lick BBQ',           url: 'https://maps.google.com/?q=Salt+Lick+BBQ+Driftwood+TX' },
+    { label: '📍 Maps', url: 'https://maps.apple.com/?q=Driftwood+Estate+Winery+Driftwood+TX' },
+    { label: '🌐 driftwoodestatewinery.com', url: 'https://www.driftwoodestatewinery.com' },
   ],
   'horseback-riding': [
-    { label: 'Bar S Stables',            url: 'https://maps.google.com/?q=Bar+S+Stables+Austin+TX' },
+    { label: 'Bar S Stables',            url: 'https://maps.apple.com/?q=Bar+S+Stables+Austin+TX' },
     { label: 'Search horseback Austin',  url: 'https://www.google.com/search?q=horseback+riding+Austin+Hill+Country' },
   ],
   'de-nada-margs': [
-    { label: 'Google Maps', url: 'https://maps.google.com/?q=De+Nada+Cantina+Austin+TX' },
+    { label: '📍 Maps', url: 'https://maps.apple.com/?q=De+Nada+Cantina+Austin+TX' },
   ],
   'taco-speakeasy': [
     { label: 'Search options', url: 'https://www.google.com/search?q=taco+speakeasy+Austin+TX' },
-    { label: 'Google Maps',    url: 'https://maps.google.com/?q=taco+speakeasy+Austin+TX' },
+    { label: '📍 Maps',    url: 'https://maps.apple.com/?q=taco+speakeasy+Austin+TX' },
   ],
   'comedy-mothership': [
-    { label: '📍 Google Maps',  url: 'https://maps.google.com/?q=Comedy+Mothership+Austin+TX' },
+    { label: '📍 Maps',  url: 'https://maps.apple.com/?q=Comedy+Mothership+Austin+TX' },
     { label: '🎟️ Buy Tickets', url: 'https://comedymothership.com/shows' },
   ],
   'rooftop-bars': [
-    { label: 'Aba Austin',    url: 'https://maps.google.com/?q=Aba+Austin+TX' },
-    { label: 'Summit Rooftop', url: 'https://maps.google.com/?q=Summit+Rooftop+Austin+TX' },
-    { label: 'Péché',         url: 'https://maps.google.com/?q=Peche+Austin+TX' },
-    { label: 'Cedar Door',    url: 'https://maps.google.com/?q=Cedar+Door+Austin+TX' },
+    { label: 'Aba Austin',    url: 'https://maps.apple.com/?q=Aba+Austin+TX' },
+    { label: 'Summit Rooftop', url: 'https://maps.apple.com/?q=Summit+Rooftop+Austin+TX' },
+    { label: 'Péché',         url: 'https://maps.apple.com/?q=Peche+Austin+TX' },
+    { label: 'Cedar Door',    url: 'https://maps.apple.com/?q=Cedar+Door+Austin+TX' },
   ],
   'donns-depot': [
-    { label: '📍 Google Maps',   url: 'https://maps.google.com/?q=Donn%27s+Depot+Austin+TX' },
+    { label: '📍 Maps',   url: 'https://maps.apple.com/?q=Donn%27s+Depot+Austin+TX' },
     { label: '🚂 Show Schedule', url: 'https://donnsdepot.com/event-schedule' },
   ],
   'cocktail-class': [
@@ -648,41 +647,41 @@ const EVENT_LINKS = {
     { label: 'Search options',     url: 'https://www.google.com/search?q=private+cocktail+class+Austin+TX' },
   ],
   'town-lake-cruise': [
-    { label: 'Austin Duck Adventures', url: 'https://maps.google.com/?q=Austin+Duck+Adventures+TX' },
+    { label: 'Austin Duck Adventures', url: 'https://maps.apple.com/?q=Austin+Duck+Adventures+TX' },
     { label: 'Search cruise options',  url: 'https://www.google.com/search?q=Lady+Bird+Lake+boat+cruise+Austin' },
   ],
   'austin-city-limits': [
     { label: 'Get tickets (klru.org)', url: 'https://www.klru.org/austincitylimits/tickets/' },
-    { label: 'Google Maps — KLRU',     url: 'https://maps.google.com/?q=KLRU+Studio+Austin+TX' },
+    { label: 'Google Maps — KLRU',     url: 'https://maps.apple.com/?q=KLRU+Studio+Austin+TX' },
   ],
   'escape-room': [
-    { label: 'Mission Escape Games', url: 'https://maps.google.com/?q=Mission+Escape+Games+Austin+TX' },
-    { label: 'Enchanted Escapes',    url: 'https://maps.google.com/?q=Enchanted+Escapes+Austin+TX' },
-    { label: 'Escape the Rock',      url: 'https://maps.google.com/?q=Escape+the+Rock+Austin+TX' },
+    { label: 'Mission Escape Games', url: 'https://maps.apple.com/?q=Mission+Escape+Games+Austin+TX' },
+    { label: 'Enchanted Escapes',    url: 'https://maps.apple.com/?q=Enchanted+Escapes+Austin+TX' },
+    { label: 'Escape the Rock',      url: 'https://maps.apple.com/?q=Escape+the+Rock+Austin+TX' },
   ],
   'barton-springs': [
-    { label: 'Google Maps', url: 'https://maps.google.com/?q=Barton+Springs+Pool+Austin+TX' },
+    { label: '📍 Maps', url: 'https://maps.apple.com/?q=Barton+Springs+Pool+Austin+TX' },
   ],
   'kayak-paddleboard': [
-    { label: 'Rowing Dock',        url: 'https://maps.google.com/?q=Rowing+Dock+Austin+TX' },
-    { label: 'Zilker Boat Rentals', url: 'https://maps.google.com/?q=Zilker+Boat+Rentals+Austin+TX' },
+    { label: 'Rowing Dock',        url: 'https://maps.apple.com/?q=Rowing+Dock+Austin+TX' },
+    { label: 'Zilker Boat Rentals', url: 'https://maps.apple.com/?q=Zilker+Boat+Rentals+Austin+TX' },
   ],
   'cooking-class': [
     { label: '🗓️ Book a Class', url: 'https://www.antonellischeese.com/apps/bookthatapp/calendar' },
-    { label: '📍 Google Maps',  url: 'https://maps.google.com/?q=Antonelli%27s+Cheese+Shop+Austin+TX' },
+    { label: '📍 Maps',  url: 'https://maps.apple.com/?q=Antonelli%27s+Cheese+Shop+Austin+TX' },
   ],
   'ski-shores': [
-    { label: 'Google Maps', url: 'https://maps.google.com/?q=Ski+Shores+Cafe+Austin+TX' },
+    { label: '📍 Maps', url: 'https://maps.apple.com/?q=Ski+Shores+Cafe+Austin+TX' },
   ],
   'jewboy-burgers': [
-    { label: '📍 Google Maps', url: 'https://maps.google.com/?q=JewBoy+Burgers+Austin+TX' },
+    { label: '📍 Maps', url: 'https://maps.apple.com/?q=JewBoy+Burgers+Austin+TX' },
   ],
   'rainey-street': [
-    { label: "🍺 Banger's",        url: 'https://maps.google.com/?q=Banger%27s+Sausage+House+Beer+Garden+Austin+TX' },
-    { label: '🍔 NADC Burger',     url: 'https://maps.google.com/?q=NADC+Burger+Austin+TX' },
-    { label: '🃏 Electric Shuffle', url: 'https://maps.google.com/?q=Electric+Shuffle+Austin+TX' },
-    { label: '🍹 Lustre Pearl',    url: 'https://maps.google.com/?q=Lustre+Pearl+Rainey+Austin+TX' },
-    { label: '🍸 Half Step',       url: 'https://maps.google.com/?q=Half+Step+Bar+Austin+TX' },
+    { label: "🍺 Banger's",        url: 'https://maps.apple.com/?q=Banger%27s+Sausage+House+Beer+Garden+Austin+TX' },
+    { label: '🍔 NADC Burger',     url: 'https://maps.apple.com/?q=NADC+Burger+Austin+TX' },
+    { label: '🃏 Electric Shuffle', url: 'https://maps.apple.com/?q=Electric+Shuffle+Austin+TX' },
+    { label: '🍹 Lustre Pearl',    url: 'https://maps.apple.com/?q=Lustre+Pearl+Rainey+Austin+TX' },
+    { label: '🍸 Half Step',       url: 'https://maps.apple.com/?q=Half+Step+Bar+Austin+TX' },
   ],
 };
 EVENTS.forEach(e => { e.links = EVENT_LINKS[e.id] || []; });
@@ -697,35 +696,35 @@ const SCHEDULE = [
     day: 'Friday', date: 'July 17', highlight: false,
     items: [
       { type: 'locked', time: 'Afternoon', name: 'Arrivals & Check In',  note: 'Get settled, freshen up' },
-      { type: 'locked', time: 'Afternoon', name: '🛍️ South Congress',     note: 'Boutiques, vintage shops, people watching', mapUrl: 'https://maps.google.com/?q=South+Congress+Avenue+Austin+TX' },
-      { type: 'locked', time: 'Lunch',     name: '🍕 Home Slice Pizza',   note: 'Austin institution on SoCo', mapUrl: 'https://maps.google.com/?q=Home+Slice+Pizza+Austin+TX' },
-      { type: 'locked', time: 'Dinner',    name: '🍺 Kelly\'s Irish Pub', note: 'Live music, great group spot', badge: '⚠️ Needs Reservation', mapUrl: 'https://maps.google.com/?q=Kelly%27s+Irish+Pub+Austin+TX', reserveUrl: 'tel:+15127404300', reserveLabel: '📞 Call to Reserve' },
+      { type: 'locked', time: 'Afternoon', name: '🛍️ South Congress',     note: 'Boutiques, vintage shops, people watching', mapUrl: 'https://maps.apple.com/?q=South+Congress+Avenue+Austin+TX' },
+      { type: 'locked', time: 'Lunch',     name: '🍕 Home Slice Pizza',   note: 'Austin institution on SoCo', mapUrl: 'https://maps.apple.com/?q=Home+Slice+Pizza+Austin+TX' },
+      { type: 'locked', time: 'Dinner',    name: '🍺 Kelly\'s Irish Pub', note: 'Live music, great group spot', badge: '⚠️ Needs Reservation', mapUrl: 'https://maps.apple.com/?q=Kelly%27s+Irish+Pub+Austin+TX', reserveUrl: 'tel:+15127404300', reserveLabel: '📞 Call to Reserve' },
     ],
   },
   {
     day: 'Saturday', date: 'July 18', highlight: true,
     items: [
-      { type: 'locked',  time: 'Morning',   name: '💅 Nails',             note: 'Group mani/pedi', mapUrl: 'https://www.google.com/search?q=nail+salon+Austin+TX' },
-      { type: 'locked',  time: 'Lunch',     name: '🌮 Matt\'s El Rancho', note: 'Austin Tex-Mex legend since 1952 — walk-in only, join the waitlist below', mapUrl: 'https://maps.google.com/?q=Matt%27s+El+Rancho+Austin+TX', reserveUrl: 'https://www.opentable.com/booking/restref/details?restRef=278602', reserveLabel: '📋 Join Waitlist' },
+      { type: 'locked',  time: 'Morning',   name: '💅 Nails',             note: 'Group mani/pedi', mapUrl: 'https://maps.apple.com/?q=nail+salon+Austin+TX' },
+      { type: 'locked',  time: 'Lunch',     name: '🌮 Matt\'s El Rancho', note: 'Austin Tex-Mex legend since 1952 — walk-in only, join the waitlist below', mapUrl: 'https://maps.apple.com/?q=Matt%27s+El+Rancho+Austin+TX', reserveUrl: 'https://www.opentable.com/booking/restref/details?restRef=278602', reserveLabel: '📋 Join Waitlist' },
       { type: 'dynamic', time: 'Afternoon', slot: 'day-activity',   rank: 0, label: 'Add-On Activity' },
-      { type: 'locked',  time: 'Afternoon', name: '🛥️ Lake Austin Boat Day', note: 'Private boat rental — sun, swimming, cold drinks, Texas summer at its best', mapUrl: 'https://www.google.com/search?q=boat+rental+Lake+Austin+TX' },
-      { type: 'locked',  time: 'Dinner',    name: '🍽️ Eberly',           note: 'Nice dinner — Shannon\'s main night out', mapUrl: 'https://maps.google.com/?q=Eberly+Austin+TX', reserveUrl: 'https://eberlyaustin.com/reservations', reserveLabel: '🗓️ Make Reservation' },
+      { type: 'locked',  time: 'Afternoon', name: '🛥️ Lake Austin Boat Day', note: 'Private boat rental — sun, swimming, cold drinks, Texas summer at its best', mapUrl: 'https://maps.apple.com/?q=boat+rental+Lake+Austin+TX' },
+      { type: 'locked',  time: 'Dinner',    name: '🍽️ Eberly',           note: 'Nice dinner — Shannon\'s main night out', mapUrl: 'https://maps.apple.com/?q=Eberly+Austin+TX', reserveUrl: 'https://eberlyaustin.com/reservations', reserveLabel: '🗓️ Make Reservation' },
       { type: 'dynamic', time: 'Evening',   slot: 'saturday-night', rank: 0, label: 'After Eberly' },
     ],
   },
   {
     day: 'Sunday', date: 'July 19', highlight: false,
     items: [
-      { type: 'locked',  time: 'Lunch',     name: '🥩 Terry Black\'s BBQ', note: 'Shannon specifically wants this', mapUrl: 'https://maps.google.com/?q=Terry+Black%27s+BBQ+Austin+TX' },
+      { type: 'locked',  time: 'Lunch',     name: '🥩 Terry Black\'s BBQ', note: 'Shannon specifically wants this', mapUrl: 'https://maps.apple.com/?q=Terry+Black%27s+BBQ+Austin+TX' },
       { type: 'dynamic', time: 'Afternoon', slot: 'day-activity',   rank: 1, label: 'Day Activity' },
-      { type: 'locked',  time: 'Afternoon', name: '🤠 Sagebrush Lessons',  note: 'Two-step lessons before the honky tonk', mapUrl: 'https://maps.google.com/?q=Sagebrush+Austin+TX' },
+      { type: 'locked',  time: 'Afternoon', name: '🤠 Sagebrush Lessons',  note: 'Two-step lessons before the honky tonk', mapUrl: 'https://maps.apple.com/?q=Sagebrush+Austin+TX' },
       { type: 'dynamic', time: 'Night',     slot: 'honky-tonk',    rank: 0, label: 'Honky Tonk' },
     ],
   },
   {
     day: 'Monday', date: 'July 20', highlight: false,
     items: [
-      { type: 'locked', time: 'Morning', name: '☕ Farewell Brunch', note: 'Last meal together before everyone heads out', mapUrl: 'https://www.google.com/search?q=brunch+Austin+TX' },
+      { type: 'locked', time: 'Morning', name: '☕ Farewell Brunch', note: 'Last meal together before everyone heads out', mapUrl: 'https://maps.apple.com/?q=brunch+Austin+TX' },
     ],
   },
 ];
@@ -784,7 +783,7 @@ async function castVibeVotes(vibeId) {
     await castVote(eid, 'yes');
   }
   showToast(`Voted for ${unvoted.length} activit${unvoted.length === 1 ? 'y' : 'ies'} 🙌`);
-  // Mark chip as selected
+  // Mark all chips with this vibe as selected (they appear in multiple places)
   document.querySelectorAll(`.vibe-chip[data-vibe="${vibeId}"]`).forEach(el => el.classList.add('selected'));
 }
 
@@ -1620,7 +1619,7 @@ document.querySelectorAll('.transport-btn').forEach(btn => {
   });
 });
 
-// Vibe chip listeners
+// Vibe chip listeners (works for chips in both locations)
 document.querySelectorAll('.vibe-chip').forEach(chip => {
   chip.addEventListener('click', () => castVibeVotes(chip.dataset.vibe));
 });

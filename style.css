@@ -290,32 +290,75 @@ body {
 }
 
 /* =========================================
-   HOW IT WORKS
+   HOW IT WORKS / VOTE PATHS
    ========================================= */
 .how-it-works {
   background: var(--white);
-  padding: 40px 0;
+  padding: 48px 0;
   border-bottom: 1px solid var(--cream-dark);
+}
+
+.vote-paths {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+
+.vote-path {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px 32px;
+  background: var(--cream);
+  border-radius: var(--radius);
+}
+
+.vote-path-easy {
+  background: var(--rose-light);
+}
+
+.vote-path-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gray);
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+
+.vote-path-label {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--brown);
+  margin: 0;
 }
 
 .steps {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 16px;
+  gap: 8px;
   flex-wrap: wrap;
+}
+
+.steps-compact .step {
+  padding: 8px 0;
 }
 
 .step {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 20px;
+  gap: 10px;
+  padding: 8px 0;
 }
 
 .step-num {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background: var(--rose-light);
   color: var(--rose-dark);
@@ -323,20 +366,57 @@ body {
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   flex-shrink: 0;
 }
 
+.vote-path-easy .step-num {
+  background: rgba(255,255,255,0.6);
+}
+
 .step p {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--brown-mid);
   font-weight: 500;
 }
 
 .step-arrow {
   color: var(--rose);
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 300;
+  flex-shrink: 0;
+}
+
+.vote-path-btn {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 10px 20px;
+  background: var(--rose-dark);
+  color: var(--white);
+  border-radius: 50px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s;
+  align-self: flex-start;
+}
+
+.vote-path-btn:hover {
+  background: var(--brown);
+}
+
+.easy-vibe-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.easy-vibe-hint {
+  font-size: 0.78rem;
+  color: var(--rose-dark);
+  margin: 0;
+  font-weight: 500;
 }
 
 /* =========================================
@@ -2108,6 +2188,19 @@ body {
 
   .step-arrow {
     display: none;
+  }
+
+  .vote-paths {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .vote-path-divider {
+    padding: 0;
+  }
+
+  .vote-path {
+    padding: 20px;
   }
 
   .events-grid {
