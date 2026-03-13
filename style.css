@@ -692,6 +692,26 @@ body {
   white-space: nowrap;
 }
 
+/* Location line on card — shown before the event name */
+.card-location {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--rose-dark);
+  margin: 6px 0 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-location .location-info-btn {
+  font-size: 0.65rem;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
 .event-emoji {
   font-size: 2rem;
   line-height: 1;

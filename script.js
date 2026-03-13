@@ -540,16 +540,20 @@ const VIBES = {
   'chill':      ['barton-springs', 'town-lake-cruise', 'spa-day', 'escape-room', 'cooking-class'],
 };
 
-// Sort events by location, then by category (restaurant → bar → other)
+// Sort events by category first, then location within each category
 const CATEGORY_ORDER = ['restaurant', 'bar', 'other'];
+const CATEGORY_LABELS = {
+  restaurant: '🍽️ Food & Drinks',
+  bar:        '🍺 Bars & Nightlife',
+  other:      '✨ Things To Do',
+};
 const EVENTS = [...EVENTS_RAW].sort((a, b) => {
-  const ai = LOCATION_ORDER.indexOf(a.location);
-  const bi = LOCATION_ORDER.indexOf(b.location);
-  const locDiff = (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
-  if (locDiff !== 0) return locDiff;
   const ac = CATEGORY_ORDER.indexOf(a.category || 'other');
   const bc = CATEGORY_ORDER.indexOf(b.category || 'other');
-  return ac - bc;
+  if (ac !== bc) return ac - bc;
+  const ai = LOCATION_ORDER.indexOf(a.location);
+  const bi = LOCATION_ORDER.indexOf(b.location);
+  return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
 });
 
 // Slot assignments — which agenda slot each event competes for
@@ -1277,32 +1281,23 @@ function renderEvents() {
   const grid = document.getElementById('events-grid');
   grid.innerHTML = '';
 
-  let lastGroup = null;
+  let lastCategory = null;
 
   EVENTS.forEach(event => {
+    const cat = event.category || 'other';
 
-    // Location section heading
-    if (event.location && event.location !== lastGroup) {
-      lastGroup = event.location;
-      const desc = LOCATION_DESCRIPTIONS[event.location] || '';
+    // Category section heading
+    if (cat !== lastCategory) {
+      lastCategory = cat;
       const heading = document.createElement('div');
       heading.className = 'group-heading';
+      heading.dataset.category = cat;
       heading.innerHTML = `
         <div class="group-heading-left">
-          <h3>📍 ${event.location}${desc ? `<button class="location-info-btn" title="What is this?" aria-label="About ${event.location}">?</button>` : ''}</h3>
-          ${desc ? `<p class="location-desc hidden">${desc}</p>` : ''}
+          <h3>${CATEGORY_LABELS[cat] || cat}</h3>
         </div>
         <a href="#agenda" class="group-agenda-link">View Agenda ↓</a>
       `;
-      if (desc) {
-        const btn = heading.querySelector('.location-info-btn');
-        const p = heading.querySelector('.location-desc');
-        btn.addEventListener('click', () => {
-          const open = !p.classList.contains('hidden');
-          p.classList.toggle('hidden', open);
-          btn.classList.toggle('active', !open);
-        });
-      }
       grid.appendChild(heading);
     }
 
@@ -1320,11 +1315,14 @@ function renderEvents() {
     if (maybeCount) labelParts.push(`${maybeCount} maybe`);
     const countLabel = labelParts.join(' · ') || '0 votes';
 
+    // Location description for tooltip
+    const locDesc = LOCATION_DESCRIPTIONS[event.location] || '';
+
     const card = document.createElement('div');
     card.className = 'event-card' + (voted || maybed ? ' voted' : '') + (event.confirmed ? ' confirmed' : '') + (brideVoted ? ' bride-pick' : '');
     card.dataset.eventId = event.id;
     card.dataset.type = event.type;
-    card.dataset.group = event.location || '';
+    card.dataset.category = cat;
 
     card.innerHTML = `
       <div class="card-top">
@@ -1332,9 +1330,10 @@ function renderEvents() {
         <div class="card-tags">
           ${brideVoted ? '<span class="bride-pick-badge">💍 Bride\'s Pick</span>' : ''}
           ${event.confirmed ? '<span class="confirmed-badge">✓ Happening</span>' : ''}
-          <span class="location-tag">${event.location}</span>
         </div>
       </div>
+      <p class="card-location">📍 ${event.location}${locDesc ? `<button class="location-info-btn" aria-label="About ${event.location}">?</button>` : ''}</p>
+      ${locDesc ? `<p class="location-desc hidden">${locDesc}</p>` : ''}
       <h3>${event.name}</h3>
       <p class="event-desc">${event.desc}</p>
       <p class="event-price">~${event.price}</p>
@@ -1355,6 +1354,18 @@ function renderEvents() {
       </div>
       <button class="details-btn">See details →</button>
     `;
+
+    // Location info toggle
+    if (locDesc) {
+      const btn = card.querySelector('.location-info-btn');
+      const p = card.querySelector('.location-desc');
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        const open = !p.classList.contains('hidden');
+        p.classList.toggle('hidden', open);
+        btn.classList.toggle('active', !open);
+      });
+    }
 
     card.querySelector('.vote-btn').addEventListener('click', e => {
       e.stopPropagation();
@@ -1393,8 +1404,8 @@ document.querySelectorAll('.filter-btn').forEach(btn => {
       card.classList.toggle('hidden', filter !== 'all' && card.dataset.type !== filter);
     });
     document.querySelectorAll('.group-heading').forEach(heading => {
-      const rawText = heading.querySelector('h3').textContent.replace('📍 ', '');
-      const anyVisible = [...document.querySelectorAll(`.event-card[data-group="${rawText}"]`)]
+      const cat = heading.dataset.category;
+      const anyVisible = [...document.querySelectorAll(`.event-card[data-category="${cat}"]`)]
         .some(c => !c.classList.contains('hidden'));
       heading.classList.toggle('hidden', !anyVisible);
     });
