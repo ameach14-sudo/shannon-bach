@@ -420,6 +420,7 @@ body {
 }
 
 .quick-pick-tile {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -450,9 +451,27 @@ body {
   border-color: var(--rose-dark);
 }
 
+/* Prevent hover from overriding selected state */
+.quick-pick-tile.selected:hover {
+  background: var(--rose-dark);
+  border-color: var(--rose-dark);
+}
+
 .quick-pick-tile.selected .quick-pick-label,
 .quick-pick-tile.selected .quick-pick-sub {
   color: var(--white);
+}
+
+/* Checkmark badge on selected tiles */
+.quick-pick-tile.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1;
 }
 
 .quick-pick-submit-btn {
@@ -655,23 +674,32 @@ body {
   font-weight: 700;
 }
 
-/* Quiz trigger button (inside vibe picker) */
-.quiz-trigger-btn {
-  width: 100%;
-  padding: 11px 16px;
+/* Quiz CTA row — always visible below the vibe picker */
+.quiz-cta-row {
+  margin-top: 16px;
+  text-align: center;
+}
+
+.quiz-cta-btn {
+  display: inline-block;
+  padding: 12px 24px;
   border-radius: 50px;
   border: 2px dashed var(--rose-dark);
   background: transparent;
   color: var(--rose-dark);
   font-family: 'Inter', sans-serif;
-  font-size: 0.82rem;
+  font-size: 0.88rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.15s;
-  text-align: center;
 }
 
-.quiz-trigger-btn:hover {
+.quiz-cta-btn:hover {
+  background: var(--rose-light);
+}
+
+.quiz-cta-btn.quiz-cta-taken {
+  border-style: solid;
   background: var(--rose-light);
 }
 

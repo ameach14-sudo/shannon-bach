@@ -902,6 +902,7 @@ function showPersonaResult() {
   // Store persona
   localStorage.setItem('bach_persona', winner);
   updateNavWithPersona();
+  updateQuizCta();
 
   const box = document.getElementById('quiz-modal-box');
   box.innerHTML = `
@@ -938,10 +939,6 @@ function renderVibePicker() {
   const container = document.getElementById('quick-pick-container');
   if (!container) return;
   selectedPickIdxs.clear();
-  const savedPersona = localStorage.getItem('bach_persona');
-  const personaLine = savedPersona && PERSONAS[savedPersona]
-    ? `<button class="quiz-trigger-btn quiz-trigger-taken" id="quiz-open-picker">${PERSONAS[savedPersona].emoji} ${PERSONAS[savedPersona].title} · Retake quiz</button>`
-    : `<button class="quiz-trigger-btn" id="quiz-open-picker">✨ What's your bachelorette persona?</button>`;
 
   container.innerHTML = `
     <p class="vote-path-label">Don't care, just excited?</p>
@@ -956,7 +953,6 @@ function renderVibePicker() {
       `).join('')}
     </div>
     <button class="quick-pick-submit-btn" id="quick-pick-submit" disabled>Vote for my picks →</button>
-    ${personaLine}
   `;
 
   container.querySelectorAll('.quick-pick-tile').forEach(tile => {
@@ -974,8 +970,7 @@ function renderVibePicker() {
   });
 
   document.getElementById('quick-pick-submit').addEventListener('click', submitPickSelections);
-  const quizBtn = document.getElementById('quiz-open-picker');
-  if (quizBtn) quizBtn.addEventListener('click', openQuizModal);
+  updateQuizCta();
 }
 
 async function submitPickSelections() {
@@ -1006,10 +1001,6 @@ function showMultiPickResult(picks, count) {
   const msg = count > 0
     ? `Voted you in for ${count} activit${count === 1 ? 'y' : 'ies'} 🙌`
     : 'You\'re already in for all of those!';
-  const savedPersona = localStorage.getItem('bach_persona');
-  const quizLabel = savedPersona && PERSONAS[savedPersona]
-    ? `${PERSONAS[savedPersona].emoji} ${PERSONAS[savedPersona].title} · Retake quiz`
-    : '✨ What\'s your bachelorette persona?';
 
   container.innerHTML = `
     <div class="quick-pick-result">
@@ -1020,11 +1011,9 @@ function showMultiPickResult(picks, count) {
         <button class="quick-pick-reset-btn" id="quick-pick-reset">Change picks</button>
         <a href="#events" class="quick-pick-see-btn">See votes →</a>
       </div>
-      <button class="quiz-trigger-btn" id="quiz-open-result">${quizLabel}</button>
     </div>
   `;
   document.getElementById('quick-pick-reset').addEventListener('click', renderVibePicker);
-  document.getElementById('quiz-open-result').addEventListener('click', openQuizModal);
 }
 
 // Show name modal if name not yet set
@@ -1875,9 +1864,24 @@ document.querySelectorAll('.transport-btn').forEach(btn => {
   });
 });
 
+function updateQuizCta() {
+  const btn = document.getElementById('quiz-open-main');
+  if (!btn) return;
+  const savedPersona = localStorage.getItem('bach_persona');
+  const persona = savedPersona && PERSONAS[savedPersona];
+  btn.textContent = persona
+    ? `${persona.emoji} You're a ${persona.title} · Retake the quiz →`
+    : '✨ What\'s your bachelorette persona? Take the quiz →';
+  btn.classList.toggle('quiz-cta-taken', !!persona);
+}
+
+// Wire up the static quiz CTA button
+document.getElementById('quiz-open-main').addEventListener('click', openQuizModal);
+
 // Render vibe picker game and restore persona on load
 renderVibePicker();
 updateNavWithPersona();
+updateQuizCta();
 
 // =========================================
 // SUGGESTIONS
