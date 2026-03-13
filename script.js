@@ -771,6 +771,14 @@ function showToast(msg, duration = 2800) {
 
 // Pending vibe — remembered if modal interrupts a vibe click
 let _pendingVibe = null;
+// Tracks which vibes the current user has selected (source of truth, not the DOM class)
+const selectedVibes = new Set();
+
+function syncVibeChips() {
+  document.querySelectorAll('.vibe-chip').forEach(chip => {
+    chip.classList.toggle('selected', selectedVibes.has(chip.dataset.vibe));
+  });
+}
 
 // Cast or retract votes for all events matching a vibe
 async function castVibeVotes(vibeId) {
@@ -783,24 +791,23 @@ async function castVibeVotes(vibeId) {
   const eventIds = VIBES[vibeId];
   if (!eventIds) return;
 
-  const chips = document.querySelectorAll(`.vibe-chip[data-vibe="${vibeId}"]`);
-  const isSelected = chips.length > 0 && chips[0].classList.contains('selected');
-
-  if (isSelected) {
-    // Unselect — remove 'yes' votes for events in this vibe that the user voted on
+  if (selectedVibes.has(vibeId)) {
+    // Unselect — remove 'yes' votes for this vibe's events
+    selectedVibes.delete(vibeId);
+    syncVibeChips();
     const toRemove = eventIds.filter(eid => myVotes.get(eid) === 'yes');
     for (const eid of toRemove) {
-      await castVote(eid, 'yes'); // calling same type triggers delete in castVote
+      await castVote(eid, 'yes'); // same type → triggers delete inside castVote
     }
-    chips.forEach(el => el.classList.remove('selected'));
     if (toRemove.length > 0) showToast(`Removed ${toRemove.length} vote${toRemove.length === 1 ? '' : 's'}`);
   } else {
     // Select — vote 'yes' for any not already voted
+    selectedVibes.add(vibeId);
+    syncVibeChips();
     const unvoted = eventIds.filter(eid => myVotes.get(eid) !== 'yes');
     for (const eid of unvoted) {
       await castVote(eid, 'yes');
     }
-    chips.forEach(el => el.classList.add('selected'));
     if (unvoted.length > 0) {
       showToast(`Voted for ${unvoted.length} activit${unvoted.length === 1 ? 'y' : 'ies'} 🙌`);
     } else {
