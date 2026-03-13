@@ -32,7 +32,7 @@ const LOCATION_DESCRIPTIONS = {
   'East 6th':             'Austin\'s artsy east side. Eclectic mix of tacos, dive bars, vintage shops, and late-night spots. Way cooler than it sounds — this is where the locals go.',
   'Dirty 6th / Red River': 'Dirty 6th = the chaotic neon bar crawl strip, great for group bar-hopping. Red River is right next to it and has the best live music venues in the city — different vibe, way better bands.',
   'West 6th':             'More polished bar and restaurant district west of downtown. Better cocktails, nicer patios, less rowdy than 6th Street. Good spot to start a night out.',
-  'Downtown':             'The city center. Rainey Street is here (best bar street in Austin — patios, food trucks, string lights), plus the Capitol and Lady Bird Lake waterfront.',
+  'Downtown':             'The city center. Lady Bird Lake waterfront, the Capitol, and Rainey Street — Austin\'s bar strip (see the Rainey Street card for the honest take).',
   'Zilker / Town Lake':   'Where Austinites spend their weekends. Barton Springs Pool, Zilker Park, and Lady Bird Lake all in one spot. Kayaking, hiking the trail, and the iconic keep-Austin-weird outdoor life.',
   'Lake Austin':          'The scenic stretch of the Colorado River west of the city. Quiet coves, boat rentals, and waterfront restaurants. This is where the boat day happens.',
   'Hill Country':         'Rolling cedar hills and Texas sky west of Austin. Wineries, wildflowers, swimming holes, and small towns. Options here range from 30 min away (Driftwood, Salt Lick) to 1.5 hrs away (Fredericksburg) — great if the group wants a full day out of the city.',
@@ -241,6 +241,24 @@ const EVENTS_RAW = [
       'July is peak peach season — stop at a roadside stand on the way back',
     ],
     website: 'visitfredericksburgtx.com',
+  },
+  {
+    id: 'jewboy-burgers',
+    emoji: '🍔',
+    name: 'JewBoy Burgers',
+    category: 'restaurant',
+    type: 'non-drinking',
+    location: 'East 6th',
+    desc: 'A well-known Austin spot — creative, loaded burgers with local ingredients. Unpretentious, good, and genuinely Austin.',
+    price: '$12–18/person',
+    address: 'East Austin area (check current location)',
+    tips: [
+      'A legit Austin institution — not a chain, not a gimmick, just a great burger',
+      'Creative toppings and daily specials — check the menu before you go',
+      'Great for lunch or a casual dinner before a night out',
+      'Cash friendly, small operation — part of what makes it worth going',
+    ],
+    website: 'Search "JewBoy Burgers Austin" for current location and hours',
   },
   {
     id: 'de-nada-margs',
@@ -486,7 +504,42 @@ const EVENTS_RAW = [
     ],
     website: 'Search "Ski Shores Cafe Austin" for hours',
   },
+  {
+    id: 'rainey-street',
+    emoji: '🍺',
+    name: 'Rainey Street Bar Hop',
+    category: 'bar',
+    type: 'drinking',
+    location: 'Downtown',
+    desc: 'Austin\'s bar street. It\'s not what it used to be — way more tourist-heavy and corporate now — but the right spots are still fun and it\'s easy for a group.',
+    price: '$40–70/person',
+    address: 'Rainey St, Austin, TX 78701',
+    tips: [
+      '⚠️ Rainey was Austin\'s hidden gem years ago — single-family homes turned into bars. Those days are mostly gone; it\'s busier and more touristy now.',
+      'Still solid for a group — the energy is there even if the vibe shifted',
+      '🍺 Banger\'s (79 Rainey) — 200+ beers on tap, massive patio, great for a group',
+      '🍔 NADC Burger — legit late-night burgers right on the strip, hit it after a few drinks',
+      '🃏 Electric Shuffle (59 Rainey) — competitive shuffleboard bar, multiple courts, great group activity',
+      '🍹 Lustre Pearl Rainey (94 Rainey) — the original Rainey bar, lawn games, most laid back spot',
+      '🍸 Half Step (75½ Rainey) — best cocktails on the street, no gimmicks',
+      'Go early (before 9pm) to beat the crowd and snag a patio table',
+    ],
+    website: 'bangers-austin.com | electricshuffle.com/austin',
+  },
 ];
+
+// Vibe quick-picks — maps each vibe chip to a list of event IDs
+const VIBES = {
+  'honky-tonk': ['broken-spoke', 'donns-depot', 'continental-club'],
+  'bbq':        ['driftwood-winery', 'loro', 'jewboy-burgers'],
+  'tex-mex':    ['gueros', 'taco-speakeasy'],
+  'live-music': ['continental-club', 'broken-spoke', 'donns-depot', 'austin-city-limits'],
+  'outdoor':    ['barton-springs', 'kayak-paddleboard', 'ski-shores', 'horseback-riding', 'town-lake-cruise'],
+  'upscale':    ['aba', 'perlas', 'rooftop-bars', 'cocktail-class'],
+  'wine':       ['driftwood-winery', 'fredericksburg', 'cooking-class'],
+  'party':      ['de-nada-margs', 'rooftop-bars', 'comedy-mothership', 'rainey-street'],
+  'chill':      ['barton-springs', 'town-lake-cruise', 'spa-day', 'escape-room', 'cooking-class'],
+};
 
 // Sort events by location, then by category (restaurant → bar → other)
 const CATEGORY_ORDER = ['restaurant', 'bar', 'other'];
@@ -524,6 +577,8 @@ const SLOT_MAP = {
   'rooftop-bars':       'day-activity',
   'driftwood-winery':   'day-activity',
   'cocktail-class':     'day-activity',
+  'rainey-street':      'day-activity',
+  'jewboy-burgers':     'day-activity',
 };
 EVENTS.forEach(e => { e.slot = SLOT_MAP[e.id] || null; });
 
@@ -619,6 +674,16 @@ const EVENT_LINKS = {
   'ski-shores': [
     { label: 'Google Maps', url: 'https://maps.google.com/?q=Ski+Shores+Cafe+Austin+TX' },
   ],
+  'jewboy-burgers': [
+    { label: '📍 Google Maps', url: 'https://maps.google.com/?q=JewBoy+Burgers+Austin+TX' },
+  ],
+  'rainey-street': [
+    { label: "🍺 Banger's",        url: 'https://maps.google.com/?q=Banger%27s+Sausage+House+Beer+Garden+Austin+TX' },
+    { label: '🍔 NADC Burger',     url: 'https://maps.google.com/?q=NADC+Burger+Austin+TX' },
+    { label: '🃏 Electric Shuffle', url: 'https://maps.google.com/?q=Electric+Shuffle+Austin+TX' },
+    { label: '🍹 Lustre Pearl',    url: 'https://maps.google.com/?q=Lustre+Pearl+Rainey+Austin+TX' },
+    { label: '🍸 Half Step',       url: 'https://maps.google.com/?q=Half+Step+Bar+Austin+TX' },
+  ],
 };
 EVENTS.forEach(e => { e.links = EVENT_LINKS[e.id] || []; });
 
@@ -693,6 +758,34 @@ function getVoterName() {
 
 function saveVoterName(name) {
   localStorage.setItem('bach_voter_name', name.trim());
+}
+
+// Toast notification
+function showToast(msg, duration = 2800) {
+  const el = document.getElementById('toast');
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.remove('hidden');
+  clearTimeout(el._timer);
+  el._timer = setTimeout(() => el.classList.add('hidden'), duration);
+}
+
+// Cast votes for all events matching a vibe
+async function castVibeVotes(vibeId) {
+  if (!voterName) { showNameModal(); return; }
+  const eventIds = VIBES[vibeId];
+  if (!eventIds) return;
+  const unvoted = eventIds.filter(eid => myVotes.get(eid) !== 'yes');
+  if (unvoted.length === 0) {
+    showToast('You\'re already in for all of those! 🎉');
+    return;
+  }
+  for (const eid of unvoted) {
+    await castVote(eid, 'yes');
+  }
+  showToast(`Voted for ${unvoted.length} activit${unvoted.length === 1 ? 'y' : 'ies'} 🙌`);
+  // Mark chip as selected
+  document.querySelectorAll(`.vibe-chip[data-vibe="${vibeId}"]`).forEach(el => el.classList.add('selected'));
 }
 
 // Show name modal if name not yet set
@@ -1360,6 +1453,7 @@ init();
 // ARRIVALS
 // =========================================
 let arrivals = [];
+let selectedTransport = 'flying';
 
 async function loadArrivals() {
   if (!supabaseClient) return;
@@ -1377,8 +1471,9 @@ async function loadArrivals() {
 async function submitArrival() {
   const date = document.getElementById('arrival-date-input').value;
   const time = document.getElementById('arrival-time-input').value;
-  const flight = document.getElementById('arrival-flight-input').value.trim();
-  const needsRide = document.getElementById('arrival-ride-input').checked;
+  const isFlying = selectedTransport === 'flying';
+  const flight = isFlying ? document.getElementById('arrival-flight-input').value.trim() : null;
+  const needsRide = isFlying ? document.getElementById('arrival-ride-input').checked : false;
 
   if (!date || !time) {
     if (!date) document.getElementById('arrival-date-input').focus();
@@ -1399,6 +1494,7 @@ async function submitArrival() {
     arrival_time: displayTime,
     flight_info: flight || null,
     needs_ride: needsRide,
+    transport_type: selectedTransport,
   };
 
   // Upsert — update if same voter_id already exists
@@ -1424,6 +1520,11 @@ async function deleteArrival(voterId_) {
   document.getElementById('arrival-time-input').value = '';
   document.getElementById('arrival-flight-input').value = '';
   document.getElementById('arrival-ride-input').checked = false;
+  // Reset transport toggle to flying
+  selectedTransport = 'flying';
+  const card = document.getElementById('arrival-form-card');
+  if (card) card.classList.remove('driving-mode');
+  document.querySelectorAll('.transport-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === 'flying'));
   if (supabaseClient) {
     await supabaseClient.from('arrivals').delete().eq('voter_id', voterId_);
   }
@@ -1472,7 +1573,7 @@ function renderArrivals() {
             ${a.needs_ride ? '<span class="arrival-ride-tag">🚗 Needs ride</span>' : ''}
           </div>
           <div class="arrival-info">
-            <span class="arrival-time-display">🛬 ${a.arrival_time}</span>
+            <span class="arrival-time-display">${a.transport_type === 'driving' ? '🚗' : '🛬'} ${a.arrival_time}</span>
             ${a.flight_info ? `<a class="arrival-flight" href="https://www.google.com/search?q=${encodeURIComponent(a.flight_info + ' flight status')}" target="_blank" rel="noopener">${a.flight_info} ↗</a>` : ''}
           </div>
           ${isMe ? `<button class="arrival-delete-btn" data-voter-id="${a.voter_id}" title="Remove your arrival">✕</button>` : ''}
@@ -1499,9 +1600,30 @@ function prefillArrivalForm() {
   if (dateEl) dateEl.value = mine.arrival_date;
   if (flightEl) flightEl.value = mine.flight_info || '';
   if (rideEl) rideEl.checked = mine.needs_ride;
+  // Restore transport toggle
+  const mode = mine.transport_type || 'flying';
+  selectedTransport = mode;
+  const card = document.getElementById('arrival-form-card');
+  if (card) card.classList.toggle('driving-mode', mode === 'driving');
+  document.querySelectorAll('.transport-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === mode));
 }
 
 document.getElementById('arrival-submit-btn').addEventListener('click', submitArrival);
+
+// Transport mode toggle
+document.querySelectorAll('.transport-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    selectedTransport = btn.dataset.mode;
+    document.querySelectorAll('.transport-btn').forEach(b => b.classList.toggle('active', b === btn));
+    const card = document.getElementById('arrival-form-card');
+    if (card) card.classList.toggle('driving-mode', selectedTransport === 'driving');
+  });
+});
+
+// Vibe chip listeners
+document.querySelectorAll('.vibe-chip').forEach(chip => {
+  chip.addEventListener('click', () => castVibeVotes(chip.dataset.vibe));
+});
 
 // =========================================
 // SUGGESTIONS

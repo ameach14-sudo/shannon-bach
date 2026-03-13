@@ -75,6 +75,22 @@
         <p>A few things still need a group vote — click everything you're in for.</p>
       </div>
 
+      <!-- Vibe quick-picks -->
+      <div class="vibe-section">
+        <p class="vibe-label">Not trying to scroll through everything? Just pick your vibes and we'll vote for you 👇</p>
+        <div class="vibe-chips" id="vibe-chips">
+          <button class="vibe-chip" data-vibe="honky-tonk">🤠 Honky Tonk</button>
+          <button class="vibe-chip" data-vibe="bbq">🍖 BBQ</button>
+          <button class="vibe-chip" data-vibe="tex-mex">🌮 Tex-Mex</button>
+          <button class="vibe-chip" data-vibe="live-music">🎸 Live Music</button>
+          <button class="vibe-chip" data-vibe="outdoor">🌊 Outdoors</button>
+          <button class="vibe-chip" data-vibe="upscale">🥂 Fancy Nights</button>
+          <button class="vibe-chip" data-vibe="wine">🍷 Wine &amp; Hill Country</button>
+          <button class="vibe-chip" data-vibe="party">🎉 Party Mode</button>
+          <button class="vibe-chip" data-vibe="chill">😌 Low Key</button>
+        </div>
+      </div>
+
       <!-- Filter tabs -->
       <div class="filter-tabs">
         <button class="filter-btn active" data-filter="all">All</button>
@@ -119,7 +135,11 @@
         <p>Add your arrival info so we can coordinate rides from the airport.</p>
       </div>
 
-      <div class="arrival-form-card">
+      <div class="arrival-form-card" id="arrival-form-card">
+        <div class="transport-toggle">
+          <button class="transport-btn active" data-mode="flying">✈️ Flying</button>
+          <button class="transport-btn" data-mode="driving">🚗 Driving</button>
+        </div>
         <div class="arrival-form-row">
           <select id="arrival-date-input">
             <option value="">Arrival day</option>
@@ -129,10 +149,10 @@
             <option value="Sunday, July 19">Sunday, July 19</option>
           </select>
           <input type="time" id="arrival-time-input" />
-          <input type="text" id="arrival-flight-input" placeholder="Airline + Flight # (optional)" maxlength="30" />
+          <input type="text" id="arrival-flight-input" class="flying-field" placeholder="Airline + Flight # (optional)" maxlength="30" />
         </div>
         <div class="arrival-form-row arrival-form-row-bottom">
-          <label class="arrival-ride-label">
+          <label class="arrival-ride-label flying-field" id="arrival-ride-row">
             <input type="checkbox" id="arrival-ride-input" />
             <span>I need a ride from the airport</span>
           </label>
@@ -313,6 +333,9 @@
     window.addEventListener('scroll', updateNav, { passive: true });
     updateNav();
   </script>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden"></div>
 
   <!-- Supabase CDN -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

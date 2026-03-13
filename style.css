@@ -363,6 +363,79 @@ body {
   font-size: 1rem;
 }
 
+/* Vibe quick-picks */
+.vibe-section {
+  background: var(--cream);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 28px;
+  border: 1.5px solid var(--cream-dark);
+}
+
+.vibe-label {
+  font-size: 0.85rem;
+  color: var(--brown-mid);
+  margin: 0 0 14px;
+  font-weight: 500;
+}
+
+.vibe-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.vibe-chip {
+  padding: 7px 14px;
+  border-radius: 50px;
+  border: 1.5px solid var(--cream-dark);
+  background: var(--white);
+  color: var(--brown-mid);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.vibe-chip:hover {
+  border-color: var(--rose-dark);
+  color: var(--rose-dark);
+  background: var(--rose-light);
+}
+
+.vibe-chip.selected {
+  background: var(--rose-light);
+  border-color: var(--rose-dark);
+  color: var(--rose-dark);
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #3d2b2b;
+  color: #fff;
+  padding: 11px 22px;
+  border-radius: 50px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 500;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity 0.4s;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+}
+
+.toast.hidden {
+  opacity: 0;
+}
+
 /* Filter Tabs */
 .filter-tabs {
   display: flex;
@@ -1001,6 +1074,46 @@ body {
   font-style: italic;
   font-size: 0.9rem;
   padding: 24px 0;
+}
+
+/* Transport toggle */
+.transport-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.transport-btn {
+  flex: 1;
+  padding: 9px 16px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--cream-dark);
+  background: var(--white);
+  color: var(--brown-mid);
+  font-family: 'Inter', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.transport-btn.active {
+  border-color: var(--rose-dark);
+  background: var(--rose-light);
+  color: var(--rose-dark);
+}
+
+.transport-btn:hover:not(.active) {
+  border-color: var(--rose);
+  color: var(--brown);
+}
+
+.flying-field {
+  transition: opacity 0.2s;
+}
+
+.driving-mode .flying-field {
+  display: none !important;
 }
 
 .suggestions-section {
