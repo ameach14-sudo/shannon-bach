@@ -773,51 +773,240 @@ function showToast(msg, duration = 2800) {
   el._timer = setTimeout(() => el.classList.add('hidden'), duration);
 }
 
-// Pending vibe — remembered if modal interrupts a vibe click
-let _pendingVibe = null;
-// Tracks which vibes the current user has selected (source of truth, not the DOM class)
-const selectedVibes = new Set();
+// =========================================
+// VIBE PICKER GAME
+// =========================================
+const QUICK_PICKS = [
+  { emoji: '🤠', label: 'Honky Tonk',        sub: 'boots, beer & two-stepping',      vibes: ['honky-tonk', 'live-music'],  result: 'Certified Honky Tonk Queen 🤠' },
+  { emoji: '🌮', label: 'Tacos & Margs',      sub: 'tex-mex, frozen margs, good times', vibes: ['tex-mex', 'party'],         result: 'Taco Tuesday Every Day 🌮' },
+  { emoji: '🥂', label: 'Fancy Night Out',    sub: 'rooftops, wine & good vibes',     vibes: ['upscale', 'wine'],           result: 'We\'re going somewhere nice 🥂' },
+  { emoji: '🌊', label: 'Outdoors & Chill',   sub: 'sun, water & lake vibes',         vibes: ['outdoor', 'chill'],          result: 'Sunshine & Lake Water 🌊' },
+  { emoji: '🍖', label: 'BBQ & Drinks',       sub: 'smoke, cold beers & good eating', vibes: ['bbq'],                       result: 'BBQ Crew Reporting 🍖' },
+  { emoji: '🎉', label: 'All of It',          sub: 'idc just let\'s go!!',            vibes: ['honky-tonk', 'tex-mex', 'bbq', 'outdoor', 'upscale', 'party'], result: 'Full Send Energy 🎉' },
+];
 
-function syncVibeChips() {
-  document.querySelectorAll('.vibe-chip').forEach(chip => {
-    chip.classList.toggle('selected', selectedVibes.has(chip.dataset.vibe));
+let _pendingQuickPick = null;
+
+// =========================================
+// PERSONALITY QUIZ
+// =========================================
+const QUIZ_QUESTIONS = [
+  {
+    q: 'It\'s Thursday night. You just landed in Austin. First move?',
+    options: [
+      { emoji: '🤠', text: 'Cowboy boots on before anything else',         type: 'cowgirl' },
+      { emoji: '🥂', text: 'Rooftop happy hour, obviously',                type: 'sophisticate' },
+      { emoji: '🌮', text: 'Frozen margarita. Right now. Don\'t talk to me.', type: 'texmex' },
+      { emoji: '🎉', text: 'Group chat chaos: WHERE IS EVERYONE',          type: 'chaos' },
+    ],
+  },
+  {
+    q: 'It\'s 1:30am on Saturday. You are:',
+    options: [
+      { emoji: '🤠', text: 'Still on the dance floor. I\'ll sleep when I\'m dead.', type: 'cowgirl' },
+      { emoji: '🥂', text: 'In bed, skincare on. Delightful night.',                type: 'sophisticate' },
+      { emoji: '🌮', text: 'Eating a fourth taco. This is who I am.',              type: 'texmex' },
+      { emoji: '🎉', text: 'Somehow rallying a third location. How.',              type: 'chaos' },
+    ],
+  },
+  {
+    q: 'Sunday brunch. Your vibe:',
+    options: [
+      { emoji: '🤠', text: 'Bloody mary & cowboy hat, reliving every moment', type: 'cowgirl' },
+      { emoji: '🥂', text: 'Mimosa & eggs benedict, quiet moment of reflection', type: 'sophisticate' },
+      { emoji: '🌮', text: 'Breakfast tacos or I\'m going home',               type: 'texmex' },
+      { emoji: '🎉', text: 'I already booked the reservation at 7am. You\'re welcome.', type: 'chaos' },
+    ],
+  },
+];
+
+const PERSONAS = {
+  cowgirl: {
+    emoji: '🤠',
+    title: 'The Cowgirl',
+    desc: 'You\'re the one who actually knows how to two-step — or at least commits to looking like it. Boots on, Lone Star in hand. This is your weekend.',
+  },
+  sophisticate: {
+    emoji: '🥂',
+    title: 'The Sophisticate',
+    desc: 'You made the reservations, you picked the rooftop, and you know the difference between a good rosé and a great one. Shannon doesn\'t deserve you but she has you.',
+  },
+  texmex: {
+    emoji: '🌮',
+    title: 'The Tex-Mex Queen',
+    desc: 'Frozen margs are a food group. Tacos are non-negotiable at every meal. You\'re the reason nobody goes hungry this weekend and honestly the real MVP.',
+  },
+  chaos: {
+    emoji: '🎉',
+    title: 'The Chaos Agent',
+    desc: 'First on the dance floor, last to suggest going home, and somehow always the most fun person in the room. Shannon is lucky you showed up.',
+  },
+};
+
+let quizAnswers = [];
+
+function openQuizModal() {
+  quizAnswers = [];
+  const overlay = document.getElementById('quiz-modal');
+  overlay.classList.remove('hidden');
+  renderQuizQuestion(0);
+}
+
+function closeQuizModal() {
+  document.getElementById('quiz-modal').classList.add('hidden');
+}
+
+function renderQuizQuestion(idx) {
+  const box = document.getElementById('quiz-modal-box');
+  const q = QUIZ_QUESTIONS[idx];
+  const total = QUIZ_QUESTIONS.length;
+  box.innerHTML = `
+    <div class="quiz-progress">
+      ${Array.from({ length: total }, (_, i) =>
+        `<div class="quiz-dot ${i <= idx ? 'active' : ''}"></div>`
+      ).join('')}
+    </div>
+    <p class="quiz-question">${q.q}</p>
+    <div class="quiz-options">
+      ${q.options.map((opt, i) => `
+        <button class="quiz-option" data-idx="${i}" data-type="${opt.type}">
+          <span class="quiz-opt-emoji">${opt.emoji}</span>
+          <span class="quiz-opt-text">${opt.text}</span>
+        </button>
+      `).join('')}
+    </div>
+  `;
+  box.querySelectorAll('.quiz-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      box.querySelectorAll('.quiz-option').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      quizAnswers.push(btn.dataset.type);
+      setTimeout(() => {
+        if (idx + 1 < total) {
+          renderQuizQuestion(idx + 1);
+        } else {
+          showPersonaResult();
+        }
+      }, 380);
+    });
   });
 }
 
-// Cast or retract votes for all events matching a vibe
-async function castVibeVotes(vibeId) {
+function showPersonaResult() {
+  // Tally answers
+  const counts = {};
+  quizAnswers.forEach(t => counts[t] = (counts[t] || 0) + 1);
+  const winner = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
+  const persona = PERSONAS[winner];
+
+  // Store persona
+  localStorage.setItem('bach_persona', winner);
+  updateNavWithPersona();
+
+  const box = document.getElementById('quiz-modal-box');
+  box.innerHTML = `
+    <div class="quiz-result">
+      <span class="quiz-result-emoji">${persona.emoji}</span>
+      <p class="quiz-result-label">You are</p>
+      <h2 class="quiz-result-title">${persona.title}</h2>
+      <p class="quiz-result-desc">${persona.desc}</p>
+      <button class="quiz-close-btn" id="quiz-close-final">Let's go! →</button>
+      <button class="quiz-retake-btn" id="quiz-retake">Retake quiz</button>
+    </div>
+  `;
+  document.getElementById('quiz-close-final').addEventListener('click', closeQuizModal);
+  document.getElementById('quiz-retake').addEventListener('click', () => {
+    quizAnswers = [];
+    renderQuizQuestion(0);
+  });
+}
+
+function updateNavWithPersona() {
+  const personaKey = localStorage.getItem('bach_persona');
+  const persona = PERSONAS[personaKey];
+  const badge = document.getElementById('nav-persona-badge');
+  if (badge) {
+    badge.textContent = persona ? `${persona.emoji} ${persona.title}` : '';
+    badge.style.display = persona ? '' : 'none';
+  }
+}
+
+function renderVibePicker() {
+  const container = document.getElementById('quick-pick-container');
+  if (!container) return;
+  const savedPersona = localStorage.getItem('bach_persona');
+  const personaLine = savedPersona && PERSONAS[savedPersona]
+    ? `<button class="quiz-trigger-btn quiz-trigger-taken" id="quiz-open-picker">${PERSONAS[savedPersona].emoji} ${PERSONAS[savedPersona].title} · Retake quiz</button>`
+    : `<button class="quiz-trigger-btn" id="quiz-open-picker">✨ What's your bachelorette persona?</button>`;
+
+  container.innerHTML = `
+    <p class="vote-path-label">Don't care, just excited?</p>
+    <p class="quick-pick-prompt">Tap your vibe — we'll vote for you</p>
+    <div class="quick-pick-grid">
+      ${QUICK_PICKS.map((pick, i) => `
+        <button class="quick-pick-tile" data-idx="${i}">
+          <span class="quick-pick-emoji">${pick.emoji}</span>
+          <span class="quick-pick-label">${pick.label}</span>
+          <span class="quick-pick-sub">${pick.sub}</span>
+        </button>
+      `).join('')}
+    </div>
+    ${personaLine}
+  `;
+  container.querySelectorAll('.quick-pick-tile').forEach(tile => {
+    tile.addEventListener('click', () => selectQuickPick(parseInt(tile.dataset.idx)));
+  });
+  const quizBtn = document.getElementById('quiz-open-picker');
+  if (quizBtn) quizBtn.addEventListener('click', openQuizModal);
+}
+
+async function selectQuickPick(idx) {
   if (!voterName) {
-    _pendingVibe = vibeId;
+    _pendingQuickPick = idx;
     showNameModal();
     return;
   }
-  _pendingVibe = null;
-  const eventIds = VIBES[vibeId];
-  if (!eventIds) return;
+  _pendingQuickPick = null;
+  const pick = QUICK_PICKS[idx];
 
-  if (selectedVibes.has(vibeId)) {
-    // Unselect — remove 'yes' votes for this vibe's events
-    selectedVibes.delete(vibeId);
-    syncVibeChips();
-    const toRemove = eventIds.filter(eid => myVotes.get(eid) === 'yes');
-    for (const eid of toRemove) {
-      await castVote(eid, 'yes'); // same type → triggers delete inside castVote
-    }
-    if (toRemove.length > 0) showToast(`Removed ${toRemove.length} vote${toRemove.length === 1 ? '' : 's'}`);
-  } else {
-    // Select — vote 'yes' for any not already voted
-    selectedVibes.add(vibeId);
-    syncVibeChips();
-    const unvoted = eventIds.filter(eid => myVotes.get(eid) !== 'yes');
-    for (const eid of unvoted) {
-      await castVote(eid, 'yes');
-    }
-    if (unvoted.length > 0) {
-      showToast(`Voted for ${unvoted.length} activit${unvoted.length === 1 ? 'y' : 'ies'} 🙌`);
-    } else {
-      showToast('You\'re already in for all of those! 🎉');
-    }
+  // Collect unique event IDs across all vibes for this pick
+  const eventIds = [...new Set(pick.vibes.flatMap(v => VIBES[v] || []))];
+  const toVote = eventIds.filter(eid => myVotes.get(eid) !== 'yes');
+
+  // Show result immediately (optimistic UI)
+  showQuickPickResult(pick, toVote.length);
+
+  // Cast votes in background
+  for (const eid of toVote) {
+    await castVote(eid, 'yes');
   }
+}
+
+function showQuickPickResult(pick, count) {
+  const container = document.getElementById('quick-pick-container');
+  if (!container) return;
+  const msg = count > 0
+    ? `Voted you in for ${count} activit${count === 1 ? 'y' : 'ies'} 🙌`
+    : 'You\'re already in for all of those!';
+  const savedPersona = localStorage.getItem('bach_persona');
+  const quizLabel = savedPersona && PERSONAS[savedPersona]
+    ? `${PERSONAS[savedPersona].emoji} ${PERSONAS[savedPersona].title} · Retake quiz`
+    : '✨ What\'s your bachelorette persona?';
+
+  container.innerHTML = `
+    <div class="quick-pick-result">
+      <span class="quick-pick-result-emoji">${pick.emoji}</span>
+      <p class="quick-pick-result-title">${pick.result}</p>
+      <p class="quick-pick-result-sub">${msg}</p>
+      <div class="quick-pick-result-actions">
+        <button class="quick-pick-reset-btn" id="quick-pick-reset">Pick another vibe</button>
+        <a href="#events" class="quick-pick-see-btn">See votes →</a>
+      </div>
+      <button class="quiz-trigger-btn" id="quiz-open-result">${quizLabel}</button>
+    </div>
+  `;
+  document.getElementById('quick-pick-reset').addEventListener('click', renderVibePicker);
+  document.getElementById('quiz-open-result').addEventListener('click', openQuizModal);
 }
 
 // Show name modal if name not yet set
@@ -924,11 +1113,11 @@ async function submitName() {
     renderAgenda();
   }
 
-  // If a vibe chip triggered the name modal, cast those votes now
-  if (_pendingVibe) {
-    const pending = _pendingVibe;
-    _pendingVibe = null;
-    castVibeVotes(pending);
+  // If the vibe picker triggered the name modal, resume that pick now
+  if (_pendingQuickPick !== null) {
+    const idx = _pendingQuickPick;
+    _pendingQuickPick = null;
+    selectQuickPick(idx);
   }
 }
 
@@ -1173,6 +1362,9 @@ document.getElementById('detail-modal').addEventListener('click', e => {
   if (e.target === document.getElementById('detail-modal')) {
     document.getElementById('detail-modal').classList.remove('visible');
   }
+});
+document.getElementById('quiz-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('quiz-modal')) closeQuizModal();
 });
 
 // =========================================
@@ -1666,10 +1858,9 @@ document.querySelectorAll('.transport-btn').forEach(btn => {
   });
 });
 
-// Vibe chip listeners (works for chips in both locations)
-document.querySelectorAll('.vibe-chip').forEach(chip => {
-  chip.addEventListener('click', () => castVibeVotes(chip.dataset.vibe));
-});
+// Render vibe picker game and restore persona on load
+renderVibePicker();
+updateNavWithPersona();
 
 // =========================================
 // SUGGESTIONS

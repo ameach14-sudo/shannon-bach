@@ -22,7 +22,10 @@
       <a href="#vrbo" class="nav-link nav-link-highlight">The House</a>
       <button class="nav-user" id="nav-user" title="Change your name">
         <span class="nav-user-avatar" id="nav-user-avatar"></span>
-        <span class="nav-user-name" id="nav-user-name">Sign In</span>
+        <div class="nav-user-info">
+          <span class="nav-user-name" id="nav-user-name">Sign In</span>
+          <span class="nav-persona-badge" id="nav-persona-badge" style="display:none"></span>
+        </div>
       </button>
     </div>
   </nav>
@@ -74,22 +77,8 @@
 
         <div class="vote-path-divider">or</div>
 
-        <!-- Path B: I don't care -->
-        <div class="vote-path vote-path-easy">
-          <p class="vote-path-label">Don't care, just excited?</p>
-          <div class="easy-vibe-chips" id="easy-vibe-chips">
-            <button class="vibe-chip" data-vibe="honky-tonk">🤠 Honky Tonk</button>
-            <button class="vibe-chip" data-vibe="bbq">🍖 BBQ</button>
-            <button class="vibe-chip" data-vibe="tex-mex">🌮 Tex-Mex</button>
-            <button class="vibe-chip" data-vibe="live-music">🎸 Live Music</button>
-            <button class="vibe-chip" data-vibe="outdoor">🌊 Outdoors</button>
-            <button class="vibe-chip" data-vibe="upscale">🥂 Fancy Nights</button>
-            <button class="vibe-chip" data-vibe="wine">🍷 Wine &amp; Hill Country</button>
-            <button class="vibe-chip" data-vibe="party">🎉 Party Mode</button>
-            <button class="vibe-chip" data-vibe="chill">😌 Low Key</button>
-          </div>
-          <p class="easy-vibe-hint">Pick your vibes — we'll vote for you</p>
-        </div>
+        <!-- Path B: I don't care — game rendered by JS -->
+        <div class="vote-path vote-path-easy" id="quick-pick-container"></div>
 
       </div>
     </div>
@@ -315,6 +304,11 @@
       </div>
       <button id="name-submit-btn" class="modal-submit-btn">Let's Go →</button>
     </div>
+  </div>
+
+  <!-- QUIZ MODAL -->
+  <div class="modal-overlay hidden" id="quiz-modal">
+    <div class="modal-box quiz-modal-box" id="quiz-modal-box"></div>
   </div>
 
   <!-- DETAIL MODAL -->
