@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shannon's Bachelorette 🌸 Austin, TX</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="site-nav" id="site-nav">
+    <a href="#hero" class="nav-link nav-brand">Shannon's Bach 🌸</a>
+    <div class="nav-links">
+      <a href="#agenda" class="nav-link">Agenda</a>
+      <a href="#events" class="nav-link">Vote</a>
+      <a href="#suggestions" class="nav-link">Ideas</a>
+      <a href="#arrivals" class="nav-link">Flights</a>
+      <a href="#vrbo" class="nav-link nav-link-highlight">The House</a>
+      <button class="nav-user" id="nav-user" title="Change your name">
+        <span class="nav-user-avatar" id="nav-user-avatar"></span>
+        <span class="nav-user-name" id="nav-user-name">Sign In</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" id="hero">
+    <div class="hero-content">
+      <p class="hero-eyebrow">bachelorette weekend</p>
+      <h1 class="hero-title">Shannon's<br /><em>Last Fiesta</em></h1>
+      <div class="hero-details">
+        <span>🌵 Austin, Texas</span>
+        <span class="divider">·</span>
+        <span>July 17 – 20, 2026</span>
+      </div>
+      <p class="hero-sub">Vote on the activities you want to do — the agenda below builds itself from the top picks.</p>
+      <div class="hero-actions">
+        <a href="#agenda" class="hero-btn">See the Agenda</a>
+        <a href="#events" class="hero-btn hero-btn-outline">Vote on Activities</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-it-works">
+    <div class="container">
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">1</span>
+          <p>Browse the activities below</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <span class="step-num">2</span>
+          <p>Vote for everything you're in for</p>
+        </div>
+        <div class="step-arrow">→</div>
+        <div class="step">
+          <span class="step-num">3</span>
+          <p>We'll build the final itinerary from the top picks</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVENTS -->
+  <section class="events-section" id="events">
+    <div class="container">
+      <div class="section-header">
+        <h2>Help Us Decide</h2>
+        <p>A few things still need a group vote — click everything you're in for.</p>
+      </div>
+
+      <!-- Filter tabs -->
+      <div class="filter-tabs">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="non-drinking">Low Key</button>
+        <button class="filter-btn" data-filter="drinking">Food &amp; Going Out</button>
+      </div>
+      <p class="voter-legend">Voter chips show who's in — <span class="voter-legend-bride">💍</span> is Shannon (the bride)</p>
+
+      <!-- Cards grid -->
+      <div class="events-grid" id="events-grid">
+        <!-- Populated by script.js -->
+        <div class="loading">Loading activities...</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUGGESTIONS -->
+  <section class="suggestions-section" id="suggestions">
+    <div class="container">
+      <div class="section-header">
+        <h2>Got an Idea?</h2>
+        <p>Throw it in — if the group loves it we'll add it to the plan.</p>
+      </div>
+
+      <!-- Submit form -->
+      <div class="suggestion-form-card">
+        <input type="text" id="suggestion-name" placeholder="Activity name" maxlength="60" />
+        <input type="text" id="suggestion-desc" placeholder="Any details? (optional)" maxlength="140" />
+        <button id="suggestion-submit-btn">Submit Idea →</button>
+      </div>
+
+      <!-- Submitted ideas -->
+      <div id="suggestions-list"></div>
+    </div>
+  </section>
+
+  <!-- ARRIVALS -->
+  <section class="arrivals-section" id="arrivals">
+    <div class="container">
+      <div class="section-header">
+        <h2>Getting There ✈️</h2>
+        <p>Add your arrival info so we can coordinate rides from the airport.</p>
+      </div>
+
+      <div class="arrival-form-card">
+        <div class="arrival-form-row">
+          <select id="arrival-date-input">
+            <option value="">Arrival day</option>
+            <option value="Thursday, July 16">Thursday, July 16</option>
+            <option value="Friday, July 17">Friday, July 17</option>
+            <option value="Saturday, July 18">Saturday, July 18</option>
+            <option value="Sunday, July 19">Sunday, July 19</option>
+          </select>
+          <input type="time" id="arrival-time-input" />
+          <input type="text" id="arrival-flight-input" placeholder="Airline + Flight # (optional)" maxlength="30" />
+        </div>
+        <div class="arrival-form-row arrival-form-row-bottom">
+          <label class="arrival-ride-label">
+            <input type="checkbox" id="arrival-ride-input" />
+            <span>I need a ride from the airport</span>
+          </label>
+          <button id="arrival-submit-btn">Save →</button>
+        </div>
+      </div>
+
+      <div id="arrivals-list"></div>
+    </div>
+  </section>
+
+  <!-- AGENDA -->
+  <section class="schedule-section" id="agenda">
+    <div class="container">
+      <div class="section-header">
+        <h2>The Agenda</h2>
+        <p>Locked plans are set. Open slots fill automatically from the top-voted activities above.</p>
+      </div>
+
+      <!-- Where we're staying -->
+      <div class="property-card" id="vrbo">
+
+        <!-- Header -->
+        <div class="property-header">
+          <div class="property-header-left">
+            <span class="property-label">🏠 Where We're Staying</span>
+            <h3 class="property-name">Sultana</h3>
+            <p class="property-location">📍 Tarrytown · &lt;2 miles from Downtown Austin</p>
+          </div>
+          <a href="https://www.vrbo.com/9852132ha" target="_blank" rel="noopener" class="vrbo-btn">View on VRBO →</a>
+        </div>
+
+        <!-- Stats -->
+        <div class="property-stats">
+          <div class="stat"><strong>3</strong><span>Bedrooms</span></div>
+          <div class="stat"><strong>3.5</strong><span>Bathrooms</span></div>
+          <div class="stat"><strong>10</strong><span>Sleeps</span></div>
+          <div class="stat"><strong>2,000</strong><span>Sq Ft</span></div>
+          <div class="stat"><strong>July 17–20</strong><span>Our dates</span></div>
+        </div>
+
+        <!-- Amenities -->
+        <div class="property-section">
+          <h4>Amenities</h4>
+          <div class="amenity-chips">
+            <span class="amenity-chip">🏊 Private Pool</span>
+            <span class="amenity-chip">🔥 Fire Pit</span>
+            <span class="amenity-chip">🍖 Propane Grill</span>
+            <span class="amenity-chip">🍳 Full Kitchen</span>
+            <span class="amenity-chip">🛁 Soaking Tub</span>
+            <span class="amenity-chip">🌿 Balcony</span>
+            <span class="amenity-chip">🧺 Washer / Dryer</span>
+            <span class="amenity-chip">❄️ A/C</span>
+            <span class="amenity-chip">📶 Free WiFi</span>
+            <span class="amenity-chip">🚗 Free Parking</span>
+            <span class="amenity-chip">🍸 Wet Bar</span>
+          </div>
+        </div>
+
+        <!-- Bedrooms -->
+        <div class="property-section">
+          <h4>Sleeping Arrangements</h4>
+          <div class="beds-grid">
+            <div class="bed-card">
+              <span class="bed-icon">👑</span>
+              <strong>Primary Bedroom</strong>
+              <span>1 King Bed · Soaking tub + shower · Smart TV</span>
+            </div>
+            <div class="bed-card">
+              <span class="bed-icon">🛏️</span>
+              <strong>Guest Bedroom</strong>
+              <span>2 Queen Beds · Full bathroom</span>
+            </div>
+            <div class="bed-card">
+              <span class="bed-icon">🛏️</span>
+              <strong>Guest Bedroom</strong>
+              <span>1 Queen Bed · Full bathroom</span>
+            </div>
+            <div class="bed-card">
+              <span class="bed-icon">🛋️</span>
+              <strong>Common Space</strong>
+              <span>1 Queen Sleeper Sofa · Half bath · Smart TV</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- House layout -->
+        <div class="property-section">
+          <h4>House Layout</h4>
+          <div class="layout-levels">
+            <div class="level">
+              <span class="level-label">Main Level</span>
+              <span class="level-desc">Wet bar · Sofa bed · Half bath · Smart TV</span>
+            </div>
+            <div class="level">
+              <span class="level-label">2nd Level</span>
+              <span class="level-desc">Primary bedroom · Living room · Full kitchen · Dining</span>
+            </div>
+            <div class="level">
+              <span class="level-label">3rd Level</span>
+              <span class="level-desc">Two guest bedrooms · Two full bathrooms · Laundry</span>
+            </div>
+            <div class="level">
+              <span class="level-label">Outdoor</span>
+              <span class="level-desc">Private pool · 4 lounge chairs · Fire pit (seats 8) · Propane grill</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rules -->
+        <div class="property-section rules-section">
+          <h4>🗒️ Good to Know</h4>
+          <div class="rules-grid">
+            <div class="rule-item">✅ Check-in after <strong>4:00 PM</strong></div>
+            <div class="rule-item">✅ Check-out before <strong>11:00 AM</strong></div>
+            <div class="rule-item">⚠️ <strong>No pets</strong></div>
+            <div class="rule-item">⚠️ <strong>No smoking indoors</strong> — outdoor only, dispose properly</div>
+            <div class="rule-item">⚠️ <strong>No decorations on walls</strong>, no glitter or confetti inside or out</div>
+            <div class="rule-item">⚠️ Max <strong>10 guests overnight</strong>, up to 4 additional daytime guests (8am–10pm)</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Dynamic agenda — built by renderAgenda() in script.js -->
+      <div id="agenda-container"></div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>Made with love for Shannon 🌸 · Austin, TX · July 2026</p>
+  </footer>
+
+  <!-- NAME MODAL -->
+  <div class="modal-overlay" id="name-modal">
+    <div class="modal-box name-modal-box">
+      <p class="modal-eyebrow">welcome! 🌸</p>
+      <h2>What's your name?</h2>
+      <p>So everyone can see who's in for what.</p>
+      <input type="text" id="voter-name-input" placeholder="Your first name" maxlength="30" autocomplete="off" />
+      <div id="bride-password-wrap" class="bride-password-wrap hidden">
+        <p class="bride-password-hint">💍 Hey bride! Enter your secret code.</p>
+        <input type="password" id="bride-password-input" placeholder="Secret code" maxlength="40" autocomplete="off" />
+        <p id="bride-password-error" class="bride-password-error hidden">Wrong code — try again or use a different name.</p>
+      </div>
+      <button id="name-submit-btn" class="modal-submit-btn">Let's Go →</button>
+    </div>
+  </div>
+
+  <!-- DETAIL MODAL -->
+  <div class="modal-overlay" id="detail-modal">
+    <div class="modal-box detail-modal-box">
+      <button class="modal-close" id="detail-modal-close">✕</button>
+      <div id="detail-modal-body"></div>
+    </div>
+  </div>
+
+  <!-- NAV ACTIVE STATE -->
+  <script>
+    const navSections = [
+      { id: 'hero',   link: document.querySelector('.nav-brand') },
+      { id: 'agenda', link: document.querySelector('a[href="#agenda"]') },
+      { id: 'events', link: document.querySelector('a[href="#events"]') },
+      { id: 'vrbo',   link: document.querySelector('a[href="#vrbo"]') },
+    ];
+    function updateNav() {
+      const scrollY = window.scrollY + 80;
+      let current = navSections[0];
+      for (const s of navSections) {
+        const el = document.getElementById(s.id);
+        if (el && el.offsetTop <= scrollY) current = s;
+      }
+      navSections.forEach(s => s.link && s.link.classList.remove('active'));
+      if (current.link) current.link.classList.add('active');
+    }
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+  </script>
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="script.js"></script>
+</body>
+</html>
