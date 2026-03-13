@@ -61,11 +61,13 @@ const EVENTS_RAW = [
     price: '$10–15 cover',
     address: '1315 S Congress Ave, Austin, TX 78704',
     tips: [
+      '🎸 Fri July 17 — The Blues Specialists at 6:30 PM',
+      '🎸 Sat July 18 — The Peterson Brothers at 8:00 PM',
+      '🎸 Sun July 19 — Marshall Hood at 2:30 PM · Heybale! at 6:00 PM',
+      '🎸 Mon July 20 — Eve Monsees & Mike Buck 6:30 PM · Dale Watson 10:15 PM',
       'Two stages — main room downstairs and Gallery upstairs (sometimes free)',
-      'Check their schedule in advance at continentalclub.com',
-      'Right on South Congress — easy to walk to from dinner',
       'Standing room only mostly, gets packed after 10pm',
-      'One of the most iconic music venues in Austin, period',
+      'Right on South Congress — easy walk from dinner',
     ],
     website: 'continentalclub.com/austin',
   },
@@ -165,6 +167,8 @@ const EVENTS_RAW = [
     price: '$10–15 cover',
     address: '3201 S Lamar Blvd, Austin, TX 78704',
     tips: [
+      '🤠 Fri July 17 — All Hat No Cadillac at 9 PM',
+      '🤠 Sat July 18 — check brokenspokeaustintx.net/events-calendar for confirmed act',
       'Two-step lessons before the live band starts (~8pm Thu–Sat)',
       'Best spot to practice moves after Sagebrush lessons earlier that day',
       'Dinner available — the chicken fried steak is a classic',
@@ -273,9 +277,10 @@ const EVENTS_RAW = [
     price: '$25–40/person',
     address: '715 Red River St, Austin, TX 78701',
     tips: [
+      '🎤 July 2026 lineup not posted yet — check comedymothership.com/shows closer to the date',
       'Book tickets in advance — they sell out, especially on Saturdays',
+      '21+ only, full bar inside, 2-drink minimum',
       'Doors open ~1 hour before showtime, arrive early for good seats',
-      'Full bar inside, 2-drink minimum',
       'Parking on Red River or garage on 7th St',
     ],
     website: 'comedymothership.com',
@@ -308,13 +313,15 @@ const EVENTS_RAW = [
     price: '$5–10 cover',
     address: '1600 W 5th St, Austin, TX 78703',
     tips: [
-      'The Station Masters (house band) plays every Friday and Saturday night',
+      '🚂 Sat July 18 — The Station Masters (house band) plays every Saturday night',
+      '⚠️ Closed Sundays — plan for Friday or Saturday only',
+      'Hours: Mon–Fri 2pm–2am · Sat 6pm–2am',
       'Totally unique atmosphere — actual vintage railroad cars as the bar',
       'Smaller and more intimate than Broken Spoke, great for a group',
       'Cash only — bring bills',
       'Get there before 10pm to get a good spot',
     ],
-    website: 'Search "Donn\'s Depot Austin" for hours',
+    website: 'donnsdepot.com',
   },
   {
     id: 'cocktail-class',
@@ -513,16 +520,16 @@ const EVENT_LINKS = {
     { label: '🗓️ Reserve on OpenTable', url: 'https://www.opentable.com/r/perlas-seafood-and-oyster-bar-austin' },
   ],
   'continental-club': [
-    { label: 'Website',     url: 'https://continentalclub.com/austin' },
-    { label: 'Google Maps', url: 'https://maps.google.com/?q=Continental+Club+Austin+TX' },
+    { label: '📍 Google Maps',   url: 'https://maps.google.com/?q=Continental+Club+Austin+TX' },
+    { label: '🎸 Show Schedule', url: 'https://continentalclub.com/austin' },
   ],
   'spa-day': [
     { label: '🗓️ Book Online', url: 'https://book.milkandhoneyspa.com' },
     { label: '📍 Google Maps', url: 'https://maps.google.com/?q=Milk+and+Honey+Spa+Austin+TX' },
   ],
   'broken-spoke': [
-    { label: 'Website',     url: 'https://brokenspokenightclub.com' },
-    { label: 'Google Maps', url: 'https://maps.google.com/?q=Broken+Spoke+Austin+TX' },
+    { label: '📍 Google Maps',   url: 'https://maps.google.com/?q=Broken+Spoke+Austin+TX' },
+    { label: '🤠 Show Schedule', url: 'https://www.brokenspokeaustintx.net/events-calendar' },
   ],
   'driftwood-winery': [
     { label: 'Driftwood Estate Winery', url: 'https://maps.google.com/?q=Driftwood+Estate+Winery+Driftwood+TX' },
@@ -540,8 +547,8 @@ const EVENT_LINKS = {
     { label: 'Google Maps',    url: 'https://maps.google.com/?q=taco+speakeasy+Austin+TX' },
   ],
   'comedy-mothership': [
-    { label: '🎟️ Buy Tickets', url: 'https://comedymothership.com' },
-    { label: '📍 Google Maps', url: 'https://maps.google.com/?q=Comedy+Mothership+Austin+TX' },
+    { label: '📍 Google Maps',  url: 'https://maps.google.com/?q=Comedy+Mothership+Austin+TX' },
+    { label: '🎟️ Buy Tickets', url: 'https://comedymothership.com/shows' },
   ],
   'rooftop-bars': [
     { label: 'Aba Austin',    url: 'https://maps.google.com/?q=Aba+Austin+TX' },
@@ -550,7 +557,8 @@ const EVENT_LINKS = {
     { label: 'Cedar Door',    url: 'https://maps.google.com/?q=Cedar+Door+Austin+TX' },
   ],
   'donns-depot': [
-    { label: 'Google Maps', url: 'https://maps.google.com/?q=Donn%27s+Depot+Austin+TX' },
+    { label: '📍 Google Maps',   url: 'https://maps.google.com/?q=Donn%27s+Depot+Austin+TX' },
+    { label: '🚂 Show Schedule', url: 'https://donnsdepot.com/event-schedule' },
   ],
   'cocktail-class': [
     { label: 'Airbnb Experiences', url: 'https://www.airbnb.com/s/Austin--TX/experiences?refinement_paths%5B%5D=%2Fexperiences&query=cocktail+class' },
