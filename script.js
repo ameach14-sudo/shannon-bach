@@ -787,7 +787,7 @@ const EVENTS_RAW = [
     type: 'drinking',
     location: 'Downtown',
     desc: 'Austin\'s bar street. It\'s not what it used to be — way more tourist-heavy and corporate now — but the right spots are still fun and it\'s easy for a group.',
-    price: '$40–70/person',
+    price: '$30–60/person (depends how much you drink)',
     address: 'Rainey St, Austin, TX 78701',
     tips: [
       '⚠️ Rainey was Austin\'s hidden gem years ago — single-family homes turned into bars. Those days are mostly gone; it\'s busier and more touristy now.',
@@ -1042,9 +1042,9 @@ const SCHEDULE = [
     day: 'Saturday', date: 'July 25', highlight: true,
     items: [
       { type: 'dynamic', time: 'Lunch',      slot: 'sat-lunch',    rank: 0, label: 'Lunch' },
-      { type: 'locked',  time: 'Afternoon',  name: '💅 Nails', note: 'Group mani/pedi', mapUrl: 'https://maps.apple.com/?q=nail+salon+Austin+TX' },
+      { type: 'locked',  time: 'Afternoon',  name: '💅 Nails', note: 'Group mani/pedi', mapUrl: 'https://maps.apple.com/?q=nail+salon+Austin+TX', calStart: '20260725T130000', calEnd: '20260725T150000', address: 'Austin, TX' },
       { type: 'dynamic', time: 'Afternoon',  slot: 'sat-activity', rank: 0, label: 'Afternoon Activity' },
-      { type: 'locked',  time: 'Dinner',     name: '🍽️ Eberly', note: 'Upscale American on South Lamar — one of Austin\'s best', mapUrl: 'https://maps.apple.com/?q=Eberly+Austin+TX', reserveUrl: 'https://eberlyaustin.com/reservations', reserveLabel: '🗓️ Reserve Now' },
+      { type: 'locked',  time: 'Dinner',     name: '🍽️ Eberly', note: 'Upscale American on South Lamar — one of Austin\'s best', mapUrl: 'https://maps.apple.com/?q=Eberly+Austin+TX', reserveUrl: 'https://eberlyaustin.com/reservations', reserveLabel: '🗓️ Reserve Now', calStart: '20260725T190000', calEnd: '20260725T210000', address: '615 S Lamar Blvd, Austin, TX 78704' },
       { type: 'dynamic', time: 'Night',      slot: 'sat-night',    rank: 0, label: 'Night Out' },
     ],
   },
@@ -1053,14 +1053,14 @@ const SCHEDULE = [
     items: [
       { type: 'dynamic', time: 'Lunch',     slot: 'sun-lunch',    rank: 0, label: 'Lunch' },
       { type: 'dynamic', time: 'Afternoon', slot: 'sun-activity', rank: 0, label: 'Afternoon Activity' },
-      { type: 'locked',  time: 'Afternoon', name: '🤠 Sagebrush', note: 'Dinner + two-step lessons before the honky tonk', mapUrl: 'https://maps.apple.com/?q=Sagebrush+Austin+TX' },
+      { type: 'locked',  time: 'Afternoon', name: '🤠 Sagebrush', note: 'Dinner + two-step lessons before the honky tonk', mapUrl: 'https://maps.apple.com/?q=Sagebrush+Austin+TX', calStart: '20260726T170000', calEnd: '20260726T200000', address: '5765 Airport Blvd, Austin, TX 78751' },
       { type: 'dynamic', time: 'Night',     slot: 'sun-night',    rank: 0, label: 'Honky Tonk Night' },
     ],
   },
   {
     day: 'Monday', date: 'July 27', highlight: false,
     items: [
-      { type: 'locked', time: 'Morning', name: '☕ Farewell Brunch', note: 'Last meal together — check-out by 11am', mapUrl: 'https://maps.apple.com/?q=brunch+Austin+TX' },
+      { type: 'locked', time: 'Morning', name: '☕ Farewell Brunch', note: 'Last meal together — check-out by 11am', mapUrl: 'https://maps.apple.com/?q=brunch+Austin+TX', calStart: '20260727T100000', calEnd: '20260727T120000', address: 'Austin, TX' },
     ],
   },
 ];
@@ -1965,6 +1965,31 @@ function topVotedBySlot(slot, rank = 0) {
   return sorted[rank] || null;
 }
 
+// Approximate time windows per slot (Austin, July 2026)
+const SLOT_TIMES = {
+  'fri-lunch':    { start: '20260724T120000', end: '20260724T140000' },
+  'fri-activity': { start: '20260724T150000', end: '20260724T180000' },
+  'fri-dinner':   { start: '20260724T190000', end: '20260724T210000' },
+  'fri-night':    { start: '20260724T210000', end: '20260725T010000' },
+  'sat-lunch':    { start: '20260725T120000', end: '20260725T140000' },
+  'sat-activity': { start: '20260725T150000', end: '20260725T180000' },
+  'sat-night':    { start: '20260725T210000', end: '20260726T010000' },
+  'sun-lunch':    { start: '20260726T120000', end: '20260726T140000' },
+  'sun-activity': { start: '20260726T150000', end: '20260726T180000' },
+  'sun-night':    { start: '20260726T200000', end: '20260727T000000' },
+};
+
+function gcalLink(name, start, end, desc, location) {
+  const p = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: `Shannon\'s Bach — ${name}`,
+    dates: `${start}/${end}`,
+    details: desc || '',
+    location: location || 'Austin, TX',
+  });
+  return `https://calendar.google.com/calendar/render?${p}`;
+}
+
 function renderAgenda() {
   const container = document.getElementById('agenda-container');
   if (!container) return;
@@ -1972,6 +1997,7 @@ function renderAgenda() {
   container.innerHTML = SCHEDULE.map(day => {
     const itemsHTML = day.items.map(item => {
       if (item.type === 'locked') {
+        const calLink = item.calStart ? gcalLink(item.name.replace(/^\S+\s/, ''), item.calStart, item.calEnd, item.note, item.address) : null;
         return `
           <div class="day-item">
             <span class="item-time">${item.time}</span>
@@ -1982,6 +2008,7 @@ function renderAgenda() {
               <div class="agenda-item-links">
                 ${item.mapUrl ? `<a href="${item.mapUrl}" target="_blank" rel="noopener" class="agenda-map-link">📍 Maps</a>` : ''}
                 ${item.reserveUrl ? `<a href="${item.reserveUrl}" target="_blank" rel="noopener" class="agenda-reserve-link">${item.reserveLabel}</a>` : ''}
+                ${calLink ? `<a href="${calLink}" target="_blank" rel="noopener" class="agenda-cal-link">📅 Add to Calendar</a>` : ''}
               </div>
             </div>
           </div>`;
@@ -2033,6 +2060,9 @@ function renderAgenda() {
 
       const bridePicksWinner = (voterData[winner.id] || []).some(v => v.voter_name.trim().toLowerCase() === 'shannon' && v.vote_type !== 'maybe');
 
+      const slotTime = SLOT_TIMES[item.slot];
+      const calUrl = slotTime ? gcalLink(`${winner.emoji} ${winner.name}`, slotTime.start, slotTime.end, winner.desc, winner.address) : null;
+
       return `
         <div class="day-item agenda-dynamic${bridePicksWinner ? ' bride-pick' : ''} agenda-clickable"
              data-admin-target="agenda-slot" data-admin-slot="${item.slot}" data-admin-name="${item.time}"
@@ -2042,7 +2072,10 @@ function renderAgenda() {
             ${bridePicksWinner ? '<span class="item-badge agenda-bride-badge">💍 Bride\'s Pick</span>' : '<span class="item-badge agenda-leading-badge">🗳️ Leading</span>'}
             <span class="item-name">${winner.emoji} ${winner.name}</span>
             <span class="item-note">${winner.location} · ${votes} vote${votes !== 1 ? 's' : ''} (${voters})${tieNote}</span>
-            <span class="agenda-details-hint">tap for details →</span>
+            <div class="agenda-item-links">
+              <span class="agenda-details-hint">tap for details →</span>
+              ${calUrl ? `<a href="${calUrl}" target="_blank" rel="noopener" class="agenda-cal-link" onclick="event.stopPropagation()">📅 Calendar</a>` : ''}
+            </div>
           </div>
         </div>`;
     }).join('');

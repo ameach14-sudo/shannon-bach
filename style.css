@@ -2145,6 +2145,19 @@ body {
   background: var(--brown);
 }
 
+.agenda-cal-link {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #1a73e8;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.agenda-cal-link:hover {
+  text-decoration: underline;
+}
+
 /* Property card */
 .property-card {
   background: var(--white);
