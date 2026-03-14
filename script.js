@@ -2007,9 +2007,7 @@ document.getElementById('detail-modal-close').addEventListener('click', () => {
 // Agenda: clicking a dynamic slot opens the detail modal for the winning event
 document.getElementById('agenda-container').addEventListener('click', e => {
   const card = e.target.closest('[data-event-id]');
-  if (card && !e.target.closest('[data-admin-target]')) {
-    openDetailModal(card.dataset.eventId);
-  }
+  if (card) openDetailModal(card.dataset.eventId);
 });
 document.getElementById('detail-modal').addEventListener('click', e => {
   if (e.target === document.getElementById('detail-modal')) {
