@@ -424,6 +424,29 @@
     updateNav();
   </script>
 
+  <!-- Admin Panel -->
+  <div class="modal-overlay" id="admin-panel">
+    <div class="modal-box" id="admin-panel-box" style="max-width:360px">
+      <div id="admin-panel-header" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <h3 style="margin:0;font-size:1rem;color:var(--brown)">🔐 Admin Panel</h3>
+        <button class="modal-close-btn" id="admin-panel-close">✕</button>
+      </div>
+      <p class="admin-panel-sub">Right-click or long-press any item to edit or delete it.</p>
+      <div class="admin-panel-section">
+        <h4>Nuclear Options</h4>
+        <button class="admin-nuke-btn" id="admin-nuke-votes">☢️ Clear ALL votes</button>
+        <button class="admin-nuke-btn" id="admin-nuke-personas">☢️ Clear ALL Who's Coming</button>
+        <button class="admin-nuke-btn" id="admin-nuke-suggestions">☢️ Clear ALL suggestions</button>
+        <button class="admin-nuke-btn" id="admin-nuke-arrivals">☢️ Clear ALL arrivals</button>
+        <button class="admin-nuke-btn" id="admin-nuke-comments">☢️ Clear ALL comments</button>
+      </div>
+      <div class="admin-panel-section">
+        <h4>Session</h4>
+        <button class="admin-exit-btn" id="admin-exit">Exit admin mode</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast -->
   <div id="toast" class="toast hidden"></div>
 

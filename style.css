@@ -2909,57 +2909,7 @@ body {
   background: #444;
 }
 
-/* Admin Panel Modal */
-#admin-panel {
-  position: fixed;
-  inset: 0;
-  z-index: 9997;
-  background: rgba(0,0,0,0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s;
-}
-
-#admin-panel.visible {
-  opacity: 1;
-  pointer-events: all;
-}
-
-#admin-panel-box {
-  background: white;
-  border-radius: 16px;
-  padding: 28px;
-  width: 340px;
-  max-width: 90vw;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.25);
-}
-
-#admin-panel-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 6px;
-}
-
-#admin-panel-header h3 {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--brown);
-  margin: 0;
-}
-
-#admin-panel-close {
-  background: none;
-  border: none;
-  font-size: 1rem;
-  color: var(--gray);
-  cursor: pointer;
-  padding: 4px;
-  line-height: 1;
-}
+/* Admin Panel uses .modal-overlay pattern from index.html */
 
 .admin-panel-sub {
   font-size: 0.8rem;

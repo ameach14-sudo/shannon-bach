@@ -242,98 +242,23 @@ const EVENTS_RAW = [
     website: 'visitfredericksburgtx.com',
   },
   {
-    id: 'blanton-museum',
-    emoji: '🖼️',
-    name: 'Blanton Museum of Art',
+    id: 'museums',
+    emoji: '🏛️',
+    name: 'Museum Day',
     category: 'other',
     type: 'non-drinking',
     location: 'Downtown',
-    desc: 'One of the largest university art museums in the US, on the UT campus. Free on select days — good if the group wants something low-key and air-conditioned.',
-    price: '$12/person (free on Thursdays)',
-    address: '200 E MLK Jr Blvd, Austin, TX 78712',
+    desc: 'A few options if the group wants something low-key and air-conditioned. Pick one.',
+    price: 'Free–$20/person depending on choice',
+    address: 'Various locations — all in or near downtown Austin',
     tips: [
-      'Free on Thursdays — worth checking if that lines up with the trip',
-      'On the UT campus, easy to get to from downtown',
-      'Large permanent collection — European, Latin American, and contemporary works',
-      'Fully air-conditioned — a solid option if it\'s 100°F and the group needs a break',
-      'Plan 1–2 hours',
+      '🖼️ Blanton Museum of Art — UT campus, one of the largest university art museums in the US. Free on Thursdays. ($12)',
+      '🎨 Contemporary Austin — modern art at the Jones Center + Laguna Gloria outdoor sculpture garden. ($10)',
+      '🤠 Bullock Texas State History Museum — 3 floors of Texas history next to the Capitol. IMAX theater inside. ($13)',
+      '🪖 Texas Military Forces Museum — free, Camp Mabry, tanks and aircraft outdoors. Bring ID.',
+      '⚓ National Museum of the Pacific War — world-class WWII museum in Fredericksburg (~1.5 hrs away). Worth it if the group commits. ($20)',
+      '🏛️ Free Capitol tour — the Texas State Capitol is genuinely impressive and tours are free',
     ],
-    website: 'blantonmuseum.org',
-  },
-  {
-    id: 'contemporary-museum',
-    emoji: '🎨',
-    name: 'Contemporary Austin',
-    category: 'other',
-    type: 'non-drinking',
-    location: 'Downtown',
-    desc: 'Contemporary and modern art spread across two locations — the Jones Center downtown and Laguna Gloria outdoors. Interesting if your group is into art; definitely a quieter activity.',
-    price: '$10/person',
-    address: '700 Congress Ave, Austin, TX 78701 (Jones Center)',
-    tips: [
-      'Two locations: Jones Center (downtown) and Laguna Gloria (outdoor sculpture garden)',
-      'Laguna Gloria is on Lake Austin — beautiful grounds even if you\'re not into art',
-      'Rotating exhibits — check thecontemporaryaustin.org for current shows',
-      'Plan 1–1.5 hours per location',
-    ],
-    website: 'thecontemporaryaustin.org',
-  },
-  {
-    id: 'bullock-museum',
-    emoji: '🤠',
-    name: 'Bullock Texas State History Museum',
-    category: 'other',
-    type: 'non-drinking',
-    location: 'Downtown',
-    desc: 'Three stories of Texas history next to the Capitol. Kind of interesting, kind of a lot — depends on how into Texas history the group is. IMAX theater on-site.',
-    price: '$13/person (IMAX extra)',
-    address: '1800 Congress Ave, Austin, TX 78701',
-    tips: [
-      'Right next to the Texas State Capitol — easy to combine with a Capitol tour',
-      'IMAX theater inside — movies change regularly, worth checking the schedule',
-      'Three floors covering Texas from prehistory through modern times',
-      'Fully air-conditioned — good July escape',
-      'Plan 1.5–2 hours',
-    ],
-    website: 'thestoryoftexas.com',
-  },
-  {
-    id: 'texas-military',
-    emoji: '🪖',
-    name: 'Texas Military Forces Museum',
-    category: 'other',
-    type: 'non-drinking',
-    location: 'Downtown',
-    desc: 'Military history museum at Camp Mabry with old vehicles, equipment, and exhibits — some indoors, some outdoors. A niche pick that\'s genuinely interesting if you\'re into it.',
-    price: 'Free',
-    address: 'Camp Mabry — 2200 W 35th St, Austin, TX 78703',
-    tips: [
-      'Free admission — can\'t beat it',
-      'Outdoor exhibits include tanks, aircraft, and artillery',
-      'Open Wednesday–Sunday, 10am–4pm — verify hours before going',
-      'Located at the National Guard base — bring ID',
-      'Plan 1–1.5 hours',
-    ],
-    website: 'texasmilitaryforcesmuseum.org',
-  },
-  {
-    id: 'pacific-war-museum',
-    emoji: '⚓',
-    name: 'National Museum of the Pacific War',
-    category: 'other',
-    type: 'non-drinking',
-    location: 'Hill Country',
-    desc: 'Major WWII Pacific theater museum in Fredericksburg — the birthplace of Admiral Nimitz. World-class if you\'re into history. A full day trip (~1.5 hrs from Austin).',
-    price: '$20/person',
-    address: '340 E Main St, Fredericksburg, TX 78624',
-    tips: [
-      '~1.5 hour drive from Austin — this is a full day trip commitment',
-      'One of the top WWII museums in the country, genuinely impressive',
-      'Plan 3–4 hours minimum to see everything',
-      'Combine with Fredericksburg wineries and Main Street to make a full day',
-      'In Fredericksburg, TX — same trip as the wine road if the group goes that direction',
-    ],
-    website: 'pacificwarmuseum.org',
   },
   {
     id: 'jewboy-burgers',
@@ -357,7 +282,6 @@ const EVENTS_RAW = [
     id: 'de-nada-margs',
     emoji: '🍹',
     name: 'De Nada Cantina — Frozen Margs',
-    recommended: true,
     category: 'bar',
     type: 'drinking',
     location: 'East 6th',
@@ -758,6 +682,7 @@ const EVENTS_RAW = [
     id: 'floating-tavern',
     emoji: '⛵',
     name: 'The Floating Tavern',
+    recommended: true,
     category: 'bar',
     type: 'drinking',
     location: 'Lake Austin',
@@ -875,12 +800,7 @@ const SLOT_MAP = {
   'comedy-mothership':  'sat-night',    // Joe Rogan's club, shows after 8pm
   'floating-tavern':    'sat-night',    // floating bar on Lake Travis, live music, dinner cruise
 
-  // "Boring options" — adding these so the group can vote them down themselves
-  'blanton-museum':       'sun-activity',
-  'contemporary-museum':  'sun-activity',
-  'bullock-museum':       'sun-activity',
-  'texas-military':       'sun-activity',
-  'pacific-war-museum':   'sun-activity',
+  'museums':              'sun-activity',  // grouped museum day option
 
   // Saturday lunch — BBQ options (Loro fits here as Asian smokehouse)
   'loro':               'sat-lunch',    // Asian smokehouse — smoked meats, great patio, no long line
@@ -2822,88 +2742,78 @@ function showAdminBadge() {
     badge = document.createElement('div');
     badge.id = 'admin-badge';
     badge.textContent = '🔐 Admin';
-    badge.title = 'Click for admin panel';
-    badge.style.cursor = 'pointer';
-    badge.addEventListener('click', openAdminPanel);
     document.body.appendChild(badge);
   }
+  badge.onclick = openAdminPanel;
 }
 
 function openAdminPanel() {
-  let panel = document.getElementById('admin-panel');
-  if (!panel) {
-    panel = document.createElement('div');
-    panel.id = 'admin-panel';
-    panel.innerHTML = `
-      <div id="admin-panel-box">
-        <div id="admin-panel-header">
-          <h3>🔐 Admin Panel</h3>
-          <button id="admin-panel-close">✕</button>
-        </div>
-        <p class="admin-panel-sub">Right-click or long-press any item on the page to edit or delete it.</p>
-        <div class="admin-panel-section">
-          <h4>Nuclear Options</h4>
-          <button class="admin-nuke-btn" id="admin-nuke-votes">☢️ Clear ALL votes</button>
-          <button class="admin-nuke-btn" id="admin-nuke-personas">☢️ Clear ALL Who's Coming</button>
-          <button class="admin-nuke-btn" id="admin-nuke-suggestions">☢️ Clear ALL suggestions</button>
-          <button class="admin-nuke-btn" id="admin-nuke-arrivals">☢️ Clear ALL arrivals</button>
-          <button class="admin-nuke-btn" id="admin-nuke-comments">☢️ Clear ALL comments</button>
-        </div>
-        <div class="admin-panel-section">
-          <h4>Session</h4>
-          <button class="admin-exit-btn" id="admin-exit">Exit admin mode</button>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(panel);
-    panel.addEventListener('click', e => { if (e.target === panel) panel.classList.remove('visible'); });
-    document.getElementById('admin-panel-close').addEventListener('click', () => panel.classList.remove('visible'));
-    document.getElementById('admin-exit').addEventListener('click', () => {
-      isAdmin = false;
-      sessionStorage.removeItem('bach_admin');
-      document.getElementById('admin-badge')?.remove();
-      panel.classList.remove('visible');
-      showToast('Admin mode off');
-    });
-    document.getElementById('admin-nuke-votes').addEventListener('click', async () => {
-      if (!confirm('Clear ALL votes for everyone? This cannot be undone.')) return;
-      await adminClearAllVotes();
-      showToast('All votes cleared');
-    });
-    document.getElementById('admin-nuke-personas').addEventListener('click', async () => {
-      if (!confirm('Remove everyone from Who\'s Coming? This cannot be undone.')) return;
-      allPersonas = [];
-      localStorage.removeItem('bach_persona');
-      localStorage.removeItem('bach_persona_title');
-      updateNavWithPersona();
-      updateQuizCta();
-      renderPersonas();
-      if (supabaseClient) await supabaseClient.from('personas').delete().neq('voter_id', '___');
-      showToast('Who\'s Coming cleared');
-    });
-    document.getElementById('admin-nuke-suggestions').addEventListener('click', async () => {
-      if (!confirm('Delete ALL suggestions? This cannot be undone.')) return;
-      suggestions = [];
-      suggestionVotes = {};
-      renderSuggestions();
-      if (supabaseClient) await supabaseClient.from('suggestions').delete().neq('id', '00000000-0000-0000-0000-000000000000');
-      showToast('All suggestions cleared');
-    });
-    document.getElementById('admin-nuke-arrivals').addEventListener('click', async () => {
-      if (!confirm('Remove ALL arrivals? This cannot be undone.')) return;
-      arrivals = [];
-      renderArrivals();
-      if (supabaseClient) await supabaseClient.from('arrivals').delete().neq('voter_id', '___');
-      showToast('All arrivals cleared');
-    });
-    document.getElementById('admin-nuke-comments').addEventListener('click', async () => {
-      if (!confirm('Delete ALL comments? This cannot be undone.')) return;
-      await adminClearAllComments();
-      showToast('All comments cleared');
-    });
-  }
-  panel.classList.add('visible');
+  document.getElementById('admin-panel').classList.add('visible');
 }
+
+function closeAdminPanel() {
+  document.getElementById('admin-panel').classList.remove('visible');
+}
+
+// Wire up admin panel buttons (runs once after DOM is ready)
+document.getElementById('admin-panel').addEventListener('click', e => {
+  if (e.target === document.getElementById('admin-panel')) closeAdminPanel();
+});
+document.getElementById('admin-panel-close').addEventListener('click', closeAdminPanel);
+
+document.getElementById('admin-exit').addEventListener('click', () => {
+  isAdmin = false;
+  sessionStorage.removeItem('bach_admin');
+  document.getElementById('admin-badge')?.remove();
+  closeAdminPanel();
+  showToast('Admin mode off');
+});
+
+document.getElementById('admin-nuke-votes').addEventListener('click', async () => {
+  if (!confirm('Clear ALL votes for everyone? This cannot be undone.')) return;
+  await adminClearAllVotes();
+  closeAdminPanel();
+  showToast('All votes cleared');
+});
+
+document.getElementById('admin-nuke-personas').addEventListener('click', async () => {
+  if (!confirm('Remove everyone from Who\'s Coming? This cannot be undone.')) return;
+  allPersonas = [];
+  localStorage.removeItem('bach_persona');
+  localStorage.removeItem('bach_persona_title');
+  updateNavWithPersona();
+  updateQuizCta();
+  renderPersonas();
+  if (supabaseClient) await supabaseClient.from('personas').delete().neq('voter_id', '___');
+  closeAdminPanel();
+  showToast('Who\'s Coming cleared');
+});
+
+document.getElementById('admin-nuke-suggestions').addEventListener('click', async () => {
+  if (!confirm('Delete ALL suggestions? This cannot be undone.')) return;
+  suggestions = [];
+  suggestionVotes = {};
+  renderSuggestions();
+  if (supabaseClient) await supabaseClient.from('suggestions').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+  closeAdminPanel();
+  showToast('All suggestions cleared');
+});
+
+document.getElementById('admin-nuke-arrivals').addEventListener('click', async () => {
+  if (!confirm('Remove ALL arrivals? This cannot be undone.')) return;
+  arrivals = [];
+  renderArrivals();
+  if (supabaseClient) await supabaseClient.from('arrivals').delete().neq('voter_id', '___');
+  closeAdminPanel();
+  showToast('All arrivals cleared');
+});
+
+document.getElementById('admin-nuke-comments').addEventListener('click', async () => {
+  if (!confirm('Delete ALL comments? This cannot be undone.')) return;
+  await adminClearAllComments();
+  closeAdminPanel();
+  showToast('All comments cleared');
+});
 
 if (isAdmin) showAdminBadge();
 
