@@ -600,6 +600,121 @@ const EVENTS_RAW = [
     website: 'Search "Ski Shores Cafe Austin" for hours',
   },
   {
+    id: 'franklin-bbq',
+    emoji: '🔥',
+    name: 'Franklin Barbecue',
+    category: 'restaurant',
+    type: 'non-drinking',
+    location: 'East 6th',
+    desc: 'The most famous BBQ in America. The brisket is legitimately life-changing. The line starts at 6am and they sell out by noon — this is a commitment, not a lunch.',
+    price: '$25–40/person',
+    address: '900 E 11th St, Austin, TX 78702',
+    tips: [
+      '⚠️ The line is real — people camp out from 6am, doors open at 9am, sells out by noon',
+      'This is a 2–4 hour wait on a Saturday. Plan accordingly or skip it.',
+      'Worth every minute if the group is willing to commit — widely considered the best BBQ in the US',
+      'BYOB while you wait — the line has a party atmosphere',
+      'Order the brisket (obviously), ribs, and pulled pork — turkey is underrated',
+      'Cash and card accepted',
+    ],
+    website: 'franklinbbq.com',
+  },
+  {
+    id: 'la-barbecue',
+    emoji: '🥩',
+    name: 'La Barbecue',
+    category: 'restaurant',
+    type: 'non-drinking',
+    location: 'East 6th',
+    desc: 'East Austin BBQ institution — widely considered top-tier and far more accessible than Franklin. Brisket, ribs, and jalapeño cheese sausage from a trailer setup.',
+    price: '$20–35/person',
+    address: '2401 E Cesar Chavez St, Austin, TX 78702',
+    tips: [
+      'One of Austin\'s best BBQ spots without the Franklin-level wait',
+      'Opens at 11am Wednesday–Sunday — get there by opening on weekends',
+      'Must order: brisket, jalapeño cheese sausage, and the beef ribs (when available)',
+      'Outdoor trailer setup with picnic tables — very Austin',
+      'Sells out early — plan to arrive by noon at the latest',
+    ],
+    website: 'labarbecue.com',
+  },
+  {
+    id: 'leroy-lewis',
+    emoji: '🌿',
+    name: 'Leroy and Lewis',
+    category: 'restaurant',
+    type: 'non-drinking',
+    location: 'South Lamar',
+    desc: 'Creative "new school" BBQ food truck that does things you won\'t find anywhere else — smoked beef cheeks, rotating specials, globally-inspired sides. Not your grandpa\'s BBQ.',
+    price: '$18–30/person',
+    address: '121 Pickle Rd, Austin, TX 78704',
+    tips: [
+      'Food truck setup with picnic seating — laid back and very Austin',
+      'Menu rotates — check Instagram before you go for what\'s on that day',
+      'The beef cheeks and smoked lamb are standouts when available',
+      'Wednesday–Sunday, opens at 11am',
+      'More adventurous than Terry Black\'s — good pick for a group that wants something different',
+    ],
+    website: 'leroyandlewis.com',
+  },
+  {
+    id: 'interstellar-bbq',
+    emoji: '🚀',
+    name: 'Interstellar BBQ',
+    category: 'restaurant',
+    type: 'non-drinking',
+    location: 'Hill Country',
+    desc: 'Award-winning BBQ about 35 minutes north of Austin in Cedar Park. Consistently rated one of Texas\'s best — worth the drive if the group wants to escape the city for lunch.',
+    price: '$20–35/person',
+    address: '12233 Ranch Rd 620 N, Austin, TX 78750',
+    tips: [
+      '~35 min drive north of downtown — make it a mini road trip',
+      'Named Texas Monthly\'s best new BBQ joint when it opened — now a staple',
+      'Brisket, ribs, and sausage are all excellent',
+      'Opens at 11am Wednesday–Sunday — arrive early, they sell out',
+      'Good option if the group wants to get out of the city for lunch',
+    ],
+    website: 'interstellarbbq.com',
+  },
+  {
+    id: 'distant-relatives',
+    emoji: '🌍',
+    name: 'Distant Relatives',
+    category: 'restaurant',
+    type: 'non-drinking',
+    location: 'East 6th',
+    desc: 'Well-known food truck blending Texas BBQ with African and African-American food traditions. Unique, celebrated, and genuinely unlike anything else in Austin.',
+    price: '$18–30/person',
+    address: 'East Austin (check website for current location and hours)',
+    tips: [
+      'Food truck — check @distantrelativesatx on Instagram for current schedule',
+      'Menu mixes Texas BBQ technique with West African and African-American flavors',
+      'Featured in national food media — a legitimately unique Austin experience',
+      'Limited hours and sells out — check ahead before making it the plan',
+      'Worth seeking out if the group wants something truly different',
+    ],
+    website: 'distantrelativesatx.com',
+  },
+  {
+    id: 'blacks-bbq-austin',
+    emoji: '🥩',
+    name: "Black's BBQ — Austin",
+    category: 'restaurant',
+    type: 'non-drinking',
+    location: 'Downtown',
+    desc: 'The Austin outpost of the legendary Lockhart, TX institution — one of the oldest BBQ joints in Texas. Near campus, more accessible than Franklin, quality is consistently excellent.',
+    price: '$20–35/person',
+    address: '3110 Guadalupe St, Austin, TX 78705',
+    tips: [
+      'Not to be confused with Terry Black\'s — this is the original Black\'s family from Lockhart',
+      'Near UT campus — easy to get to from central Austin',
+      'Brisket, beef ribs, and jalapeño sausage are the must-orders',
+      'Counter service, no reservations needed',
+      'Opens at 11am daily — less of a wait than the Lockhart original',
+    ],
+    website: 'blacksbbq.com/austin',
+  },
+  {
     id: 'terry-blacks-bbq',
     emoji: '🥩',
     name: 'Terry Black\'s BBQ',
@@ -730,7 +845,6 @@ const SLOT_MAP = {
 
   // Friday dinner — first night out, set the tone
   'aba':                'fri-dinner',   // upscale Mediterranean, rooftop, perfect opener
-  'loro':               'fri-dinner',   // Asian smokehouse, great patio, Austin institution
   'fogo-de-chao':       'fri-dinner',   // Brazilian churrascaria, upscale group splurge
 
   // Friday night — first night bar/music
@@ -741,8 +855,14 @@ const SLOT_MAP = {
   'continental-club':   'fri-night',    // live music, SoCo legend
 
   // Saturday lunch — after nails, before the big day
-  'jewboy-burgers':     'sat-lunch',    // casual, genuinely Austin
-  'terry-blacks-bbq':   'sat-lunch',    // Shannon specifically wanted this
+  'jewboy-burgers':     'sat-lunch',
+  'terry-blacks-bbq':   'sat-lunch',
+  'franklin-bbq':       'sat-lunch',    // legendary — be ready for the line
+  'la-barbecue':        'sat-lunch',    // top-tier, far more accessible than Franklin
+  'leroy-lewis':        'sat-lunch',    // new school creative BBQ food truck
+  'interstellar-bbq':   'sat-lunch',    // 35 min north, award-winning
+  'distant-relatives':  'sat-lunch',    // BBQ meets African food traditions
+  'blacks-bbq-austin':  'sat-lunch',    // original Black's family, near campus
 
   // Saturday activity — afternoon before Eberly
   'barton-springs':     'sat-activity', // 68°F natural pool, perfect in July heat
@@ -762,9 +882,11 @@ const SLOT_MAP = {
   'texas-military':       'sun-activity',
   'pacific-war-museum':   'sun-activity',
 
+  // Saturday lunch — BBQ options (Loro fits here as Asian smokehouse)
+  'loro':               'sat-lunch',    // Asian smokehouse — smoked meats, great patio, no long line
+
   // Sunday lunch
   'ski-shores':         'sun-lunch',    // waterfront cafe on Lake Austin, chill Sunday
-  'loro':               'sun-lunch',    // great if not used Friday (opens 11am)
 
   // Sunday activity
   'driftwood-winery':   'sun-activity', // Hill Country winery, 35 min away
