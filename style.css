@@ -1090,6 +1090,18 @@ body {
   white-space: nowrap;
 }
 
+.recommended-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #1a6b3a;
+  background: #e8f8ee;
+  border: 1px solid #7ecb9b;
+  padding: 2px 8px;
+  border-radius: 50px;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
 .event-card:hover {
   transform: translateY(-4px);
   box-shadow: var(--card-shadow-hover);

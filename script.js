@@ -263,6 +263,7 @@ const EVENTS_RAW = [
     id: 'de-nada-margs',
     emoji: '🍹',
     name: 'De Nada Cantina — Frozen Margs',
+    recommended: true,
     category: 'bar',
     type: 'drinking',
     location: 'East 6th',
@@ -1794,6 +1795,7 @@ function renderEvents() {
         <span class="event-emoji">${event.emoji}</span>
         <div class="card-tags">
           ${brideVoted ? '<span class="bride-pick-badge">💍 Bride\'s Pick</span>' : ''}
+          ${event.recommended ? '<span class="recommended-badge">⭐ Recommended</span>' : ''}
           ${event.confirmed ? '<span class="confirmed-badge">✓ Happening</span>' : ''}
         </div>
       </div>
