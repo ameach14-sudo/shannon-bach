@@ -1148,15 +1148,15 @@ let _pendingQuickPick = null;
 // =========================================
 const QUIZ_QUESTIONS = [
   {
-    q: 'You just landed. Group chat has 74 unread messages. What do you actually do?',
+    q: 'Half this group are strangers to each other. First night, everyone\'s in the same Airbnb. The room gets quiet. You:',
     options: [
-      { emoji: '🤠', text: 'Send "WHERE ARE YALL I\'M HERE 🤠" and start heading to baggage claim.',   type: 'cowgirl' },
-      { emoji: '🥂', text: 'Scroll to the top and read every single one. Need the full picture.',       type: 'typea' },
-      { emoji: '🎉', text: 'Send a voice memo because you can\'t type and pull your bag at the same time.', type: 'hotmess' },
-      { emoji: '🫶', text: 'Text Shannon directly first — just her — before responding to anything.',   type: 'glue' },
-      { emoji: '📸', text: 'Open the camera. Airport arrival content. It\'s begun.',                    type: 'influencer' },
-      { emoji: '🎲', text: 'Put your phone away and walk. You\'ll figure it out when you get outside.', type: 'wildcard' },
-      { emoji: '🙂', text: 'Mute the chat. You\'ll catch up in person. Less stimulation preferred.',    type: 'sport' },
+      { emoji: '🤠', text: 'Break it immediately — "okay everyone we\'re going dancing, I don\'t care if you can dance."', type: 'cowgirl' },
+      { emoji: '🥂', text: 'Suggest the getting-to-know-you game you already had saved in your notes.',  type: 'typea' },
+      { emoji: '🎉', text: 'Pour everyone a shot. That\'s the icebreaker. You\'re done here.',           type: 'hotmess' },
+      { emoji: '🫶', text: 'Start personally introducing the people who haven\'t met yet. Quietly. Efficiently.', type: 'glue' },
+      { emoji: '📸', text: 'Suggest a group photo. Works every time. Instant bonding.',                  type: 'influencer' },
+      { emoji: '🎲', text: 'Say something completely unexpected that breaks the tension. You don\'t plan it. It just happens.', type: 'wildcard' },
+      { emoji: '🙂', text: 'Laugh a little and wait for someone else to handle it. You\'re fine. It\'ll be fine.', type: 'sport' },
     ],
   },
   {
