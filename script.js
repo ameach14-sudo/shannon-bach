@@ -795,28 +795,51 @@ const QUIZ_QUESTIONS = [
   {
     q: 'It\'s Thursday night. You just landed in Austin. First move?',
     options: [
-      { emoji: '🤠', text: 'Cowboy boots on before anything else',         type: 'cowgirl' },
-      { emoji: '🥂', text: 'Rooftop happy hour, obviously',                type: 'sophisticate' },
-      { emoji: '🌮', text: 'Frozen margarita. Right now. Don\'t talk to me.', type: 'texmex' },
-      { emoji: '🎉', text: 'Group chat chaos: WHERE IS EVERYONE',          type: 'chaos' },
+      { emoji: '🤠', text: 'Boots on before my bag hits the floor',                  type: 'cowgirl' },
+      { emoji: '🥂', text: 'Rooftop bar. Already texted ahead for a table.',          type: 'sophisticate' },
+      { emoji: '🎉', text: 'Group chat is on fire. WHERE IS EVERYONE. LET\'S GO.',   type: 'chaos' },
+      { emoji: '🫶', text: 'Making sure everyone got in safe before I unpack',        type: 'mom' },
+      { emoji: '📸', text: 'Finding the best lighting in the Airbnb for a welcome pic', type: 'content' },
     ],
   },
   {
-    q: 'It\'s 1:30am on Saturday. You are:',
+    q: 'What\'s in your carry-on?',
     options: [
-      { emoji: '🤠', text: 'Still on the dance floor. I\'ll sleep when I\'m dead.', type: 'cowgirl' },
-      { emoji: '🥂', text: 'In bed, skincare on. Delightful night.',                type: 'sophisticate' },
-      { emoji: '🌮', text: 'Eating a fourth taco. This is who I am.',              type: 'texmex' },
-      { emoji: '🎉', text: 'Somehow rallying a third location. How.',              type: 'chaos' },
+      { emoji: '🤠', text: 'Boots, backup boots, and a turquoise belt',                   type: 'cowgirl' },
+      { emoji: '🥂', text: 'Silk pillowcase, face mist, and a very specific playlist',    type: 'sophisticate' },
+      { emoji: '🎉', text: 'Whatever I grabbed in 15 minutes. Probably forgot something.', type: 'chaos' },
+      { emoji: '🫶', text: 'Advil, Liquid IV, phone chargers, and a granola bar for Shannon', type: 'mom' },
+      { emoji: '📸', text: 'Ring light, 4 outfit options, and my good camera',            type: 'content' },
     ],
   },
   {
-    q: 'Sunday brunch. Your vibe:',
+    q: 'Shannon says "do whatever the group wants." You:',
     options: [
-      { emoji: '🤠', text: 'Bloody mary & cowboy hat, reliving every moment', type: 'cowgirl' },
-      { emoji: '🥂', text: 'Mimosa & eggs benedict, quiet moment of reflection', type: 'sophisticate' },
-      { emoji: '🌮', text: 'Breakfast tacos or I\'m going home',               type: 'texmex' },
-      { emoji: '🎉', text: 'I already booked the reservation at 7am. You\'re welcome.', type: 'chaos' },
+      { emoji: '🤠', text: 'Immediately say honky tonk like you\'ve been waiting for this moment', type: 'cowgirl' },
+      { emoji: '🥂', text: 'Pull up your ranked list of restaurants with notes on ambiance',       type: 'sophisticate' },
+      { emoji: '🎉', text: 'Say "I\'m down for anything" while secretly hoping it gets chaotic',  type: 'chaos' },
+      { emoji: '🫶', text: 'Redirect: "No but what does SHANNON actually want?" Legend.',          type: 'mom' },
+      { emoji: '📸', text: 'Suggest the place with the neon sign and good outdoor lighting',       type: 'content' },
+    ],
+  },
+  {
+    q: 'It\'s 1:30am Saturday. Where are you?',
+    options: [
+      { emoji: '🤠', text: 'Still on the dance floor. I\'ll sleep at the wedding.',         type: 'cowgirl' },
+      { emoji: '🥂', text: 'In bed. Skincare on. It was a delightful evening.',              type: 'sophisticate' },
+      { emoji: '🎉', text: 'At a bar I don\'t remember agreeing to. Having a great time.',  type: 'chaos' },
+      { emoji: '🫶', text: 'Tracking everyone\'s location like an air traffic controller',   type: 'mom' },
+      { emoji: '📸', text: 'Editing tonight\'s content while it\'s still fresh',            type: 'content' },
+    ],
+  },
+  {
+    q: 'Sunday brunch. How are you doing?',
+    options: [
+      { emoji: '🤠', text: 'Bloody mary in hand, still wearing yesterday\'s hat, no regrets', type: 'cowgirl' },
+      { emoji: '🥂', text: 'Hydrated, rested, and slightly judging everyone else\'s choices', type: 'sophisticate' },
+      { emoji: '🎉', text: 'Can\'t fully explain my Saturday night. Wouldn\'t change a thing.', type: 'chaos' },
+      { emoji: '🫶', text: 'Already made everyone a glass of water and found the Advil',       type: 'mom' },
+      { emoji: '📸', text: 'Posted the recap reel. Already at 200 likes. Brunch can wait.',    type: 'content' },
     ],
   },
 ];
@@ -825,22 +848,27 @@ const PERSONAS = {
   cowgirl: {
     emoji: '🤠',
     title: 'The Cowgirl',
-    desc: 'You\'re the one who actually knows how to two-step — or at least commits to looking like it. Boots on, Lone Star in hand. This is your weekend.',
+    desc: 'You have been waiting for this trip since the engagement announcement. Boots were already packed. You know how to two-step or at least commit hard enough that nobody questions it. Lone Star in hand, hat on, this is your Super Bowl.',
   },
   sophisticate: {
     emoji: '🥂',
     title: 'The Sophisticate',
-    desc: 'You made the reservations, you picked the rooftop, and you know the difference between a good rosé and a great one. Shannon doesn\'t deserve you but she has you.',
-  },
-  texmex: {
-    emoji: '🌮',
-    title: 'The Tex-Mex Queen',
-    desc: 'Frozen margs are a food group. Tacos are non-negotiable at every meal. You\'re the reason nobody goes hungry this weekend and honestly the real MVP.',
+    desc: 'You made the OpenTable reservations in February. You know the difference between a good rosé and a great one, and you will not be ordering the rail tequila. Some people might call you "a lot." Those people are wrong and also drinking bad wine.',
   },
   chaos: {
     emoji: '🎉',
     title: 'The Chaos Agent',
-    desc: 'First on the dance floor, last to suggest going home, and somehow always the most fun person in the room. Shannon is lucky you showed up.',
+    desc: 'Nobody planned for you but somehow you\'re the highlight of every night. You suggested the third location. You made friends with the DJ. You may or may not remember all of Saturday. Shannon is chaotic for inviting you and also lucky.',
+  },
+  mom: {
+    emoji: '🫶',
+    title: 'The Mom Friend',
+    desc: 'You have Advil, a portable charger, a granola bar, and Shannon\'s emergency contact memorized. You will make sure everyone gets home. You will also not get the credit you deserve, which is fine, because you\'re doing it for love and also because someone has to.',
+  },
+  content: {
+    emoji: '📸',
+    title: 'The Content Creator',
+    desc: 'The group photos are already posted and you\'re already in the comments. You found every photogenic wall in Austin before the trip. Your ring light made it into a carry-on. Nobody asked for a recap reel but everyone watched the whole thing.',
   },
 };
 
