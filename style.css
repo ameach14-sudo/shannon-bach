@@ -1808,6 +1808,17 @@ body {
   background: #fff0ee;
 }
 
+.suggestion-delete-btn.admin-delete {
+  border-color: #c0392b;
+  color: #c0392b;
+  font-size: 0.85rem;
+}
+
+.suggestion-delete-btn.admin-delete:hover {
+  background: #c0392b;
+  color: #fff;
+}
+
 .no-suggestions {
   text-align: center;
   color: var(--gray);

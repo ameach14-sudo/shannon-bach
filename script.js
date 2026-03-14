@@ -2690,7 +2690,8 @@ function renderSuggestions() {
           <button class="suggestion-vote-btn ${myVote ? 'voted' : ''}" data-id="${s.id}">
             👍 ${votes.size > 0 ? votes.size : ''}
           </button>
-          ${isOwner || isAdmin ? `<button class="suggestion-delete-btn" data-id="${s.id}" title="Delete idea">✕</button>` : ''}
+          ${isOwner ? `<button class="suggestion-delete-btn" data-id="${s.id}" title="Delete idea">✕</button>` : ''}
+          ${isAdmin ? `<button class="suggestion-delete-btn admin-delete" data-id="${s.id}" title="Admin: delete idea">🗑</button>` : ''}
         </div>
       </div>
     `;
