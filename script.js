@@ -394,21 +394,22 @@ const EVENTS_RAW = [
   {
     id: 'austin-city-limits',
     emoji: '📺',
-    name: 'Austin City Limits Taping',
+    name: 'ACL Live at Moody Center',
     category: 'other',
-    type: 'non-drinking',
+    type: 'drinking',
     location: 'Downtown',
-    desc: 'Free tickets to a live taping of the longest-running music TV show in America. If there\'s a taping that weekend — legendary.',
-    price: 'Free (if tickets available)',
-    address: 'KLRU Studio 6A — 2504 Whitis Ave, Austin, TX 78712',
+    desc: 'Austin\'s legendary music venue on the UT campus. Check the July 25 weekend lineup — if there\'s a show, this is a top-tier night out.',
+    price: '$30–100/person (depends on act)',
+    address: '2001 Robert Dedman Dr, Austin, TX 78712 (Moody Center, UT Campus)',
     tips: [
-      'Tickets are free but extremely limited — check klru.org well in advance',
-      'Tapings aren\'t every weekend — verify the schedule first',
-      'Doors open ~1 hour before taping, arrive early',
-      'No professional cameras, standing room only',
-      'If the lineup is good — this is a bucket list Austin experience',
+      '🎤 Check acl-live.com for the July 24–27 weekend lineup — not every weekend has a show',
+      'The ACL Live TV taping (KLRU Studio 6A) is a separate thing — free tickets but very limited',
+      'ACL TV tapings: check klru.org/austincitylimits/tickets if you want to try for those',
+      'Moody Center is UT\'s arena — big national acts play here when on tour',
+      'Full bar inside, seating or GA depending on the show',
+      'Parking on campus or Lyft recommended',
     ],
-    website: 'klru.org/austincitylimits/tickets',
+    website: 'acl-live.com',
   },
   {
     id: 'escape-room',
@@ -504,6 +505,46 @@ const EVENTS_RAW = [
     website: 'Search "Ski Shores Cafe Austin" for hours',
   },
   {
+    id: 'terry-blacks-bbq',
+    emoji: '🥩',
+    name: 'Terry Black\'s BBQ',
+    category: 'restaurant',
+    type: 'non-drinking',
+    location: 'South Lamar',
+    desc: 'Award-winning Texas BBQ on South Lamar. Brisket, ribs, sausage, jalapeño cheese bread — the full spread. One of the best BBQ joints in Austin.',
+    price: '$20–35/person',
+    address: '1003 Barton Springs Rd, Austin, TX 78704',
+    tips: [
+      'Opens at 11am daily — go early on weekends to beat the line',
+      'Order the brisket and the jalapeño cheese bread — non-negotiable',
+      'Get a family-style tray for the group — easiest way to share',
+      'Cash and card accepted, counter service style',
+      'Outdoor seating area — great for a laid-back group lunch',
+      'Plan 30-45 min to get through the line on a Saturday',
+    ],
+    website: 'terryblacksbbq.com',
+  },
+  {
+    id: 'fogo-de-chao',
+    emoji: '🔥',
+    name: 'Fogo de Chão',
+    category: 'restaurant',
+    type: 'drinking',
+    location: 'Downtown',
+    desc: 'Brazilian steakhouse churrascaria — premium cuts carved tableside, unlimited sides and salad bar. Upscale group dinner energy.',
+    price: '$70–100/person',
+    address: '309 E 2nd St, Austin, TX 78701',
+    tips: [
+      'All-you-can-eat format — the gaucho chefs carve directly at your table',
+      'Reserve well in advance for a group — this is a popular spot',
+      'The market table (salad bar) alone is worth it — Brazilian sides, charcuterie, cheese',
+      'Meat highlights: picanha (top sirloin cap), lamb chops, and filet mignon',
+      'Full bar with Brazilian cocktails — the caipirinha is the move',
+      'Great for a splurge group dinner on Friday night',
+    ],
+    website: 'fogodechao.com',
+  },
+  {
     id: 'rainey-street',
     emoji: '🍺',
     name: 'Rainey Street Bar Hop',
@@ -576,6 +617,7 @@ const SLOT_MAP = {
   // Friday dinner — first night out, set the tone
   'aba':                'fri-dinner',   // upscale Mediterranean, rooftop, perfect opener
   'loro':               'fri-dinner',   // Asian smokehouse, great patio, Austin institution
+  'fogo-de-chao':       'fri-dinner',   // Brazilian churrascaria, upscale group splurge
 
   // Friday night — first night bar/music
   'rainey-street':      'fri-night',    // bar hop to kick off the weekend
@@ -683,8 +725,9 @@ const EVENT_LINKS = {
     { label: 'Search cruise options',  url: 'https://www.google.com/search?q=Lady+Bird+Lake+boat+cruise+Austin' },
   ],
   'austin-city-limits': [
-    { label: 'Get tickets (klru.org)', url: 'https://www.klru.org/austincitylimits/tickets/' },
-    { label: 'Google Maps — KLRU',     url: 'https://maps.apple.com/?q=KLRU+Studio+Austin+TX' },
+    { label: '🎤 Show Schedule', url: 'https://www.acl-live.com/events' },
+    { label: '📍 Moody Center Maps', url: 'https://maps.apple.com/?q=Moody+Center+Austin+TX' },
+    { label: '📺 ACL TV Taping Tickets', url: 'https://www.klru.org/austincitylimits/tickets/' },
   ],
   'escape-room': [
     { label: 'Mission Escape Games', url: 'https://maps.apple.com/?q=Mission+Escape+Games+Austin+TX' },
@@ -708,6 +751,14 @@ const EVENT_LINKS = {
   'jewboy-burgers': [
     { label: '📍 Maps', url: 'https://maps.apple.com/?q=JewBoy+Burgers+Austin+TX' },
   ],
+  'terry-blacks-bbq': [
+    { label: '📍 Maps', url: 'https://maps.apple.com/?q=Terry+Black%27s+BBQ+Austin+TX' },
+    { label: '🌐 terryblacksbbq.com', url: 'https://www.terryblacksbbq.com' },
+  ],
+  'fogo-de-chao': [
+    { label: '📍 Maps', url: 'https://maps.apple.com/?q=Fogo+de+Chao+Austin+TX' },
+    { label: '🗓️ Reserve on OpenTable', url: 'https://www.opentable.com/r/fogo-de-chao-austin' },
+  ],
   'rainey-street': [
     { label: "🍺 Banger's",        url: 'https://maps.apple.com/?q=Banger%27s+Sausage+House+Beer+Garden+Austin+TX' },
     { label: '🍔 NADC Burger',     url: 'https://maps.apple.com/?q=NADC+Burger+Austin+TX' },
@@ -726,37 +777,37 @@ EVENTS.forEach(e => { e.links = EVENT_LINKS[e.id] || []; });
 const SCHEDULE = [
   {
     day: 'Friday', date: 'July 24', highlight: false,
+    note: 'Check-in after 4pm — arrivals day',
     items: [
-      { type: 'locked',  time: 'Afternoon', name: '🏠 Arrivals & Check In', note: 'Check-in after 4pm — get settled, drop bags, freshen up' },
-      { type: 'dynamic', time: 'Lunch',     slot: 'fri-lunch',    rank: 0, label: 'Friday Lunch — vote below 🍽️' },
-      { type: 'dynamic', time: 'Afternoon', slot: 'fri-activity', rank: 0, label: 'First Austin Activity ✨' },
-      { type: 'dynamic', time: 'Dinner',    slot: 'fri-dinner',   rank: 0, label: 'Friday Dinner 🍷' },
-      { type: 'dynamic', time: 'Night',     slot: 'fri-night',    rank: 0, label: 'First Night Out 🌙' },
+      { type: 'dynamic', time: 'Lunch',     slot: 'fri-lunch',    rank: 0, label: 'Lunch' },
+      { type: 'dynamic', time: 'Afternoon', slot: 'fri-activity', rank: 0, label: 'Afternoon Activity' },
+      { type: 'dynamic', time: 'Dinner',    slot: 'fri-dinner',   rank: 0, label: 'Dinner' },
+      { type: 'dynamic', time: 'Night',     slot: 'fri-night',    rank: 0, label: 'Night Out' },
     ],
   },
   {
     day: 'Saturday', date: 'July 25', highlight: true,
     items: [
-      { type: 'locked',  time: 'Morning',   name: '💅 Nails',    note: 'Group mani/pedi — get glam', mapUrl: 'https://maps.apple.com/?q=nail+salon+Austin+TX' },
-      { type: 'dynamic', time: 'Lunch',     slot: 'sat-lunch',    rank: 0, label: 'Saturday Lunch 🌮' },
-      { type: 'dynamic', time: 'Afternoon', slot: 'sat-activity', rank: 0, label: 'Afternoon Activity ☀️' },
-      { type: 'locked',  time: 'Dinner',    name: '🍽️ Eberly',   note: "Shannon's main night out — upscale, beautiful space on South Lamar", mapUrl: 'https://maps.apple.com/?q=Eberly+Austin+TX', reserveUrl: 'https://eberlyaustin.com/reservations', reserveLabel: '🗓️ Reserve Now' },
-      { type: 'dynamic', time: 'Night',     slot: 'sat-night',    rank: 0, label: 'After Eberly 🌙' },
+      { type: 'dynamic', time: 'Lunch',      slot: 'sat-lunch',    rank: 0, label: 'Lunch' },
+      { type: 'locked',  time: 'Afternoon',  name: '💅 Nails', note: 'Group mani/pedi', mapUrl: 'https://maps.apple.com/?q=nail+salon+Austin+TX' },
+      { type: 'dynamic', time: 'Afternoon',  slot: 'sat-activity', rank: 0, label: 'Afternoon Activity' },
+      { type: 'locked',  time: 'Dinner',     name: '🍽️ Eberly', note: 'Upscale American on South Lamar — one of Austin\'s best', mapUrl: 'https://maps.apple.com/?q=Eberly+Austin+TX', reserveUrl: 'https://eberlyaustin.com/reservations', reserveLabel: '🗓️ Reserve Now' },
+      { type: 'dynamic', time: 'Night',      slot: 'sat-night',    rank: 0, label: 'Night Out' },
     ],
   },
   {
     day: 'Sunday', date: 'July 26', highlight: false,
     items: [
-      { type: 'dynamic', time: 'Lunch',     slot: 'sun-lunch',    rank: 0, label: 'Sunday Lunch 🥩' },
-      { type: 'dynamic', time: 'Afternoon', slot: 'sun-activity', rank: 0, label: 'Afternoon Outing 🌵' },
-      { type: 'locked',  time: 'Evening',   name: '🤠 Sagebrush Two-Step Lessons', note: 'Learn to two-step before the honky tonk — walk-ins welcome, great vibes', mapUrl: 'https://maps.apple.com/?q=Sagebrush+Austin+TX' },
-      { type: 'dynamic', time: 'Night',     slot: 'sun-night',    rank: 0, label: 'Honky Tonk Night 🎸' },
+      { type: 'dynamic', time: 'Lunch',     slot: 'sun-lunch',    rank: 0, label: 'Lunch' },
+      { type: 'dynamic', time: 'Afternoon', slot: 'sun-activity', rank: 0, label: 'Afternoon Activity' },
+      { type: 'locked',  time: 'Afternoon', name: '🤠 Sagebrush', note: 'Dinner + two-step lessons before the honky tonk', mapUrl: 'https://maps.apple.com/?q=Sagebrush+Austin+TX' },
+      { type: 'dynamic', time: 'Night',     slot: 'sun-night',    rank: 0, label: 'Honky Tonk Night' },
     ],
   },
   {
     day: 'Monday', date: 'July 27', highlight: false,
     items: [
-      { type: 'locked', time: 'Morning', name: '☕ Farewell Brunch', note: 'Last meal together before everyone heads out — check-out by 11am', mapUrl: 'https://maps.apple.com/?q=brunch+Austin+TX' },
+      { type: 'locked', time: 'Morning', name: '☕ Farewell Brunch', note: 'Last meal together — check-out by 11am', mapUrl: 'https://maps.apple.com/?q=brunch+Austin+TX' },
     ],
   },
 ];
@@ -824,56 +875,68 @@ const QUIZ_QUESTIONS = [
     q: 'You\'ve never been to Austin. You just landed. What\'s your first move?',
     options: [
       { emoji: '🤠', text: 'Buy cowboy boots immediately. I don\'t own any. That changes now.',          type: 'cowgirl' },
-      { emoji: '🥂', text: 'I have a reservation at the rooftop bar I found on Google 3 weeks ago.',    type: 'sophisticate' },
-      { emoji: '🎉', text: 'Mass texting the group "I\'M HERE I LOVE TEXAS LET\'S GOOOO"',              type: 'chaos' },
-      { emoji: '🫶', text: 'Confirming everyone landed before I do literally anything else',             type: 'mom' },
-      { emoji: '📸', text: 'Airport arrival shot. Austin content has officially begun.',                 type: 'content' },
+      { emoji: '🥂', text: 'I have a reservation at the rooftop bar I found on Google 3 weeks ago.',    type: 'typea' },
+      { emoji: '🎉', text: 'Mass texting the group "I\'M HERE I LOVE TEXAS LET\'S GOOOO"',              type: 'hotmess' },
+      { emoji: '🫶', text: 'Confirming everyone landed before I do literally anything else',             type: 'glue' },
+      { emoji: '📸', text: 'Airport arrival shot. Austin content has officially begun.',                 type: 'influencer' },
     ],
   },
   {
     q: 'It\'s 99°F and humid. You did not prepare for this. How are you handling July in Texas?',
     options: [
       { emoji: '🤠', text: 'Completely fine. I\'m wearing jeans and boots and I have no regrets.',      type: 'cowgirl' },
-      { emoji: '🥂', text: 'I researched the weather. Linen outfit, SPF 50, early dinner reservation.', type: 'sophisticate' },
-      { emoji: '🎉', text: 'Wait, it\'s HOW hot? It\'s fine. Another frozen marg will help.',           type: 'chaos' },
-      { emoji: '🫶', text: 'Already handing out Liquid IV to everyone like a hydration sergeant.',      type: 'mom' },
-      { emoji: '📸', text: 'Strictly golden hour content. No outdoor activity between noon and 5pm.',   type: 'content' },
+      { emoji: '🥂', text: 'I researched the weather. Linen outfit, SPF 50, early dinner reservation.', type: 'typea' },
+      { emoji: '🎉', text: 'Wait, it\'s HOW hot? It\'s fine. Another frozen marg will help.',           type: 'hotmess' },
+      { emoji: '🫶', text: 'Already handing out Liquid IV to everyone like a hydration sergeant.',      type: 'glue' },
+      { emoji: '📸', text: 'Strictly golden hour content. No outdoor activity between noon and 5pm.',   type: 'influencer' },
     ],
   },
   {
     q: 'Shannon says "I\'m good with whatever the group wants." You:',
     options: [
       { emoji: '🤠', text: 'Honky tonk. Obviously. I\'ve been waiting to say that since we landed.',   type: 'cowgirl' },
-      { emoji: '🥂', text: 'Pull up your color-coded Google Doc of options with Yelp ratings.',         type: 'sophisticate' },
-      { emoji: '🎉', text: 'Say "I\'m down for anything" while hoping it escalates somehow.',           type: 'chaos' },
-      { emoji: '🫶', text: 'Redirect: "But what does SHANNON actually want? This is her weekend."',     type: 'mom' },
-      { emoji: '📸', text: 'Suggest the place with the mural on the patio. Incredible lighting.',       type: 'content' },
+      { emoji: '🥂', text: 'Pull up your color-coded Google Doc of options with Yelp ratings.',         type: 'typea' },
+      { emoji: '🎉', text: 'Say "I\'m down for anything" while hoping it escalates somehow.',           type: 'hotmess' },
+      { emoji: '🫶', text: 'Redirect: "But what does SHANNON actually want? This is her weekend."',     type: 'glue' },
+      { emoji: '📸', text: 'Suggest the place with the mural on the patio. Incredible lighting.',       type: 'influencer' },
     ],
   },
   {
     q: 'It\'s 1:30am Saturday. Where are you?',
     options: [
       { emoji: '🤠', text: 'On the dance floor. I learned to two-step tonight. I\'m never leaving.',   type: 'cowgirl' },
-      { emoji: '🥂', text: 'In bed. Skincare on. Truly lovely evening.',                                type: 'sophisticate' },
-      { emoji: '🎉', text: 'At a third location I don\'t remember agreeing to. Having a blast.',        type: 'chaos' },
-      { emoji: '🫶', text: 'Tracking everyone\'s location like an unpaid air traffic controller.',      type: 'mom' },
-      { emoji: '📸', text: 'Editing tonight\'s content while the lighting is still in my head.',        type: 'content' },
+      { emoji: '🥂', text: 'In bed. Skincare on. Truly lovely evening.',                                type: 'typea' },
+      { emoji: '🎉', text: 'At a third location I don\'t remember agreeing to. Having a blast.',        type: 'hotmess' },
+      { emoji: '🫶', text: 'Tracking everyone\'s location like an unpaid air traffic controller.',      type: 'glue' },
+      { emoji: '📸', text: 'Editing tonight\'s content while the lighting is still in my head.',        type: 'influencer' },
     ],
   },
   {
     q: 'Sunday farewell brunch. How are you doing?',
     options: [
       { emoji: '🤠', text: 'Bloody mary in hand, still wearing yesterday\'s hat, no notes.',            type: 'cowgirl' },
-      { emoji: '🥂', text: 'Hydrated, rested, mildly judging everyone else\'s life choices.',           type: 'sophisticate' },
-      { emoji: '🎉', text: 'Can\'t fully account for Saturday. Wouldn\'t change a single thing.',       type: 'chaos' },
-      { emoji: '🫶', text: 'Already made everyone water and located the nearest CVS for Advil.',        type: 'mom' },
-      { emoji: '📸', text: 'Recap reel is posted. 200 likes. Brunch can wait.',                         type: 'content' },
+      { emoji: '🥂', text: 'Hydrated, rested, mildly judging everyone else\'s life choices.',           type: 'typea' },
+      { emoji: '🎉', text: 'Can\'t fully account for Saturday. Wouldn\'t change a single thing.',       type: 'hotmess' },
+      { emoji: '🫶', text: 'Already made everyone water and located the nearest CVS for Advil.',        type: 'glue' },
+      { emoji: '📸', text: 'Recap reel is posted. 200 likes. Brunch can wait.',                         type: 'influencer' },
+      { emoji: '🎲', text: 'Somehow ended up at a completely different restaurant than planned. Amazing food though.', type: 'wildcard' },
+    ],
+  },
+  {
+    q: 'You have 4 hours and zero plans. What happens?',
+    options: [
+      { emoji: '🤠', text: 'Boot shopping. No discussion needed.',                                       type: 'cowgirl' },
+      { emoji: '🥂', text: 'Immediately open Google Maps, sort by rating, make a plan within 8 minutes.', type: 'typea' },
+      { emoji: '🎉', text: 'Suggest day drinking. Aggressively.',                                        type: 'hotmess' },
+      { emoji: '🫶', text: 'Run a group poll via text. Democracy first.',                                 type: 'glue' },
+      { emoji: '📸', text: 'Google "most Instagrammable spots in Austin" and propose a content crawl.',  type: 'influencer' },
+      { emoji: '🎲', text: 'Start walking. Something interesting will happen. It always does.',           type: 'wildcard' },
     ],
   },
 ];
 
 // Map old persona keys to new ones so existing results don't break
-const PERSONA_COMPAT = { texmex: 'chaos' };
+const PERSONA_COMPAT = { texmex: 'hotmess', chaos: 'hotmess', sophisticate: 'typea', mom: 'glue', content: 'influencer' };
 function resolvePersonaKey(key) { return PERSONA_COMPAT[key] || key; }
 
 const PERSONAS = {
@@ -882,25 +945,30 @@ const PERSONAS = {
     title: 'The Cowgirl',
     desc: 'You are not from Texas. You have never owned cowboy boots. You bought a pair in the airport and you have worn them every hour since. You have learned to two-step, or at least you\'re committed enough that nobody has questioned it. This trip is your Super Bowl and you will never fully return to normal life.',
   },
-  sophisticate: {
+  typea: {
     emoji: '🥂',
-    title: 'The Sophisticate',
-    desc: 'You made a Google Doc. It has tabs. Color-coded. You found Aba three weeks before anyone else and already have a reservation. You know the difference between a good rosé and a great one and you will absolutely not be ordering the rail tequila. Some people might call you a lot. Those people are drinking bad wine.',
+    title: 'The Type A',
+    desc: 'You made a Google Doc. It has tabs. Color-coded. You found Aba three weeks before anyone else and you already have a reservation. You know the difference between a good rosé and a great one and you will not be ordering the rail tequila. Some people might call you a lot. Those people are drinking bad wine.',
   },
-  chaos: {
+  hotmess: {
     emoji: '🎉',
-    title: 'The Chaos Agent',
+    title: 'The Hot Mess',
     desc: 'Nobody planned for you but somehow you\'re the reason everyone has a good story. You suggested the third location. You made friends with the bartender. You were first on the dance floor in shoes that were not made for dancing. Shannon is slightly unhinged for inviting you and also incredibly lucky.',
   },
-  mom: {
+  glue: {
     emoji: '🫶',
-    title: 'The Mom Friend',
+    title: 'The Glue',
     desc: 'You have Advil, a portable charger, Liquid IV, a granola bar for Shannon, and the address of the nearest urgent care memorized. You will make sure everyone gets home. You will not sleep until the last person is accounted for. You will receive zero credit for any of this and that is genuinely fine.',
   },
-  content: {
+  influencer: {
     emoji: '📸',
-    title: 'The Content Creator',
-    desc: 'You found a mural in Austin that nobody else knew about. Your ring light is in your carry-on. The group photos are already posted and tagged before anyone even left the bar. You shot 400 photos on Saturday. You kept 12. The recap reel has 300 likes. Nobody asked for it. Everyone watched the whole thing twice.',
+    title: 'The Influencer',
+    desc: 'You found a mural in Austin that nobody else knew about. Your ring light is in your carry-on. The group photos are posted before anyone left the bar. You shot 400 photos on Saturday. You kept 12. The recap reel has 300 likes. Nobody asked for it. Everyone watched the whole thing twice.',
+  },
+  wildcard: {
+    emoji: '🎲',
+    title: 'The Wildcard',
+    desc: 'Nobody can predict what you\'re going to do next — including you. You\'ve already eaten at a restaurant that wasn\'t on anyone\'s list, made friends with a stranger named Randy, and proposed three different activities in the last 20 minutes. The weekend is better because of you. It is also slightly more chaotic. These are related.',
   },
 };
 
@@ -956,7 +1024,20 @@ function showPersonaResult() {
   // Tally answers
   const counts = {};
   quizAnswers.forEach(t => counts[t] = (counts[t] || 0) + 1);
-  const winner = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
+  const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  const topScore = sorted[0][1];
+  const tied = sorted.filter(([, v]) => v === topScore).map(([k]) => k);
+
+  let winner;
+  if (tied.length === 1) {
+    winner = tied[0];
+  } else {
+    // Tiebreaker: use the first-answered type among the tied options
+    winner = quizAnswers.find(t => tied.includes(t));
+    // If still ambiguous (shouldn't happen), fall back to the one answered most recently
+    if (!winner) winner = tied[tied.length - 1];
+  }
+
   const persona = PERSONAS[winner];
 
   // Store persona locally
@@ -1317,9 +1398,9 @@ function voterChipsHTML(eventId) {
   const yesVoters = voters.filter(v => v.vote_type !== 'maybe');
   const maybeVoters = voters.filter(v => v.vote_type === 'maybe');
   const parts = [];
-  if (yesVoters.length) parts.push(yesVoters.map(v => v.voter_name).join(', '));
-  if (maybeVoters.length) parts.push(`interested: ${maybeVoters.map(v => v.voter_name).join(', ')}`);
-  const countLabel = `<span class="voter-names-label">${parts.join(' · ')}</span>`;
+  if (yesVoters.length) parts.push(`✅ ${yesVoters.map(v => v.voter_name.split(' ')[0]).join(', ')}`);
+  if (maybeVoters.length) parts.push(`🤔 ${maybeVoters.map(v => v.voter_name.split(' ')[0]).join(', ')}`);
+  const countLabel = `<span class="voter-names-label">${parts.join('  ')}</span>`;
 
   return chips + extraChip + countLabel;
 }
@@ -1435,14 +1516,16 @@ function openDetailModal(eventId) {
       ${(() => {
         const yes = voters.filter(v => v.vote_type !== 'maybe');
         const maybe = voters.filter(v => v.vote_type === 'maybe');
-        const chip = v => {
+        const chip = (v, eid) => {
           const isBride = v.voter_name.trim().toLowerCase() === 'shannon';
-          return `<span class="detail-voter-chip${isBride ? ' bride' : ''}">${isBride ? '💍 ' : ''}${v.voter_name}</span>`;
+          return `<span class="detail-voter-chip${isBride ? ' bride' : ''}"
+            data-admin-target="vote" data-admin-id="${v.voter_id}" data-admin-name="${v.voter_name}" data-admin-event-id="${eid}"
+          >${isBride ? '💍 ' : ''}${v.voter_name}</span>`;
         };
         if (!voters.length) return '<em style="color:var(--gray);font-size:0.85rem;">No votes yet</em>';
         return `
-          ${yes.length ? `<p class="voter-group-label">✅ I'm in (${yes.length})</p><div class="detail-voters">${yes.map(chip).join('')}</div>` : ''}
-          ${maybe.length ? `<p class="voter-group-label" style="margin-top:12px">🤔 Interested / Maybe (${maybe.length})</p><div class="detail-voters">${maybe.map(chip).join('')}</div>` : ''}
+          ${yes.length ? `<p class="voter-group-label">✅ I'm in (${yes.length})</p><div class="detail-voters">${yes.map(v => chip(v, eventId)).join('')}</div>` : ''}
+          ${maybe.length ? `<p class="voter-group-label" style="margin-top:12px">🤔 Interested / Maybe (${maybe.length})</p><div class="detail-voters">${maybe.map(v => chip(v, eventId)).join('')}</div>` : ''}
         `;
       })()}
     </div>
@@ -1500,7 +1583,7 @@ function renderAgenda() {
       const winnerVoters = winner ? (voterData[winner.id] || []) : [];
       const yesNames = winnerVoters.filter(v => v.vote_type !== 'maybe').map(v => v.voter_name).join(', ');
       const maybeNames = winnerVoters.filter(v => v.vote_type === 'maybe').map(v => v.voter_name).join(', ');
-      const voters = [yesNames, maybeNames ? `maybe: ${maybeNames}` : ''].filter(Boolean).join(' · ');
+      const voters = [yesNames ? `✅ ${yesNames}` : '', maybeNames ? `🤔 ${maybeNames}` : ''].filter(Boolean).join('  ');
 
       // Check for a tie (rank > 0 may equal rank 0 count)
       if (item.rank === 1) {
@@ -1541,7 +1624,8 @@ function renderAgenda() {
       const bridePicksWinner = (voterData[winner.id] || []).some(v => v.voter_name.trim().toLowerCase() === 'shannon');
 
       return `
-        <div class="day-item agenda-dynamic${bridePicksWinner ? ' bride-pick' : ''}">
+        <div class="day-item agenda-dynamic${bridePicksWinner ? ' bride-pick' : ''}"
+             data-admin-target="agenda-slot" data-admin-slot="${item.slot}" data-admin-name="${item.time}">
           <span class="item-time">${item.time}</span>
           <div class="item-body">
             ${bridePicksWinner ? '<span class="item-badge agenda-bride-badge">💍 Bride\'s Pick</span>' : '<span class="item-badge agenda-leading-badge">🗳️ Leading</span>'}
@@ -1557,6 +1641,7 @@ function renderAgenda() {
           <div class="day-pill${day.highlight ? ' highlight-pill' : ''}">${day.day}${day.highlight ? ' ✨' : ''}</div>
           <span class="day-full-date">${day.date}</span>
         </div>
+        ${day.note ? `<p class="day-note">${day.note}</p>` : ''}
         <div class="day-items">${itemsHTML}</div>
       </div>`;
   }).join('');
@@ -1762,7 +1847,8 @@ function renderPersonas() {
     const isMe = p.voter_id === voterId;
     const isBride = p.voter_name.trim().toLowerCase() === 'shannon';
     return `
-      <div class="persona-card ${isMe ? 'persona-card-me' : ''} ${isBride ? 'persona-card-bride' : ''}">
+      <div class="persona-card ${isMe ? 'persona-card-me' : ''} ${isBride ? 'persona-card-bride' : ''}"
+           data-admin-target="persona" data-admin-id="${p.voter_id}" data-admin-name="${p.voter_name}">
         <span class="persona-card-emoji">${isBride ? '💍' : persona.emoji}</span>
         <span class="persona-card-name">${p.voter_name}${isMe ? ' (you)' : ''}</span>
         <span class="persona-card-title">${persona.title}</span>
@@ -2167,7 +2253,8 @@ function renderSuggestions() {
     const myVote = votes.has(voterId);
     const isOwner = s.suggester_id === voterId;
     return `
-      <div class="suggestion-card" data-suggestion-id="${s.id}">
+      <div class="suggestion-card" data-suggestion-id="${s.id}"
+           data-admin-target="suggestion" data-admin-id="${s.id}" data-admin-name="${s.name.replace(/"/g, '&quot;')}">
         <div class="suggestion-body">
           <span class="suggestion-name">${s.name}</span>
           ${s.description ? `<span class="suggestion-desc">${s.description}</span>` : ''}
@@ -2232,5 +2319,120 @@ async function deleteSuggestion(suggestionId) {
 document.getElementById('suggestion-submit-btn').addEventListener('click', submitSuggestion);
 document.getElementById('suggestion-name').addEventListener('keydown', e => {
   if (e.key === 'Enter') submitSuggestion();
+});
+
+// =========================================
+// ADMIN MODE
+// =========================================
+let isAdmin = sessionStorage.getItem('bach_admin') === 'true';
+
+// Inject context menu element
+const ctxMenu = document.createElement('div');
+ctxMenu.id = 'admin-ctx-menu';
+document.body.appendChild(ctxMenu);
+
+function hideCtxMenu() { ctxMenu.classList.remove('visible'); }
+document.addEventListener('click', hideCtxMenu);
+document.addEventListener('scroll', hideCtxMenu, { passive: true });
+
+function showCtxMenu(x, y, items) {
+  ctxMenu.innerHTML = items.map((item, i) =>
+    `<button class="ctx-item${item.danger ? ' danger' : ''}" data-idx="${i}">${item.label}</button>`
+  ).join('');
+  ctxMenu.style.left = x + 'px';
+  ctxMenu.style.top = y + 'px';
+  ctxMenu.classList.add('visible');
+  ctxMenu.querySelectorAll('.ctx-item').forEach((btn, i) => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      hideCtxMenu();
+      items[i].fn();
+    });
+  });
+  // Prevent overflow off-screen
+  const rect = ctxMenu.getBoundingClientRect();
+  if (rect.right > window.innerWidth) ctxMenu.style.left = (x - rect.width) + 'px';
+  if (rect.bottom > window.innerHeight) ctxMenu.style.top = (y - rect.height) + 'px';
+}
+
+function promptAdminLogin(then) {
+  const pw = prompt('Admin password:');
+  if (pw !== null && pw.toLowerCase() === 'admin') {
+    isAdmin = true;
+    sessionStorage.setItem('bach_admin', 'true');
+    showToast('Admin mode on 🔐');
+    if (then) then();
+  }
+}
+
+async function adminDeletePersona(voterId_) {
+  allPersonas = allPersonas.filter(p => p.voter_id !== voterId_);
+  renderPersonas();
+  if (supabaseClient) {
+    await supabaseClient.from('personas').delete().eq('voter_id', voterId_);
+  }
+}
+
+async function adminDeleteVote(eventId, voterId_) {
+  voterData[eventId] = (voterData[eventId] || []).filter(v => v.voter_id !== voterId_);
+  renderEvents();
+  renderAgenda();
+  if (supabaseClient) {
+    await supabaseClient.from('votes').delete().eq('event_id', eventId).eq('voter_id', voterId_);
+  }
+}
+
+async function adminDeleteSuggestion(suggestionId) {
+  suggestions = suggestions.filter(s => String(s.id) !== String(suggestionId));
+  delete suggestionVotes[suggestionId];
+  renderSuggestions();
+  if (supabaseClient) {
+    await supabaseClient.from('suggestions').delete().eq('id', suggestionId);
+  }
+}
+
+async function adminClearSlot(slot) {
+  const eventIds = EVENTS.filter(e => e.slot === slot).map(e => e.id);
+  eventIds.forEach(id => { delete voterData[id]; });
+  renderEvents();
+  renderAgenda();
+  if (supabaseClient) {
+    for (const id of eventIds) {
+      await supabaseClient.from('votes').delete().eq('event_id', id);
+    }
+  }
+}
+
+document.addEventListener('contextmenu', e => {
+  const target = e.target.closest('[data-admin-target]');
+  if (!target) return;
+  e.preventDefault();
+
+  const type = target.dataset.adminTarget;
+  const id = target.dataset.adminId;
+  const name = target.dataset.adminName || '';
+
+  const buildMenu = () => {
+    let items = [];
+    if (type === 'persona') {
+      items = [{ label: `🗑 Remove ${name} from Who's Coming`, danger: true, fn: () => adminDeletePersona(id) }];
+    } else if (type === 'vote') {
+      const eventId = target.dataset.adminEventId;
+      items = [{ label: `🗑 Remove ${name}'s vote`, danger: true, fn: () => adminDeleteVote(eventId, id) }];
+    } else if (type === 'suggestion') {
+      items = [{ label: `🗑 Remove "${name}"`, danger: true, fn: () => adminDeleteSuggestion(id) }];
+    } else if (type === 'agenda-slot') {
+      const slot = target.dataset.adminSlot;
+      const slotLabel = name || slot;
+      items = [{ label: `🗑 Clear all votes for ${slotLabel}`, danger: true, fn: () => adminClearSlot(slot) }];
+    }
+    if (items.length) showCtxMenu(e.clientX, e.clientY, items);
+  };
+
+  if (!isAdmin) {
+    promptAdminLogin(buildMenu);
+  } else {
+    buildMenu();
+  }
 });
 
