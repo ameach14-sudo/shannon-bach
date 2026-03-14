@@ -428,7 +428,7 @@ const EVENTS_RAW = [
       'Full bar inside, seating or GA depending on the show',
       'Parking on campus or Lyft recommended',
     ],
-    website: 'acl-live.com',
+    website: 'acllive.com',
   },
   {
     id: 'escape-room',
