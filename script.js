@@ -2852,6 +2852,21 @@ async function adminDeleteSuggestion(suggestionId) {
   }
 }
 
+async function adminEditSuggestion(suggestionId) {
+  const s = suggestions.find(s => String(s.id) === String(suggestionId));
+  if (!s) return;
+  const newName = prompt('Edit title:', s.name);
+  if (newName === null || !newName.trim()) return;
+  const newDesc = prompt('Edit description (leave blank to clear):', s.description || '');
+  if (newDesc === null) return;
+  s.name = newName.trim();
+  s.description = newDesc.trim() || null;
+  renderSuggestions();
+  if (supabaseClient) {
+    await supabaseClient.from('suggestions').update({ name: s.name, description: s.description }).eq('id', suggestionId);
+  }
+}
+
 async function adminClearSlot(slot) {
   const eventIds = EVENTS.filter(e => e.slot === slot).map(e => e.id);
   eventIds.forEach(id => { delete voterData[id]; });
@@ -2891,55 +2906,83 @@ async function adminClearAllComments() {
   }
 }
 
-document.addEventListener('contextmenu', e => {
-  const adminTarget = e.target.closest('[data-admin-target]');
-  const eventCard = e.target.closest('.event-card');
+function buildAdminMenuItems(adminTarget, eventCard) {
+  let items = [];
 
-  if (!adminTarget && !eventCard) return;
-  e.preventDefault();
+  if (adminTarget) {
+    const type = adminTarget.dataset.adminTarget;
+    const id = adminTarget.dataset.adminId;
+    const name = adminTarget.dataset.adminName || '';
 
-  const buildMenu = () => {
-    let items = [];
-
-    if (adminTarget) {
-      const type = adminTarget.dataset.adminTarget;
-      const id = adminTarget.dataset.adminId;
-      const name = adminTarget.dataset.adminName || '';
-
-      if (type === 'persona') {
-        items = [{ label: `🗑 Remove ${name} from Who's Coming`, danger: true, fn: () => adminDeletePersona(id) }];
-      } else if (type === 'vote') {
-        const eventId = adminTarget.dataset.adminEventId;
-        items = [{ label: `🗑 Remove ${name}'s vote`, danger: true, fn: () => adminDeleteVote(eventId, id) }];
-      } else if (type === 'suggestion') {
-        items = [{ label: `🗑 Remove "${name}"`, danger: true, fn: () => adminDeleteSuggestion(id) }];
-      } else if (type === 'agenda-slot') {
-        const slot = adminTarget.dataset.adminSlot;
-        items = [{ label: `🗑 Clear votes for ${name || slot}`, danger: true, fn: () => adminClearSlot(slot) }];
-      }
-    } else if (eventCard) {
-      const eventId = eventCard.dataset.eventId;
-      const event = EVENTS.find(ev => ev.id === eventId);
-      const eventName = event?.name || eventId;
-      const voters = voterData[eventId] || [];
-
+    if (type === 'persona') {
+      items = [{ label: `🗑 Remove ${name} from Who's Coming`, danger: true, fn: () => adminDeletePersona(id) }];
+    } else if (type === 'vote') {
+      const eventId = adminTarget.dataset.adminEventId;
+      items = [{ label: `🗑 Remove ${name}'s vote`, danger: true, fn: () => adminDeleteVote(eventId, id) }];
+    } else if (type === 'suggestion') {
       items = [
-        { label: `🗑 Clear ALL votes — ${eventName}`, danger: true, fn: () => adminClearEvent(eventId) },
-        ...voters.map(v => ({
-          label: `🗑 Remove ${v.voter_name}'s vote`,
-          danger: true,
-          fn: () => adminDeleteVote(eventId, v.voter_id),
-        })),
+        { label: '✏️ Edit this idea', fn: () => adminEditSuggestion(id) },
+        { label: `🗑 Remove "${name}"`, danger: true, fn: () => adminDeleteSuggestion(id) },
       ];
+    } else if (type === 'agenda-slot') {
+      const slot = adminTarget.dataset.adminSlot;
+      items = [{ label: `🗑 Clear votes for ${name || slot}`, danger: true, fn: () => adminClearSlot(slot) }];
     }
+  } else if (eventCard) {
+    const eventId = eventCard.dataset.eventId;
+    const event = EVENTS.find(ev => ev.id === eventId);
+    const eventName = event?.name || eventId;
+    const voters = voterData[eventId] || [];
 
-    if (items.length) showCtxMenu(e.clientX, e.clientY, items);
+    items = [
+      { label: `🗑 Clear ALL votes — ${eventName}`, danger: true, fn: () => adminClearEvent(eventId) },
+      ...voters.map(v => ({
+        label: `🗑 Remove ${v.voter_name}'s vote`,
+        danger: true,
+        fn: () => adminDeleteVote(eventId, v.voter_id),
+      })),
+    ];
+  }
+
+  return items;
+}
+
+function triggerAdminMenu(x, y, adminTarget, eventCard) {
+  const buildMenu = () => {
+    const items = buildAdminMenuItems(adminTarget, eventCard);
+    if (items.length) showCtxMenu(x, y, items);
   };
-
   if (!isAdmin) {
     promptAdminLogin(buildMenu);
   } else {
     buildMenu();
   }
+}
+
+// Desktop: right-click
+document.addEventListener('contextmenu', e => {
+  const adminTarget = e.target.closest('[data-admin-target]');
+  const eventCard = e.target.closest('.event-card');
+  if (!adminTarget && !eventCard) return;
+  e.preventDefault();
+  triggerAdminMenu(e.clientX, e.clientY, adminTarget, eventCard);
 });
+
+// Mobile: long-press (600ms hold)
+let _lpTimer = null;
+let _lpMoved = false;
+document.addEventListener('touchstart', e => {
+  const adminTarget = e.target.closest('[data-admin-target]');
+  const eventCard = e.target.closest('.event-card');
+  if (!adminTarget && !eventCard) return;
+  _lpMoved = false;
+  const x = e.touches[0].clientX;
+  const y = e.touches[0].clientY;
+  _lpTimer = setTimeout(() => {
+    if (_lpMoved) return;
+    triggerAdminMenu(x, y, adminTarget, eventCard);
+  }, 600);
+}, { passive: true });
+document.addEventListener('touchmove', () => { _lpMoved = true; clearTimeout(_lpTimer); }, { passive: true });
+document.addEventListener('touchend', () => clearTimeout(_lpTimer), { passive: true });
 
