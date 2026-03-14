@@ -2700,6 +2700,14 @@ body {
   margin-top: 4px;
 }
 
+.voter-group-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--brown-mid);
+  margin: 0 0 8px;
+  letter-spacing: 0.02em;
+}
+
 .detail-voter-chip {
   background: var(--rose-light);
   color: var(--rose-dark);

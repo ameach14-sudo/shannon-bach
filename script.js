@@ -174,8 +174,8 @@ const EVENTS_RAW = [
     price: '$10–15 cover',
     address: '3201 S Lamar Blvd, Austin, TX 78704',
     tips: [
-      '🤠 Fri July 17 — All Hat No Cadillac at 9 PM',
-      '🤠 Sat July 18 — check brokenspokeaustintx.net/events-calendar for confirmed act',
+      '🤠 Fri July 24 — check brokenspokeaustintx.net/events-calendar for confirmed act',
+      '🤠 Sat July 25 — check brokenspokeaustintx.net/events-calendar for confirmed act',
       'Two-step lessons before the live band starts (~8pm Thu–Sat)',
       'Best spot to practice moves after Sagebrush lessons earlier that day',
       'Dinner available — the chicken fried steak is a classic',
@@ -345,7 +345,7 @@ const EVENTS_RAW = [
     price: '$5–10 cover',
     address: '1600 W 5th St, Austin, TX 78703',
     tips: [
-      '🚂 Sat July 18 — The Station Masters (house band) plays every Saturday night',
+      '🚂 Sat July 25 — The Station Masters (house band) plays every Saturday night',
       '⚠️ Closed Sundays — plan for Friday or Saturday only',
       'Hours: Mon–Fri 2pm–2am · Sat 6pm–2am',
       'Totally unique atmosphere — actual vintage railroad cars as the bar',
@@ -557,31 +557,59 @@ const EVENTS = [...EVENTS_RAW].sort((a, b) => {
 });
 
 // Slot assignments — which agenda slot each event competes for
+// fri-lunch · fri-activity · fri-dinner · fri-night
+// sat-lunch · sat-activity · sat-night
+// sun-lunch · sun-activity · sun-night
 const SLOT_MAP = {
-  'aba':                'day-activity',
-  'loro':               'day-activity',
-  'gueros':             'day-activity',
-  'perlas':             'day-activity',
-  'comedy-mothership':  'saturday-night',
-  'taco-speakeasy':     'saturday-night',
-  'broken-spoke':       'honky-tonk',
-  'donns-depot':        'honky-tonk',
-  'continental-club':   'honky-tonk',
-  'barton-springs':     'day-activity',
-  'kayak-paddleboard':  'day-activity',
-  'ski-shores':         'day-activity',
-  'horseback-riding':   'day-activity',
-  'austin-city-limits': 'day-activity',
-  'town-lake-cruise':   'day-activity',
-  'de-nada-margs':      'day-activity',
-  'spa-day':            'day-activity',
-  'escape-room':        'day-activity',
-  'cooking-class':      'day-activity',
-  'rooftop-bars':       'day-activity',
-  'driftwood-winery':   'day-activity',
-  'cocktail-class':     'day-activity',
-  'rainey-street':      'day-activity',
-  'jewboy-burgers':     'day-activity',
+  // Friday lunch — SoCo, easy, first meal in Austin
+  'gueros':             'fri-lunch',    // SoCo patio, frozen margs, great group lunch
+  'perlas':             'fri-lunch',    // SoCo oysters/seafood, upscale but fun for lunch
+
+  // Friday afternoon activity — chill after arriving, before dinner
+  'spa-day':            'fri-activity', // relaxing first afternoon
+  'cocktail-class':     'fri-activity', // fun group warm-up activity
+  'escape-room':        'fri-activity', // afternoon puzzle challenge
+  'de-nada-margs':      'fri-activity', // classic Austin pitstop
+  'town-lake-cruise':   'fri-activity', // sunset bat cruise is perfect on Friday
+  'austin-city-limits': 'fri-activity', // if there's a Friday taping, bucket list
+
+  // Friday dinner — first night out, set the tone
+  'aba':                'fri-dinner',   // upscale Mediterranean, rooftop, perfect opener
+  'loro':               'fri-dinner',   // Asian smokehouse, great patio, Austin institution
+
+  // Friday night — first night bar/music
+  'rainey-street':      'fri-night',    // bar hop to kick off the weekend
+  'donns-depot':        'fri-night',    // train car bar, open Fri, intimate and weird (good)
+  'rooftop-bars':       'fri-night',    // skyline views, cocktails, bachelorette energy
+  'taco-speakeasy':     'fri-night',    // hidden bar, late night
+  'continental-club':   'fri-night',    // live music, SoCo legend
+
+  // Saturday lunch — after nails, before the big day
+  'jewboy-burgers':     'sat-lunch',    // casual, genuinely Austin
+  'terry-blacks-bbq':   'sat-lunch',    // Shannon specifically wanted this
+
+  // Saturday activity — afternoon before Eberly
+  'barton-springs':     'sat-activity', // 68°F natural pool, perfect in July heat
+  'kayak-paddleboard':  'sat-activity', // Lady Bird Lake skyline views
+  'horseback-riding':   'sat-activity', // Hill Country trail ride
+  'cooking-class':      'sat-activity', // Antonelli's cheese & wine class
+
+  // Saturday night — after Eberly dinner
+  'broken-spoke':       'sat-night',    // real honky tonk (Thu–Sat only)
+  'comedy-mothership':  'sat-night',    // Joe Rogan's club, shows after 8pm
+
+  // Sunday lunch
+  'ski-shores':         'sun-lunch',    // waterfront cafe on Lake Austin, chill Sunday
+  'loro':               'sun-lunch',    // great if not used Friday (opens 11am)
+
+  // Sunday activity
+  'driftwood-winery':   'sun-activity', // Hill Country winery, 35 min away
+  'fredericksburg':     'sun-activity', // full Hill Country day trip (commit)
+  'town-lake-cruise':   'sun-activity', // if not done Friday
+
+  // Sunday night — Sagebrush lessons → honky tonk
+  // (Broken Spoke & Donn's closed Sundays — Continental Club has live music Sun)
+  'continental-club':   'sun-night',
 };
 EVENTS.forEach(e => { e.slot = SLOT_MAP[e.id] || null; });
 
@@ -699,36 +727,36 @@ const SCHEDULE = [
   {
     day: 'Friday', date: 'July 24', highlight: false,
     items: [
-      { type: 'locked', time: 'Afternoon', name: 'Arrivals & Check In',  note: 'Get settled, freshen up' },
-      { type: 'locked', time: 'Afternoon', name: '🛍️ South Congress',     note: 'Boutiques, vintage shops, people watching', mapUrl: 'https://maps.apple.com/?q=South+Congress+Avenue+Austin+TX' },
-      { type: 'locked', time: 'Lunch',     name: '🍕 Home Slice Pizza',   note: 'Austin institution on SoCo', mapUrl: 'https://maps.apple.com/?q=Home+Slice+Pizza+Austin+TX' },
-      { type: 'locked', time: 'Dinner',    name: '🍺 Kelly\'s Irish Pub', note: 'Live music, great group spot', badge: '⚠️ Needs Reservation', mapUrl: 'https://maps.apple.com/?q=Kelly%27s+Irish+Pub+Austin+TX', reserveUrl: 'tel:+15127404300', reserveLabel: '📞 Call to Reserve' },
+      { type: 'locked',  time: 'Afternoon', name: '🏠 Arrivals & Check In', note: 'Check-in after 4pm — get settled, drop bags, freshen up' },
+      { type: 'dynamic', time: 'Lunch',     slot: 'fri-lunch',    rank: 0, label: 'Friday Lunch — vote below 🍽️' },
+      { type: 'dynamic', time: 'Afternoon', slot: 'fri-activity', rank: 0, label: 'First Austin Activity ✨' },
+      { type: 'dynamic', time: 'Dinner',    slot: 'fri-dinner',   rank: 0, label: 'Friday Dinner 🍷' },
+      { type: 'dynamic', time: 'Night',     slot: 'fri-night',    rank: 0, label: 'First Night Out 🌙' },
     ],
   },
   {
     day: 'Saturday', date: 'July 25', highlight: true,
     items: [
-      { type: 'locked',  time: 'Morning',   name: '💅 Nails',             note: 'Group mani/pedi', mapUrl: 'https://maps.apple.com/?q=nail+salon+Austin+TX' },
-      { type: 'locked',  time: 'Lunch',     name: '🌮 Matt\'s El Rancho', note: 'Austin Tex-Mex legend since 1952 — walk-in only, join the waitlist below', mapUrl: 'https://maps.apple.com/?q=Matt%27s+El+Rancho+Austin+TX', reserveUrl: 'https://www.opentable.com/booking/restref/details?restRef=278602', reserveLabel: '📋 Join Waitlist' },
-      { type: 'dynamic', time: 'Afternoon', slot: 'day-activity',   rank: 0, label: 'Add-On Activity' },
-      { type: 'locked',  time: 'Afternoon', name: '🛥️ Lake Austin Boat Day', note: 'Private boat rental — sun, swimming, cold drinks, Texas summer at its best', mapUrl: 'https://maps.apple.com/?q=boat+rental+Lake+Austin+TX' },
-      { type: 'locked',  time: 'Dinner',    name: '🍽️ Eberly',           note: 'Nice dinner — Shannon\'s main night out', mapUrl: 'https://maps.apple.com/?q=Eberly+Austin+TX', reserveUrl: 'https://eberlyaustin.com/reservations', reserveLabel: '🗓️ Make Reservation' },
-      { type: 'dynamic', time: 'Evening',   slot: 'saturday-night', rank: 0, label: 'After Eberly' },
+      { type: 'locked',  time: 'Morning',   name: '💅 Nails',    note: 'Group mani/pedi — get glam', mapUrl: 'https://maps.apple.com/?q=nail+salon+Austin+TX' },
+      { type: 'dynamic', time: 'Lunch',     slot: 'sat-lunch',    rank: 0, label: 'Saturday Lunch 🌮' },
+      { type: 'dynamic', time: 'Afternoon', slot: 'sat-activity', rank: 0, label: 'Afternoon Activity ☀️' },
+      { type: 'locked',  time: 'Dinner',    name: '🍽️ Eberly',   note: "Shannon's main night out — upscale, beautiful space on South Lamar", mapUrl: 'https://maps.apple.com/?q=Eberly+Austin+TX', reserveUrl: 'https://eberlyaustin.com/reservations', reserveLabel: '🗓️ Reserve Now' },
+      { type: 'dynamic', time: 'Night',     slot: 'sat-night',    rank: 0, label: 'After Eberly 🌙' },
     ],
   },
   {
     day: 'Sunday', date: 'July 26', highlight: false,
     items: [
-      { type: 'locked',  time: 'Lunch',     name: '🥩 Terry Black\'s BBQ', note: 'Shannon specifically wants this', mapUrl: 'https://maps.apple.com/?q=Terry+Black%27s+BBQ+Austin+TX' },
-      { type: 'dynamic', time: 'Afternoon', slot: 'day-activity',   rank: 1, label: 'Day Activity' },
-      { type: 'locked',  time: 'Afternoon', name: '🤠 Sagebrush Lessons',  note: 'Two-step lessons before the honky tonk', mapUrl: 'https://maps.apple.com/?q=Sagebrush+Austin+TX' },
-      { type: 'dynamic', time: 'Night',     slot: 'honky-tonk',    rank: 0, label: 'Honky Tonk' },
+      { type: 'dynamic', time: 'Lunch',     slot: 'sun-lunch',    rank: 0, label: 'Sunday Lunch 🥩' },
+      { type: 'dynamic', time: 'Afternoon', slot: 'sun-activity', rank: 0, label: 'Afternoon Outing 🌵' },
+      { type: 'locked',  time: 'Evening',   name: '🤠 Sagebrush Two-Step Lessons', note: 'Learn to two-step before the honky tonk — walk-ins welcome, great vibes', mapUrl: 'https://maps.apple.com/?q=Sagebrush+Austin+TX' },
+      { type: 'dynamic', time: 'Night',     slot: 'sun-night',    rank: 0, label: 'Honky Tonk Night 🎸' },
     ],
   },
   {
     day: 'Monday', date: 'July 27', highlight: false,
     items: [
-      { type: 'locked', time: 'Morning', name: '☕ Farewell Brunch', note: 'Last meal together before everyone heads out', mapUrl: 'https://maps.apple.com/?q=brunch+Austin+TX' },
+      { type: 'locked', time: 'Morning', name: '☕ Farewell Brunch', note: 'Last meal together before everyone heads out — check-out by 11am', mapUrl: 'https://maps.apple.com/?q=brunch+Austin+TX' },
     ],
   },
 ];
@@ -793,53 +821,53 @@ let _pendingQuickPick = null;
 // =========================================
 const QUIZ_QUESTIONS = [
   {
-    q: 'It\'s Thursday night. You just landed in Austin. First move?',
+    q: 'You\'ve never been to Austin. You just landed. What\'s your first move?',
     options: [
-      { emoji: '🤠', text: 'Boots on before my bag hits the floor',                  type: 'cowgirl' },
-      { emoji: '🥂', text: 'Rooftop bar. Already texted ahead for a table.',          type: 'sophisticate' },
-      { emoji: '🎉', text: 'Group chat is on fire. WHERE IS EVERYONE. LET\'S GO.',   type: 'chaos' },
-      { emoji: '🫶', text: 'Making sure everyone got in safe before I unpack',        type: 'mom' },
-      { emoji: '📸', text: 'Finding the best lighting in the Airbnb for a welcome pic', type: 'content' },
+      { emoji: '🤠', text: 'Buy cowboy boots immediately. I don\'t own any. That changes now.',          type: 'cowgirl' },
+      { emoji: '🥂', text: 'I have a reservation at the rooftop bar I found on Google 3 weeks ago.',    type: 'sophisticate' },
+      { emoji: '🎉', text: 'Mass texting the group "I\'M HERE I LOVE TEXAS LET\'S GOOOO"',              type: 'chaos' },
+      { emoji: '🫶', text: 'Confirming everyone landed before I do literally anything else',             type: 'mom' },
+      { emoji: '📸', text: 'Airport arrival shot. Austin content has officially begun.',                 type: 'content' },
     ],
   },
   {
-    q: 'What\'s in your carry-on?',
+    q: 'It\'s 99°F and humid. You did not prepare for this. How are you handling July in Texas?',
     options: [
-      { emoji: '🤠', text: 'Boots, backup boots, and a turquoise belt',                   type: 'cowgirl' },
-      { emoji: '🥂', text: 'Silk pillowcase, face mist, and a very specific playlist',    type: 'sophisticate' },
-      { emoji: '🎉', text: 'Whatever I grabbed in 15 minutes. Probably forgot something.', type: 'chaos' },
-      { emoji: '🫶', text: 'Advil, Liquid IV, phone chargers, and a granola bar for Shannon', type: 'mom' },
-      { emoji: '📸', text: 'Ring light, 4 outfit options, and my good camera',            type: 'content' },
+      { emoji: '🤠', text: 'Completely fine. I\'m wearing jeans and boots and I have no regrets.',      type: 'cowgirl' },
+      { emoji: '🥂', text: 'I researched the weather. Linen outfit, SPF 50, early dinner reservation.', type: 'sophisticate' },
+      { emoji: '🎉', text: 'Wait, it\'s HOW hot? It\'s fine. Another frozen marg will help.',           type: 'chaos' },
+      { emoji: '🫶', text: 'Already handing out Liquid IV to everyone like a hydration sergeant.',      type: 'mom' },
+      { emoji: '📸', text: 'Strictly golden hour content. No outdoor activity between noon and 5pm.',   type: 'content' },
     ],
   },
   {
-    q: 'Shannon says "do whatever the group wants." You:',
+    q: 'Shannon says "I\'m good with whatever the group wants." You:',
     options: [
-      { emoji: '🤠', text: 'Immediately say honky tonk like you\'ve been waiting for this moment', type: 'cowgirl' },
-      { emoji: '🥂', text: 'Pull up your ranked list of restaurants with notes on ambiance',       type: 'sophisticate' },
-      { emoji: '🎉', text: 'Say "I\'m down for anything" while secretly hoping it gets chaotic',  type: 'chaos' },
-      { emoji: '🫶', text: 'Redirect: "No but what does SHANNON actually want?" Legend.',          type: 'mom' },
-      { emoji: '📸', text: 'Suggest the place with the neon sign and good outdoor lighting',       type: 'content' },
+      { emoji: '🤠', text: 'Honky tonk. Obviously. I\'ve been waiting to say that since we landed.',   type: 'cowgirl' },
+      { emoji: '🥂', text: 'Pull up your color-coded Google Doc of options with Yelp ratings.',         type: 'sophisticate' },
+      { emoji: '🎉', text: 'Say "I\'m down for anything" while hoping it escalates somehow.',           type: 'chaos' },
+      { emoji: '🫶', text: 'Redirect: "But what does SHANNON actually want? This is her weekend."',     type: 'mom' },
+      { emoji: '📸', text: 'Suggest the place with the mural on the patio. Incredible lighting.',       type: 'content' },
     ],
   },
   {
     q: 'It\'s 1:30am Saturday. Where are you?',
     options: [
-      { emoji: '🤠', text: 'Still on the dance floor. I\'ll sleep at the wedding.',         type: 'cowgirl' },
-      { emoji: '🥂', text: 'In bed. Skincare on. It was a delightful evening.',              type: 'sophisticate' },
-      { emoji: '🎉', text: 'At a bar I don\'t remember agreeing to. Having a great time.',  type: 'chaos' },
-      { emoji: '🫶', text: 'Tracking everyone\'s location like an air traffic controller',   type: 'mom' },
-      { emoji: '📸', text: 'Editing tonight\'s content while it\'s still fresh',            type: 'content' },
+      { emoji: '🤠', text: 'On the dance floor. I learned to two-step tonight. I\'m never leaving.',   type: 'cowgirl' },
+      { emoji: '🥂', text: 'In bed. Skincare on. Truly lovely evening.',                                type: 'sophisticate' },
+      { emoji: '🎉', text: 'At a third location I don\'t remember agreeing to. Having a blast.',        type: 'chaos' },
+      { emoji: '🫶', text: 'Tracking everyone\'s location like an unpaid air traffic controller.',      type: 'mom' },
+      { emoji: '📸', text: 'Editing tonight\'s content while the lighting is still in my head.',        type: 'content' },
     ],
   },
   {
-    q: 'Sunday brunch. How are you doing?',
+    q: 'Sunday farewell brunch. How are you doing?',
     options: [
-      { emoji: '🤠', text: 'Bloody mary in hand, still wearing yesterday\'s hat, no regrets', type: 'cowgirl' },
-      { emoji: '🥂', text: 'Hydrated, rested, and slightly judging everyone else\'s choices', type: 'sophisticate' },
-      { emoji: '🎉', text: 'Can\'t fully explain my Saturday night. Wouldn\'t change a thing.', type: 'chaos' },
-      { emoji: '🫶', text: 'Already made everyone a glass of water and found the Advil',       type: 'mom' },
-      { emoji: '📸', text: 'Posted the recap reel. Already at 200 likes. Brunch can wait.',    type: 'content' },
+      { emoji: '🤠', text: 'Bloody mary in hand, still wearing yesterday\'s hat, no notes.',            type: 'cowgirl' },
+      { emoji: '🥂', text: 'Hydrated, rested, mildly judging everyone else\'s life choices.',           type: 'sophisticate' },
+      { emoji: '🎉', text: 'Can\'t fully account for Saturday. Wouldn\'t change a single thing.',       type: 'chaos' },
+      { emoji: '🫶', text: 'Already made everyone water and located the nearest CVS for Advil.',        type: 'mom' },
+      { emoji: '📸', text: 'Recap reel is posted. 200 likes. Brunch can wait.',                         type: 'content' },
     ],
   },
 ];
@@ -848,27 +876,27 @@ const PERSONAS = {
   cowgirl: {
     emoji: '🤠',
     title: 'The Cowgirl',
-    desc: 'You have been waiting for this trip since the engagement announcement. Boots were already packed. You know how to two-step or at least commit hard enough that nobody questions it. Lone Star in hand, hat on, this is your Super Bowl.',
+    desc: 'You are not from Texas. You have never owned cowboy boots. You bought a pair in the airport and you have worn them every hour since. You have learned to two-step, or at least you\'re committed enough that nobody has questioned it. This trip is your Super Bowl and you will never fully return to normal life.',
   },
   sophisticate: {
     emoji: '🥂',
     title: 'The Sophisticate',
-    desc: 'You made the OpenTable reservations in February. You know the difference between a good rosé and a great one, and you will not be ordering the rail tequila. Some people might call you "a lot." Those people are wrong and also drinking bad wine.',
+    desc: 'You made a Google Doc. It has tabs. Color-coded. You found Aba three weeks before anyone else and already have a reservation. You know the difference between a good rosé and a great one and you will absolutely not be ordering the rail tequila. Some people might call you a lot. Those people are drinking bad wine.',
   },
   chaos: {
     emoji: '🎉',
     title: 'The Chaos Agent',
-    desc: 'Nobody planned for you but somehow you\'re the highlight of every night. You suggested the third location. You made friends with the DJ. You may or may not remember all of Saturday. Shannon is chaotic for inviting you and also lucky.',
+    desc: 'Nobody planned for you but somehow you\'re the reason everyone has a good story. You suggested the third location. You made friends with the bartender. You were first on the dance floor in shoes that were not made for dancing. Shannon is slightly unhinged for inviting you and also incredibly lucky.',
   },
   mom: {
     emoji: '🫶',
     title: 'The Mom Friend',
-    desc: 'You have Advil, a portable charger, a granola bar, and Shannon\'s emergency contact memorized. You will make sure everyone gets home. You will also not get the credit you deserve, which is fine, because you\'re doing it for love and also because someone has to.',
+    desc: 'You have Advil, a portable charger, Liquid IV, a granola bar for Shannon, and the address of the nearest urgent care memorized. You will make sure everyone gets home. You will not sleep until the last person is accounted for. You will receive zero credit for any of this and that is genuinely fine.',
   },
   content: {
     emoji: '📸',
     title: 'The Content Creator',
-    desc: 'The group photos are already posted and you\'re already in the comments. You found every photogenic wall in Austin before the trip. Your ring light made it into a carry-on. Nobody asked for a recap reel but everyone watched the whole thing.',
+    desc: 'You found a mural in Austin that nobody else knew about. Your ring light is in your carry-on. The group photos are already posted and tagged before anyone even left the bar. You shot 400 photos on Saturday. You kept 12. The recap reel has 300 likes. Nobody asked for it. Everyone watched the whole thing twice.',
   },
 };
 
@@ -1399,8 +1427,20 @@ function openDetailModal(eventId) {
     </div>` : ''}
 
     <div class="detail-section">
-      <h4>Who's in for this (${voters.length})</h4>
-      <div class="detail-voters">${voterListHTML}</div>
+      <h4>Who's voting for this</h4>
+      ${(() => {
+        const yes = voters.filter(v => v.vote_type !== 'maybe');
+        const maybe = voters.filter(v => v.vote_type === 'maybe');
+        const chip = v => {
+          const isBride = v.voter_name.trim().toLowerCase() === 'shannon';
+          return `<span class="detail-voter-chip${isBride ? ' bride' : ''}">${isBride ? '💍 ' : ''}${v.voter_name}</span>`;
+        };
+        if (!voters.length) return '<em style="color:var(--gray);font-size:0.85rem;">No votes yet</em>';
+        return `
+          ${yes.length ? `<p class="voter-group-label">✅ I'm in (${yes.length})</p><div class="detail-voters">${yes.map(chip).join('')}</div>` : ''}
+          ${maybe.length ? `<p class="voter-group-label" style="margin-top:12px">🤔 Interested / Maybe (${maybe.length})</p><div class="detail-voters">${maybe.map(chip).join('')}</div>` : ''}
+        `;
+      })()}
     </div>
   `;
 
