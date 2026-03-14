@@ -242,6 +242,100 @@ const EVENTS_RAW = [
     website: 'visitfredericksburgtx.com',
   },
   {
+    id: 'blanton-museum',
+    emoji: '🖼️',
+    name: 'Blanton Museum of Art',
+    category: 'other',
+    type: 'non-drinking',
+    location: 'Downtown',
+    desc: 'One of the largest university art museums in the US, on the UT campus. Free on select days — good if the group wants something low-key and air-conditioned.',
+    price: '$12/person (free on Thursdays)',
+    address: '200 E MLK Jr Blvd, Austin, TX 78712',
+    tips: [
+      'Free on Thursdays — worth checking if that lines up with the trip',
+      'On the UT campus, easy to get to from downtown',
+      'Large permanent collection — European, Latin American, and contemporary works',
+      'Fully air-conditioned — a solid option if it\'s 100°F and the group needs a break',
+      'Plan 1–2 hours',
+    ],
+    website: 'blantonmuseum.org',
+  },
+  {
+    id: 'contemporary-museum',
+    emoji: '🎨',
+    name: 'Contemporary Austin',
+    category: 'other',
+    type: 'non-drinking',
+    location: 'Downtown',
+    desc: 'Contemporary and modern art spread across two locations — the Jones Center downtown and Laguna Gloria outdoors. Interesting if your group is into art; definitely a quieter activity.',
+    price: '$10/person',
+    address: '700 Congress Ave, Austin, TX 78701 (Jones Center)',
+    tips: [
+      'Two locations: Jones Center (downtown) and Laguna Gloria (outdoor sculpture garden)',
+      'Laguna Gloria is on Lake Austin — beautiful grounds even if you\'re not into art',
+      'Rotating exhibits — check thecontemporaryaustin.org for current shows',
+      'Plan 1–1.5 hours per location',
+    ],
+    website: 'thecontemporaryaustin.org',
+  },
+  {
+    id: 'bullock-museum',
+    emoji: '🤠',
+    name: 'Bullock Texas State History Museum',
+    category: 'other',
+    type: 'non-drinking',
+    location: 'Downtown',
+    desc: 'Three stories of Texas history next to the Capitol. Kind of interesting, kind of a lot — depends on how into Texas history the group is. IMAX theater on-site.',
+    price: '$13/person (IMAX extra)',
+    address: '1800 Congress Ave, Austin, TX 78701',
+    tips: [
+      'Right next to the Texas State Capitol — easy to combine with a Capitol tour',
+      'IMAX theater inside — movies change regularly, worth checking the schedule',
+      'Three floors covering Texas from prehistory through modern times',
+      'Fully air-conditioned — good July escape',
+      'Plan 1.5–2 hours',
+    ],
+    website: 'thestoryoftexas.com',
+  },
+  {
+    id: 'texas-military',
+    emoji: '🪖',
+    name: 'Texas Military Forces Museum',
+    category: 'other',
+    type: 'non-drinking',
+    location: 'Downtown',
+    desc: 'Military history museum at Camp Mabry with old vehicles, equipment, and exhibits — some indoors, some outdoors. A niche pick that\'s genuinely interesting if you\'re into it.',
+    price: 'Free',
+    address: 'Camp Mabry — 2200 W 35th St, Austin, TX 78703',
+    tips: [
+      'Free admission — can\'t beat it',
+      'Outdoor exhibits include tanks, aircraft, and artillery',
+      'Open Wednesday–Sunday, 10am–4pm — verify hours before going',
+      'Located at the National Guard base — bring ID',
+      'Plan 1–1.5 hours',
+    ],
+    website: 'texasmilitaryforcesmuseum.org',
+  },
+  {
+    id: 'pacific-war-museum',
+    emoji: '⚓',
+    name: 'National Museum of the Pacific War',
+    category: 'other',
+    type: 'non-drinking',
+    location: 'Hill Country',
+    desc: 'Major WWII Pacific theater museum in Fredericksburg — the birthplace of Admiral Nimitz. World-class if you\'re into history. A full day trip (~1.5 hrs from Austin).',
+    price: '$20/person',
+    address: '340 E Main St, Fredericksburg, TX 78624',
+    tips: [
+      '~1.5 hour drive from Austin — this is a full day trip commitment',
+      'One of the top WWII museums in the country, genuinely impressive',
+      'Plan 3–4 hours minimum to see everything',
+      'Combine with Fredericksburg wineries and Main Street to make a full day',
+      'In Fredericksburg, TX — same trip as the wine road if the group goes that direction',
+    ],
+    website: 'pacificwarmuseum.org',
+  },
+  {
     id: 'jewboy-burgers',
     emoji: '🍔',
     name: 'JewBoy Burgers',
@@ -546,6 +640,25 @@ const EVENTS_RAW = [
     website: 'fogodechao.com',
   },
   {
+    id: 'floating-tavern',
+    emoji: '⛵',
+    name: 'The Floating Tavern',
+    category: 'bar',
+    type: 'drinking',
+    location: 'Lake Austin',
+    desc: 'A floating bar on Lake Travis with live music and dinner. Tickets required per person — one of the more unique nights Austin has to offer.',
+    price: 'Ticket price varies — check website',
+    address: 'Lake Travis, Austin, TX (check website for boarding location)',
+    tips: [
+      'Tickets must be purchased in advance — limited capacity per cruise',
+      'Live music on the water — check the schedule for the July 24–27 weekend',
+      'Evening/dinner cruise format — typically runs through 11pm',
+      'Bring layers — it gets cooler on the lake at night even in July',
+      'Confirm boarding location when you buy tickets',
+    ],
+    website: 'Search "The Floating Tavern Lake Travis Austin" for tickets',
+  },
+  {
     id: 'rainey-street',
     emoji: '🍺',
     name: 'Rainey Street Bar Hop',
@@ -640,6 +753,14 @@ const SLOT_MAP = {
   // Saturday night — after Eberly dinner
   'broken-spoke':       'sat-night',    // real honky tonk (Thu–Sat only)
   'comedy-mothership':  'sat-night',    // Joe Rogan's club, shows after 8pm
+  'floating-tavern':    'sat-night',    // floating bar on Lake Travis, live music, dinner cruise
+
+  // "Boring options" — adding these so the group can vote them down themselves
+  'blanton-museum':       'sun-activity',
+  'contemporary-museum':  'sun-activity',
+  'bullock-museum':       'sun-activity',
+  'texas-military':       'sun-activity',
+  'pacific-war-museum':   'sun-activity',
 
   // Sunday lunch
   'ski-shores':         'sun-lunch',    // waterfront cafe on Lake Austin, chill Sunday
@@ -1499,7 +1620,7 @@ function updateCardUI(eventId) {
   const yesCount = voters.filter(v => v.vote_type !== 'maybe').length;
   const maybeCount = voters.filter(v => v.vote_type === 'maybe').length;
 
-  const brideVoted = voters.some(v => v.voter_name.trim().toLowerCase() === 'shannon');
+  const brideVoted = voters.some(v => v.voter_name.trim().toLowerCase() === 'shannon' && v.vote_type !== 'maybe');
   card.classList.toggle('voted', voted || maybed);
   card.classList.toggle('bride-pick', brideVoted);
   const existingBrideBadge = card.querySelector('.bride-pick-badge');
@@ -1714,7 +1835,7 @@ function renderAgenda() {
         ? ` · tied with ${tiedWith.map(e => e.name).join(', ')}`
         : '';
 
-      const bridePicksWinner = (voterData[winner.id] || []).some(v => v.voter_name.trim().toLowerCase() === 'shannon');
+      const bridePicksWinner = (voterData[winner.id] || []).some(v => v.voter_name.trim().toLowerCase() === 'shannon' && v.vote_type !== 'maybe');
 
       return `
         <div class="day-item agenda-dynamic${bridePicksWinner ? ' bride-pick' : ''}"
@@ -1767,7 +1888,7 @@ function renderEvents() {
       grid.appendChild(heading);
     }
 
-    const brideVoted = (voterData[event.id] || []).some(v => v.voter_name.trim().toLowerCase() === 'shannon');
+    const brideVoted = (voterData[event.id] || []).some(v => v.voter_name.trim().toLowerCase() === 'shannon' && v.vote_type !== 'maybe');
     const myType = myVotes.get(event.id);
     const voted = myType === 'yes';
     const maybed = myType === 'maybe';
