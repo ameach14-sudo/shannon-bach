@@ -2129,6 +2129,7 @@ function renderModalComments(eventId) {
   }
   list.innerHTML = comments.map(c => {
     const isMe = c.voter_id === voterId;
+    const canDelete = isMe || isAdmin;
     const d = new Date(c.created_at);
     const timeStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     return `
@@ -2136,7 +2137,7 @@ function renderModalComments(eventId) {
         <div class="comment-header">
           <span class="comment-author">${c.voter_name}</span>
           <span class="comment-time">${timeStr}</span>
-          ${isMe ? `<button class="comment-delete-btn" data-comment-id="${c.id}" data-event-id="${eventId}" title="Delete">✕</button>` : ''}
+          ${canDelete ? `<button class="comment-delete-btn" data-comment-id="${c.id}" data-event-id="${eventId}" title="Delete">✕</button>` : ''}
         </div>
         <p class="comment-text">${c.text}</p>
       </div>
@@ -2172,7 +2173,9 @@ async function submitComment(eventId) {
 
 async function deleteComment(commentId, eventId) {
   if (supabaseClient) {
-    await supabaseClient.from('comments').delete().eq('id', commentId).eq('voter_id', voterId);
+    let q = supabaseClient.from('comments').delete().eq('id', commentId);
+    if (!isAdmin) q = q.eq('voter_id', voterId);
+    await q;
   }
   if (allComments[eventId]) {
     allComments[eventId] = allComments[eventId].filter(c => String(c.id) !== String(commentId));
@@ -2307,7 +2310,7 @@ function renderArrivals() {
             <span class="arrival-time-display">${a.transport_type === 'driving' ? '🚗' : '🛬'} ${a.arrival_time}</span>
             ${a.flight_info ? `<a class="arrival-flight" href="https://www.google.com/search?q=${encodeURIComponent(a.flight_info + ' flight status')}" target="_blank" rel="noopener">${a.flight_info} ↗</a>` : ''}
           </div>
-          ${isMe ? `<button class="arrival-delete-btn" data-voter-id="${a.voter_id}" title="Remove your arrival">✕</button>` : ''}
+          ${isMe || isAdmin ? `<button class="arrival-delete-btn" data-voter-id="${a.voter_id}" title="Remove arrival">✕</button>` : ''}
         </div>`;
       }).join('')}
     </div>`;
@@ -2459,7 +2462,7 @@ function renderSuggestions() {
           <button class="suggestion-vote-btn ${myVote ? 'voted' : ''}" data-id="${s.id}">
             👍 ${votes.size > 0 ? votes.size : ''}
           </button>
-          ${isOwner ? `<button class="suggestion-delete-btn" data-id="${s.id}" title="Delete your idea">✕</button>` : ''}
+          ${isOwner || isAdmin ? `<button class="suggestion-delete-btn" data-id="${s.id}" title="Delete idea">✕</button>` : ''}
         </div>
       </div>
     `;
@@ -2555,10 +2558,28 @@ function promptAdminLogin(then) {
   if (pw !== null && pw.toLowerCase() === 'admin') {
     isAdmin = true;
     sessionStorage.setItem('bach_admin', 'true');
+    showAdminBadge();
+    // Re-render everything so admin controls appear
+    renderPersonas();
+    renderSuggestions();
+    renderArrivals();
+    if (currentModalEventId) renderModalComments(currentModalEventId);
     showToast('Admin mode on 🔐');
     if (then) then();
   }
 }
+
+function showAdminBadge() {
+  let badge = document.getElementById('admin-badge');
+  if (!badge) {
+    badge = document.createElement('div');
+    badge.id = 'admin-badge';
+    badge.textContent = '🔐 Admin';
+    document.body.appendChild(badge);
+  }
+}
+
+if (isAdmin) showAdminBadge();
 
 async function adminDeletePersona(voterId_) {
   allPersonas = allPersonas.filter(p => p.voter_id !== voterId_);
@@ -2598,29 +2619,75 @@ async function adminClearSlot(slot) {
   }
 }
 
-document.addEventListener('contextmenu', e => {
-  const target = e.target.closest('[data-admin-target]');
-  if (!target) return;
-  e.preventDefault();
+async function adminClearEvent(eventId) {
+  delete voterData[eventId];
+  renderEvents();
+  renderAgenda();
+  if (supabaseClient) {
+    await supabaseClient.from('votes').delete().eq('event_id', eventId);
+  }
+}
 
-  const type = target.dataset.adminTarget;
-  const id = target.dataset.adminId;
-  const name = target.dataset.adminName || '';
+async function adminClearAllVotes() {
+  voterData = {};
+  myVotes = new Map();
+  renderEvents();
+  renderAgenda();
+  if (supabaseClient) {
+    await supabaseClient.from('votes').delete().neq('event_id', '___');
+  }
+}
+
+async function adminClearAllComments() {
+  allComments = {};
+  if (currentModalEventId) renderModalComments(currentModalEventId);
+  if (supabaseClient) {
+    await supabaseClient.from('comments').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+  }
+}
+
+document.addEventListener('contextmenu', e => {
+  const adminTarget = e.target.closest('[data-admin-target]');
+  const eventCard = e.target.closest('.event-card');
+
+  if (!adminTarget && !eventCard) return;
+  e.preventDefault();
 
   const buildMenu = () => {
     let items = [];
-    if (type === 'persona') {
-      items = [{ label: `🗑 Remove ${name} from Who's Coming`, danger: true, fn: () => adminDeletePersona(id) }];
-    } else if (type === 'vote') {
-      const eventId = target.dataset.adminEventId;
-      items = [{ label: `🗑 Remove ${name}'s vote`, danger: true, fn: () => adminDeleteVote(eventId, id) }];
-    } else if (type === 'suggestion') {
-      items = [{ label: `🗑 Remove "${name}"`, danger: true, fn: () => adminDeleteSuggestion(id) }];
-    } else if (type === 'agenda-slot') {
-      const slot = target.dataset.adminSlot;
-      const slotLabel = name || slot;
-      items = [{ label: `🗑 Clear all votes for ${slotLabel}`, danger: true, fn: () => adminClearSlot(slot) }];
+
+    if (adminTarget) {
+      const type = adminTarget.dataset.adminTarget;
+      const id = adminTarget.dataset.adminId;
+      const name = adminTarget.dataset.adminName || '';
+
+      if (type === 'persona') {
+        items = [{ label: `🗑 Remove ${name} from Who's Coming`, danger: true, fn: () => adminDeletePersona(id) }];
+      } else if (type === 'vote') {
+        const eventId = adminTarget.dataset.adminEventId;
+        items = [{ label: `🗑 Remove ${name}'s vote`, danger: true, fn: () => adminDeleteVote(eventId, id) }];
+      } else if (type === 'suggestion') {
+        items = [{ label: `🗑 Remove "${name}"`, danger: true, fn: () => adminDeleteSuggestion(id) }];
+      } else if (type === 'agenda-slot') {
+        const slot = adminTarget.dataset.adminSlot;
+        items = [{ label: `🗑 Clear votes for ${name || slot}`, danger: true, fn: () => adminClearSlot(slot) }];
+      }
+    } else if (eventCard) {
+      const eventId = eventCard.dataset.eventId;
+      const event = EVENTS.find(ev => ev.id === eventId);
+      const eventName = event?.name || eventId;
+      const voters = voterData[eventId] || [];
+
+      items = [
+        { label: `🗑 Clear ALL votes — ${eventName}`, danger: true, fn: () => adminClearEvent(eventId) },
+        ...voters.map(v => ({
+          label: `🗑 Remove ${v.voter_name}'s vote`,
+          danger: true,
+          fn: () => adminDeleteVote(eventId, v.voter_id),
+        })),
+      ];
     }
+
     if (items.length) showCtxMenu(e.clientX, e.clientY, items);
   };
 
