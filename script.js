@@ -530,16 +530,15 @@ const EVENTS_RAW = [
     category: 'restaurant',
     type: 'non-drinking',
     location: 'East 6th',
-    desc: 'The most famous BBQ in America. The brisket is legitimately life-changing. The line starts at 6am and they sell out by noon — this is a commitment, not a lunch.',
-    price: '$25–40/person',
+    desc: 'The most famous BBQ in America. Brisket is life-changing — and they offer catering so you don\'t have to wait in the legendary 3-hour line.',
+    price: '$25–40/person (catering priced separately)',
     address: '900 E 11th St, Austin, TX 78702',
     tips: [
-      '⚠️ The line is real — people camp out from 6am, doors open at 9am, sells out by noon',
-      'This is a 2–4 hour wait on a Saturday. Plan accordingly or skip it.',
-      'Worth every minute if the group is willing to commit — widely considered the best BBQ in the US',
-      'BYOB while you wait — the line has a party atmosphere',
-      'Order the brisket (obviously), ribs, and pulled pork — turkey is underrated',
-      'Cash and card accepted',
+      '📦 Franklin offers catering — you can order in advance and skip the line entirely',
+      'Contact them directly at franklinbbq.com to set up a catering order for the group',
+      'Walk-in line: people camp from 6am, doors open at 9am, sells out by noon — not worth it for a group',
+      'Order the brisket, ribs, and pulled pork — turkey is underrated',
+      'Catering minimum orders apply — check their site for current pricing',
     ],
     website: 'franklinbbq.com',
   },
@@ -699,6 +698,65 @@ const EVENTS_RAW = [
     website: 'Search "The Floating Tavern Lake Travis Austin" for tickets',
   },
   {
+    id: 'pedal-cars',
+    emoji: '🚗',
+    name: 'Pedal Cars',
+    category: 'other',
+    type: 'drinking',
+    location: 'Downtown',
+    desc: 'Group pedal car tour through downtown Austin — you pedal, you drink, you look ridiculous. $30–35/person.',
+    price: '$30–35/person',
+    address: 'Downtown Austin (check specific operator for meetup point)',
+    tips: [
+      'Multiple operators run pedal car tours — search "Austin pedal car tour" for current options',
+      'BYOB on most tours — stock up beforehand',
+      'Best in the afternoon or early evening before dinner',
+      'Groups of 10–15 fit on one car — perfect for the whole group',
+      'Book in advance — popular with bachelorette groups and fills up fast',
+    ],
+    website: 'Search "Austin pedal car tour bachelorette"',
+  },
+  {
+    id: 'axe-throwing',
+    emoji: '🪓',
+    name: 'Axe Throwing',
+    category: 'other',
+    type: 'non-drinking',
+    location: 'East 6th',
+    desc: 'Throw axes at wood targets. Way more satisfying than it has any right to be. Great group activity before a night out.',
+    price: '$25–40/person for 1–2 hours',
+    address: 'Multiple locations in Austin — see website for closest',
+    tips: [
+      '🪓 Stumpy\'s Hatchet House — popular East Austin spot, walk-ins welcome',
+      '🪓 Bad Axe Throwing — another well-rated option, book ahead on weekends',
+      'Coaches walk you through technique — no experience needed',
+      'Book a private lane for your group so you\'re not mixing with randos',
+      'Most places allow BYOB or have a bar on-site',
+      'Closed-toe shoes required — plan accordingly',
+    ],
+    website: 'stumpyshatchethouse.com | badaxethrowing.com/austin',
+  },
+  {
+    id: 'pitch-and-putt',
+    emoji: '⛳',
+    name: 'Pitch & Putt',
+    category: 'other',
+    type: 'non-drinking',
+    location: 'Zilker / Town Lake',
+    desc: 'Low-key outdoor golf in the heart of Austin. Butler Pitch & Putt is right next to Zilker — cute, cheap, and surprisingly fun even if you\'ve never golfed.',
+    price: '$10–15/person',
+    address: '1201 W Riverside Dr, Austin, TX 78704',
+    tips: [
+      'Butler Pitch & Putt — 9-hole course right next to Barton Springs and Zilker Park',
+      'No prior golf experience needed — short holes, relaxed atmosphere',
+      'Great in the morning or late afternoon when it\'s not blazing hot',
+      'Can combine with Barton Springs for a full Zilker Park afternoon',
+      'Cash or card accepted, no reservation needed usually',
+      'Bring sunscreen — it\'s open air and July in Texas',
+    ],
+    website: 'Search "Butler Pitch and Putt Austin"',
+  },
+  {
     id: 'rainey-street',
     emoji: '🍺',
     name: 'Rainey Street Bar Hop',
@@ -782,7 +840,7 @@ const SLOT_MAP = {
   // Saturday lunch — after nails, before the big day
   'jewboy-burgers':     'sat-lunch',
   'terry-blacks-bbq':   'sat-lunch',
-  'franklin-bbq':       'sat-lunch',    // legendary — be ready for the line
+  'franklin-bbq':       'sat-lunch',    // legendary — catering available, skip the line
   'la-barbecue':        'sat-lunch',    // top-tier, far more accessible than Franklin
   'leroy-lewis':        'sat-lunch',    // new school creative BBQ food truck
   'interstellar-bbq':   'sat-lunch',    // 35 min north, award-winning
@@ -794,6 +852,9 @@ const SLOT_MAP = {
   'kayak-paddleboard':  'sat-activity', // Lady Bird Lake skyline views
   'horseback-riding':   'sat-activity', // Hill Country trail ride
   'cooking-class':      'sat-activity', // Antonelli's cheese & wine class
+  'pedal-cars':         'sat-activity', // downtown pedal car tour, $30–35/person
+  'axe-throwing':       'sat-activity', // throw axes, great group activity
+  'pitch-and-putt':     'sat-activity', // Butler Pitch & Putt, Zilker Park
 
   // Saturday night — after Eberly dinner
   'broken-spoke':       'sat-night',    // real honky tonk (Thu–Sat only)
