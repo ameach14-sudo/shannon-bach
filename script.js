@@ -872,6 +872,10 @@ const QUIZ_QUESTIONS = [
   },
 ];
 
+// Map old persona keys to new ones so existing results don't break
+const PERSONA_COMPAT = { texmex: 'chaos' };
+function resolvePersonaKey(key) { return PERSONA_COMPAT[key] || key; }
+
 const PERSONAS = {
   cowgirl: {
     emoji: '🤠',
@@ -982,7 +986,7 @@ function showPersonaResult() {
 }
 
 function updateNavWithPersona() {
-  const personaKey = localStorage.getItem('bach_persona');
+  const personaKey = resolvePersonaKey(localStorage.getItem('bach_persona'));
   const persona = PERSONAS[personaKey];
   const badge = document.getElementById('nav-persona-badge');
   if (badge) {
@@ -1726,8 +1730,13 @@ async function loadPersonas() {
   if (!supabaseClient) return;
   const { data, error } = await supabaseClient.from('personas').select('voter_id, voter_name, persona').order('voter_name');
   if (!error) {
-    allPersonas = data || [];
+    allPersonas = (data || []).map(p => ({ ...p, persona: resolvePersonaKey(p.persona) }));
     renderPersonas();
+    // Migrate any stale persona keys in Supabase
+    const stale = (data || []).filter(p => PERSONA_COMPAT[p.persona]);
+    for (const p of stale) {
+      supabaseClient.from('personas').update({ persona: resolvePersonaKey(p.persona) }).eq('voter_id', p.voter_id);
+    }
   }
 }
 
@@ -1736,7 +1745,7 @@ function renderPersonas() {
   if (!grid) return;
 
   // Include current user from localStorage if not already in the list
-  const localPersonaKey = localStorage.getItem('bach_persona');
+  const localPersonaKey = resolvePersonaKey(localStorage.getItem('bach_persona'));
   let displayList = [...allPersonas];
   if (localPersonaKey && voterId && !displayList.find(p => p.voter_id === voterId)) {
     displayList.push({ voter_id: voterId, voter_name: voterName || 'You', persona: localPersonaKey });
@@ -1748,7 +1757,7 @@ function renderPersonas() {
   }
 
   grid.innerHTML = displayList.map(p => {
-    const persona = PERSONAS[p.persona];
+    const persona = PERSONAS[resolvePersonaKey(p.persona)];
     if (!persona) return '';
     const isMe = p.voter_id === voterId;
     const isBride = p.voter_name.trim().toLowerCase() === 'shannon';
@@ -2065,7 +2074,7 @@ document.querySelectorAll('.transport-btn').forEach(btn => {
 function updateQuizCta() {
   const btn = document.getElementById('quiz-open-main');
   if (!btn) return;
-  const savedPersona = localStorage.getItem('bach_persona');
+  const savedPersona = resolvePersonaKey(localStorage.getItem('bach_persona'));
   const persona = savedPersona && PERSONAS[savedPersona];
   btn.textContent = persona
     ? `${persona.emoji} You're a ${persona.title} · Retake the quiz →`
