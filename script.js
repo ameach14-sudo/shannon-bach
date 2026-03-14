@@ -2378,7 +2378,8 @@ function renderModalComments(eventId) {
     const d = new Date(c.created_at);
     const timeStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     return `
-      <div class="comment-item">
+      <div class="comment-item"
+           data-admin-target="comment" data-admin-id="${c.id}" data-admin-event-id="${eventId}" data-admin-name="${c.voter_name}">
         <div class="comment-header">
           <span class="comment-author">${c.voter_name}</span>
           <span class="comment-time">${timeStr}</span>
@@ -2546,7 +2547,8 @@ function renderArrivals() {
       ${dayArrivals.map(a => {
         const isMe = a.voter_id === voterId;
         const isBride = a.voter_name.trim().toLowerCase() === 'shannon';
-        return `<div class="arrival-row${isMe ? ' mine' : ''}">
+        return `<div class="arrival-row${isMe ? ' mine' : ''}"
+          data-admin-target="arrival" data-admin-id="${a.voter_id}" data-admin-name="${a.voter_name}">
           <div class="arrival-who">
             <span class="arrival-name-chip${isBride ? ' bride' : ''}">${isBride ? '💍 ' : ''}${a.voter_name.split(' ')[0]}</span>
             ${a.needs_ride ? '<span class="arrival-ride-tag">🚗 Needs ride</span>' : ''}
@@ -2820,14 +2822,100 @@ function showAdminBadge() {
     badge = document.createElement('div');
     badge.id = 'admin-badge';
     badge.textContent = '🔐 Admin';
+    badge.title = 'Click for admin panel';
+    badge.style.cursor = 'pointer';
+    badge.addEventListener('click', openAdminPanel);
     document.body.appendChild(badge);
   }
+}
+
+function openAdminPanel() {
+  let panel = document.getElementById('admin-panel');
+  if (!panel) {
+    panel = document.createElement('div');
+    panel.id = 'admin-panel';
+    panel.innerHTML = `
+      <div id="admin-panel-box">
+        <div id="admin-panel-header">
+          <h3>🔐 Admin Panel</h3>
+          <button id="admin-panel-close">✕</button>
+        </div>
+        <p class="admin-panel-sub">Right-click or long-press any item on the page to edit or delete it.</p>
+        <div class="admin-panel-section">
+          <h4>Nuclear Options</h4>
+          <button class="admin-nuke-btn" id="admin-nuke-votes">☢️ Clear ALL votes</button>
+          <button class="admin-nuke-btn" id="admin-nuke-personas">☢️ Clear ALL Who's Coming</button>
+          <button class="admin-nuke-btn" id="admin-nuke-suggestions">☢️ Clear ALL suggestions</button>
+          <button class="admin-nuke-btn" id="admin-nuke-arrivals">☢️ Clear ALL arrivals</button>
+          <button class="admin-nuke-btn" id="admin-nuke-comments">☢️ Clear ALL comments</button>
+        </div>
+        <div class="admin-panel-section">
+          <h4>Session</h4>
+          <button class="admin-exit-btn" id="admin-exit">Exit admin mode</button>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(panel);
+    panel.addEventListener('click', e => { if (e.target === panel) panel.classList.remove('visible'); });
+    document.getElementById('admin-panel-close').addEventListener('click', () => panel.classList.remove('visible'));
+    document.getElementById('admin-exit').addEventListener('click', () => {
+      isAdmin = false;
+      sessionStorage.removeItem('bach_admin');
+      document.getElementById('admin-badge')?.remove();
+      panel.classList.remove('visible');
+      showToast('Admin mode off');
+    });
+    document.getElementById('admin-nuke-votes').addEventListener('click', async () => {
+      if (!confirm('Clear ALL votes for everyone? This cannot be undone.')) return;
+      await adminClearAllVotes();
+      showToast('All votes cleared');
+    });
+    document.getElementById('admin-nuke-personas').addEventListener('click', async () => {
+      if (!confirm('Remove everyone from Who\'s Coming? This cannot be undone.')) return;
+      allPersonas = [];
+      localStorage.removeItem('bach_persona');
+      localStorage.removeItem('bach_persona_title');
+      updateNavWithPersona();
+      updateQuizCta();
+      renderPersonas();
+      if (supabaseClient) await supabaseClient.from('personas').delete().neq('voter_id', '___');
+      showToast('Who\'s Coming cleared');
+    });
+    document.getElementById('admin-nuke-suggestions').addEventListener('click', async () => {
+      if (!confirm('Delete ALL suggestions? This cannot be undone.')) return;
+      suggestions = [];
+      suggestionVotes = {};
+      renderSuggestions();
+      if (supabaseClient) await supabaseClient.from('suggestions').delete().neq('id', '00000000-0000-0000-0000-000000000000');
+      showToast('All suggestions cleared');
+    });
+    document.getElementById('admin-nuke-arrivals').addEventListener('click', async () => {
+      if (!confirm('Remove ALL arrivals? This cannot be undone.')) return;
+      arrivals = [];
+      renderArrivals();
+      if (supabaseClient) await supabaseClient.from('arrivals').delete().neq('voter_id', '___');
+      showToast('All arrivals cleared');
+    });
+    document.getElementById('admin-nuke-comments').addEventListener('click', async () => {
+      if (!confirm('Delete ALL comments? This cannot be undone.')) return;
+      await adminClearAllComments();
+      showToast('All comments cleared');
+    });
+  }
+  panel.classList.add('visible');
 }
 
 if (isAdmin) showAdminBadge();
 
 async function adminDeletePersona(voterId_) {
   allPersonas = allPersonas.filter(p => p.voter_id !== voterId_);
+  // If removing self, clear local storage so the fallback doesn't re-add them
+  if (voterId_ === voterId) {
+    localStorage.removeItem('bach_persona');
+    localStorage.removeItem('bach_persona_title');
+    updateNavWithPersona();
+    updateQuizCta();
+  }
   renderPersonas();
   if (supabaseClient) {
     await supabaseClient.from('personas').delete().eq('voter_id', voterId_);
@@ -2927,14 +3015,24 @@ function buildAdminMenuItems(adminTarget, eventCard) {
     } else if (type === 'agenda-slot') {
       const slot = adminTarget.dataset.adminSlot;
       items = [{ label: `🗑 Clear votes for ${name || slot}`, danger: true, fn: () => adminClearSlot(slot) }];
+    } else if (type === 'arrival') {
+      items = [{ label: `🗑 Remove ${name}'s arrival`, danger: true, fn: () => deleteArrival(id) }];
+    } else if (type === 'comment') {
+      const eventId = adminTarget.dataset.adminEventId;
+      items = [{ label: `🗑 Delete ${name}'s comment`, danger: true, fn: () => deleteComment(id, eventId) }];
     }
   } else if (eventCard) {
     const eventId = eventCard.dataset.eventId;
     const event = EVENTS.find(ev => ev.id === eventId);
     const eventName = event?.name || eventId;
     const voters = voterData[eventId] || [];
+    const isRecommended = event?.recommended;
 
     items = [
+      {
+        label: isRecommended ? '⭐ Remove Recommended tag' : '⭐ Mark as Recommended',
+        fn: () => adminToggleRecommended(eventId),
+      },
       { label: `🗑 Clear ALL votes — ${eventName}`, danger: true, fn: () => adminClearEvent(eventId) },
       ...voters.map(v => ({
         label: `🗑 Remove ${v.voter_name}'s vote`,
@@ -2945,6 +3043,16 @@ function buildAdminMenuItems(adminTarget, eventCard) {
   }
 
   return items;
+}
+
+function adminToggleRecommended(eventId) {
+  const event = EVENTS.find(e => e.id === eventId);
+  const raw = EVENTS_RAW.find(e => e.id === eventId);
+  if (!event || !raw) return;
+  event.recommended = !event.recommended;
+  raw.recommended = event.recommended;
+  renderEvents();
+  showToast(event.recommended ? '⭐ Marked as Recommended' : 'Recommended tag removed');
 }
 
 function triggerAdminMenu(x, y, adminTarget, eventCard) {

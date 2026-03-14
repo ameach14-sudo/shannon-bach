@@ -2896,12 +2896,130 @@ body {
   color: #fff;
   font-size: 0.75rem;
   font-weight: 600;
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: 20px;
   font-family: inherit;
   letter-spacing: 0.02em;
   box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  user-select: none;
+  transition: background 0.15s;
+}
+
+#admin-badge:hover {
+  background: #444;
+}
+
+/* Admin Panel Modal */
+#admin-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 9997;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
   pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+#admin-panel.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+#admin-panel-box {
+  background: white;
+  border-radius: 16px;
+  padding: 28px;
+  width: 340px;
+  max-width: 90vw;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+}
+
+#admin-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+#admin-panel-header h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--brown);
+  margin: 0;
+}
+
+#admin-panel-close {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  color: var(--gray);
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+
+.admin-panel-sub {
+  font-size: 0.8rem;
+  color: var(--gray);
+  margin: 0 0 20px;
+  line-height: 1.4;
+}
+
+.admin-panel-section {
+  margin-bottom: 20px;
+}
+
+.admin-panel-section h4 {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gray);
+  margin: 0 0 10px;
+}
+
+.admin-nuke-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: #fff5f5;
+  border: 1px solid #fcc;
+  color: #c0392b;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 8px;
+  transition: background 0.15s;
+}
+
+.admin-nuke-btn:hover {
+  background: #fee;
+}
+
+.admin-exit-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  color: var(--brown);
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.admin-exit-btn:hover {
+  background: var(--cream-dark);
 }
 
 /* =========================================
