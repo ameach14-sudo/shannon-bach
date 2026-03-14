@@ -1946,6 +1946,14 @@ function openDetailModal(eventId) {
       <ul class="detail-tips">${tipsHTML}</ul>
     </div>
 
+    ${(() => {
+      const slot = event.slot;
+      const slotTime = slot && SLOT_TIMES[slot];
+      if (!slotTime) return '';
+      const url = gcalLink(`${event.emoji} ${event.name}`, slotTime.start, slotTime.end, event.desc, event.address);
+      return `<a href="${url}" target="_blank" rel="noopener" class="detail-cal-btn">📅 Add to Google Calendar</a>`;
+    })()}
+
     ${event.links && event.links.length ? `
     <div class="detail-section">
       <h4>🔗 Links</h4>

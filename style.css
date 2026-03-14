@@ -2766,6 +2766,26 @@ body {
   color: var(--rose-dark);
 }
 
+.detail-cal-btn {
+  display: block;
+  width: 100%;
+  text-align: center;
+  background: #1a73e8;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 11px 16px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  transition: background 0.15s;
+  box-sizing: border-box;
+}
+
+.detail-cal-btn:hover {
+  background: #1557b0;
+}
+
 .detail-voters {
   display: flex;
   flex-wrap: wrap;
