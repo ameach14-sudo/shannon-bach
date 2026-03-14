@@ -1156,6 +1156,7 @@ const QUIZ_QUESTIONS = [
       { emoji: '🫶', text: 'Text Shannon directly first — just her — before responding to anything.',   type: 'glue' },
       { emoji: '📸', text: 'Open the camera. Airport arrival content. It\'s begun.',                    type: 'influencer' },
       { emoji: '🎲', text: 'Put your phone away and walk. You\'ll figure it out when you get outside.', type: 'wildcard' },
+      { emoji: '🙂', text: 'Mute the chat. You\'ll catch up in person. Less stimulation preferred.',    type: 'sport' },
     ],
   },
   {
@@ -1167,6 +1168,7 @@ const QUIZ_QUESTIONS = [
       { emoji: '🫶', text: 'Make sure everyone\'s actually heard before anyone commits.',                 type: 'glue' },
       { emoji: '📸', text: 'Suggest the place with the patio you saw on Instagram. The lighting\'s perfect.', type: 'influencer' },
       { emoji: '🎲', text: 'Start walking toward whatever music you can hear from outside.',              type: 'wildcard' },
+      { emoji: '🙂', text: 'Say "I\'m down for whatever" and genuinely mean it. You are very adaptable.', type: 'sport' },
     ],
   },
   {
@@ -1178,6 +1180,7 @@ const QUIZ_QUESTIONS = [
       { emoji: '🫶', text: 'Already distributed Liquid IV. You bought extra before the trip.',           type: 'glue' },
       { emoji: '📸', text: 'Golden hour only. No outdoor activity between noon and 6pm. Non-negotiable.', type: 'influencer' },
       { emoji: '🎲', text: 'You kind of love it? You\'ve been cold for months. Let\'s sweat.',          type: 'wildcard' },
+      { emoji: '🙂', text: 'Not ideal but you\'re not going to say anything. You\'re fine. Everything is fine.', type: 'sport' },
     ],
   },
   {
@@ -1189,6 +1192,7 @@ const QUIZ_QUESTIONS = [
       { emoji: '🫶', text: '"No but what does Shannon ACTUALLY want. This is her weekend." And you mean it.', type: 'glue' },
       { emoji: '📸', text: 'Already have three venue options with photos pulled up. You\'ll show her the vibes.', type: 'influencer' },
       { emoji: '🎲', text: 'Propose something not on any list. Trust the instinct.',                     type: 'wildcard' },
+      { emoji: '🙂', text: 'Agree immediately. You have no strong feelings. Or you do but this isn\'t the moment.', type: 'sport' },
     ],
   },
   {
@@ -1200,6 +1204,7 @@ const QUIZ_QUESTIONS = [
       { emoji: '🫶', text: 'Running a mental headcount. Everyone\'s tracked. Everything\'s fine.',       type: 'glue' },
       { emoji: '📸', text: 'Editing tonight\'s photos while the memory\'s fresh. The lighting was incredible.', type: 'influencer' },
       { emoji: '🎲', text: 'Somewhere unexpected. It\'s working out better than anything that was planned.', type: 'wildcard' },
+      { emoji: '🙂', text: 'Still here. A little tired but the group is having fun so you\'re staying.', type: 'sport' },
     ],
   },
   {
@@ -1211,6 +1216,7 @@ const QUIZ_QUESTIONS = [
       { emoji: '🫶', text: 'Already got everyone water and located the nearest pharmacy.',                type: 'glue' },
       { emoji: '📸', text: 'Recap reel is up. 200+ likes. Brunch can wait.',                             type: 'influencer' },
       { emoji: '🎲', text: 'At a completely different restaurant than planned. The food is incredible.',  type: 'wildcard' },
+      { emoji: '🙂', text: 'Quietly relieved it all went so well. You were more nervous about this than anyone knew.', type: 'sport' },
     ],
   },
 ];
@@ -1249,6 +1255,11 @@ const PERSONAS = {
     emoji: '🎲',
     title: 'The Wildcard',
     desc: 'Nobody can predict what you\'re going to do next — including you. You\'ve already eaten at a restaurant that wasn\'t on anyone\'s list, made friends with a stranger named Randy, and proposed three different activities in the last 20 minutes. The weekend is better because of you. It is also slightly more chaotic. These are related.',
+  },
+  sport: {
+    emoji: '🙂',
+    title: 'The Good Sport',
+    desc: 'You RSVP\'d yes before you knew the full plan. You\'ve said "I\'m down for whatever" more times this weekend than you can count and you meant it every single time. You\'re not the loudest person in the room. You\'re also not not having fun. By Sunday brunch you will be the most quietly relieved person at the table and nobody will fully understand why that\'s actually the biggest compliment.',
   },
 };
 
@@ -1315,6 +1326,16 @@ const PERSONA_TITLES = {
     'The We\'re Going WHERE?',
     'The Plot Twist of the Group',
   ],
+  sport: [
+    'The One Who Said Yes Before Knowing the Details',
+    'The Fine, Everything Is Fine Person',
+    'The MVP of I\'m Down For Whatever',
+    'The One Who Was More Nervous Than She Let On',
+    'The Quietly Relieved It Went Well',
+    'The Low-Key Legend',
+    'The One Who Packed Every Possible Outfit Just In Case',
+    'The Actually Had a Great Time',
+  ],
 };
 
 // Hybrid titles — when your top two types are different, you get a combined title.
@@ -1327,6 +1348,7 @@ const PERSONA_HYBRID_TITLES = {
     glue:       'The Designated Driver in Full Western',
     influencer: 'The One With the Boot-Buying Reel',
     wildcard:   'The Spontaneous Country Girl',
+    sport:      'The One Who Bought Boots and Said Nothing About It',
   },
   typea: {
     cowgirl:    'The Planner Who Went Rogue for One Night',
@@ -1334,6 +1356,7 @@ const PERSONA_HYBRID_TITLES = {
     glue:       'The Itinerary AND the Advil',
     influencer: 'The Yelp Review Poster',
     wildcard:   'The Contingency Plan That Also Went Off Script',
+    sport:      'The One Who Over-Prepared and Told Nobody',
   },
   hotmess: {
     cowgirl:    'The Dance Floor Occupation Specialist',
@@ -1341,6 +1364,7 @@ const PERSONA_HYBRID_TITLES = {
     glue:       'The One Who Started It AND Got Everyone Home',
     influencer: 'The Beautiful Disaster, Documented',
     wildcard:   'The Escalation Enthusiast',
+    sport:      'The One Having Fun in a Way Nobody Expected',
   },
   glue: {
     cowgirl:    'The Mom Friend in New Boots',
@@ -1348,6 +1372,7 @@ const PERSONA_HYBRID_TITLES = {
     hotmess:    'The One Who Let Loose and Still Got Everyone Home',
     influencer: 'The Group Photo Wrangler',
     wildcard:   'The Safety Net in Unpredictable Conditions',
+    sport:      'The Quietly Keeping Everything Together',
   },
   influencer: {
     cowgirl:    'The Mural Finder in New Boots',
@@ -1355,6 +1380,7 @@ const PERSONA_HYBRID_TITLES = {
     hotmess:    'The One Who Made Last Night Look Intentional',
     glue:       'The Group Shot AND Got Everyone Home',
     wildcard:   'The Accidental Content Creator',
+    sport:      'The One Who Posted It Before Anyone Knew She Was Paying Attention',
   },
   wildcard: {
     cowgirl:    'The Spontaneous Boot Buyer',
@@ -1362,6 +1388,15 @@ const PERSONA_HYBRID_TITLES = {
     hotmess:    'The Living Unpredictable Highlight Reel',
     glue:       'The Wild Card Who Got Everyone Home',
     influencer: 'The One Who Made the Story Nobody Planned',
+    sport:      'The One Who Showed Up Not Sure and Left a Legend',
+  },
+  sport: {
+    cowgirl:    'The One Who Bought Boots and Quietly Loved Every Second',
+    typea:      'The One Who Read the Itinerary Four Times Before Arriving',
+    hotmess:    'The One Who Was Fine, Then Wasn\'t, Then Was Again',
+    glue:       'The One Who Worried About Everyone Including Herself',
+    influencer: 'The One Who Looked Like She Was Fine and Posted to Prove It',
+    wildcard:   'The One Who Wasn\'t Sure and Then Something Happened',
   },
 };
 
@@ -2470,6 +2505,7 @@ async function init() {
     usingFallback = true;
   }
 
+  loadRecommendedOverrides();
   renderEvents();
   renderAgenda();
   renderPersonas();
@@ -3166,12 +3202,34 @@ function buildAdminMenuItems(adminTarget, eventCard) {
   return items;
 }
 
+function loadRecommendedOverrides() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('bach_recommended') || '{}');
+    Object.entries(saved).forEach(([id, val]) => {
+      const ev = EVENTS.find(e => e.id === id);
+      const raw = EVENTS_RAW.find(e => e.id === id);
+      if (ev) ev.recommended = val;
+      if (raw) raw.recommended = val;
+    });
+  } catch (_) {}
+}
+
+function saveRecommendedOverrides() {
+  const overrides = {};
+  EVENTS_RAW.forEach(e => {
+    // Only save if it differs from the original hardcoded value
+    overrides[e.id] = !!e.recommended;
+  });
+  localStorage.setItem('bach_recommended', JSON.stringify(overrides));
+}
+
 function adminToggleRecommended(eventId) {
   const event = EVENTS.find(e => e.id === eventId);
   const raw = EVENTS_RAW.find(e => e.id === eventId);
   if (!event || !raw) return;
   event.recommended = !event.recommended;
   raw.recommended = event.recommended;
+  saveRecommendedOverrides();
   renderEvents();
   showToast(event.recommended ? '⭐ Marked as Recommended' : 'Recommended tag removed');
 }
