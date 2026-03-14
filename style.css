@@ -2358,15 +2358,31 @@ body {
 }
 
 /* =========================================
-   VOTER CHIPS (on card)
+   VOTER COUNT (on card)
    ========================================= */
 .voters-row {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 6px;
-  min-height: 28px;
+  flex-direction: column;
+  gap: 3px;
   margin-bottom: 4px;
+}
+
+.voter-count-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.voter-count-yes {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--brown);
+}
+
+.voter-count-maybe {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--gray);
 }
 
 .voter-chip {

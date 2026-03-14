@@ -1458,34 +1458,27 @@ function voteScore(eventId) {
 }
 
 // =========================================
-// VOTER CHIP HTML
+// VOTER DISPLAY HTML
 // =========================================
 function voterChipsHTML(eventId) {
   const voters = voterData[eventId] || [];
   if (voters.length === 0) return '<span class="no-voters">No votes yet — be first!</span>';
 
-  const MAX_SHOW = 5;
-  const shown = voters.slice(0, MAX_SHOW);
-  const extra = voters.length - MAX_SHOW;
-
-  const chips = shown.map(v => {
-    const isBride = v.voter_name.trim().toLowerCase() === 'shannon';
-    const isMe = v.voter_id === voterId;
-    const isMaybe = v.vote_type === 'maybe';
-    const initials = isBride ? '💍' : v.voter_name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-    const classes = ['voter-chip', isMe ? 'me' : '', isBride ? 'bride' : '', isMaybe ? 'maybe' : ''].filter(Boolean).join(' ');
-    return `<span class="${classes}" title="${v.voter_name}${isMaybe ? ' (interested)' : ''}">${initials}</span>`;
-  }).join('');
-
-  const extraChip = extra > 0 ? `<span class="voter-chip extra">+${extra}</span>` : '';
   const yesVoters = voters.filter(v => v.vote_type !== 'maybe');
   const maybeVoters = voters.filter(v => v.vote_type === 'maybe');
-  const parts = [];
-  if (yesVoters.length) parts.push(`✅ ${yesVoters.map(v => v.voter_name.split(' ')[0]).join(', ')}`);
-  if (maybeVoters.length) parts.push(`🤔 ${maybeVoters.map(v => v.voter_name.split(' ')[0]).join(', ')}`);
-  const countLabel = `<span class="voter-names-label">${parts.join('  ')}</span>`;
 
-  return chips + extraChip + countLabel;
+  const countParts = [];
+  if (yesVoters.length) countParts.push(`<span class="voter-count-yes">✅ ${yesVoters.length} in</span>`);
+  if (maybeVoters.length) countParts.push(`<span class="voter-count-maybe">🤔 ${maybeVoters.length} maybe</span>`);
+
+  const nameParts = [];
+  if (yesVoters.length) nameParts.push(yesVoters.map(v => v.voter_name.split(' ')[0]).join(', '));
+  if (maybeVoters.length) nameParts.push(`🤔 ${maybeVoters.map(v => v.voter_name.split(' ')[0]).join(', ')}`);
+
+  return `
+    <div class="voter-count-row">${countParts.join('')}</div>
+    <div class="voter-names-label">${nameParts.join(' · ')}</div>
+  `;
 }
 
 // =========================================
