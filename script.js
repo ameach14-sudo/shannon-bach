@@ -701,6 +701,26 @@ const EVENTS_RAW = [
     website: 'Search "The Floating Tavern Lake Travis Austin" for tickets',
   },
   {
+    id: 'private-chef',
+    emoji: '👨‍🍳',
+    name: 'Private Chef at the Airbnb',
+    category: 'other',
+    type: 'drinking',
+    location: 'Downtown',
+    desc: 'A chef comes to your place — either cooks a full dinner while you drink wine, or leads an interactive cooking lesson. Way more fun than it sounds for a group.',
+    price: '$94–150/person',
+    address: 'Your Airbnb — chef comes to you',
+    tips: [
+      '👨‍🍳 Gather and Forge (gatherandforge.com) — Austin\'s most well-known option. Cooking lesson or private dinner, your call.',
+      '🍽️ Take a Chef (takeachef.com) — national marketplace, chef comes to you, ~$94/person for a group of 10. Chef shops, cooks, and cleans up.',
+      '🥂 Curated Poured Plated (curatedpouredplated.com) — boutique Austin chef, custom menus and wine pairing. Higher-end, contact for a quote.',
+      'Cooking lesson format: everyone participates, you make 2–3 dishes together, then eat what you made',
+      'Private dinner format: chef handles everything, you just show up and drink',
+      'Book 2–3 weeks in advance for a group of 10 — weekends fill fast',
+    ],
+    website: 'gatherandforge.com | takeachef.com/en-us/private-chef/austin',
+  },
+  {
     id: 'pedal-cars',
     emoji: '🚗',
     name: 'Pedal Cars',
@@ -880,6 +900,7 @@ const SLOT_MAP = {
   'kayak-paddleboard':  'sat-activity', // Lady Bird Lake skyline views
   'horseback-riding':   'sat-activity', // Hill Country trail ride
   'cooking-class':      'sat-activity', // Antonelli's cheese & wine class
+  'private-chef':       'fri-dinner',   // chef comes to the Airbnb — cooking lesson or private dinner
   'pedal-cars':         'sat-activity', // downtown pedal car tour, $30–35/person
   'axe-throwing':       'sat-activity', // throw axes, great group activity
   'pitch-and-putt':     'sat-activity', // Butler Pitch & Putt, Zilker Park
