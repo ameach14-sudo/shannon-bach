@@ -774,6 +774,7 @@ const EVENTS_RAW = [
       '🍹 The Knockout Margarita — it\'s called that for a reason',
       'Austin institution since 1952 — a genuinely historic Tex-Mex spot',
       'Open Tue–Sun 11am, closed Mondays',
+      '⚠️ They run everything on one tab per table — splitting a large group is a hassle. Plan to venmo one person or bring cash.',
       'Can get busy on weekends — either get there early or put your name in and grab a marg at the bar',
     ],
     website: 'mattselrancho.com',
@@ -1126,65 +1127,69 @@ let _pendingQuickPick = null;
 // =========================================
 const QUIZ_QUESTIONS = [
   {
-    q: 'You\'ve never been to Austin. You just landed. What\'s your first move?',
+    q: 'You just landed. Group chat has 74 unread messages. What do you actually do?',
     options: [
-      { emoji: '🤠', text: 'Buy cowboy boots immediately. I don\'t own any. That changes now.',          type: 'cowgirl' },
-      { emoji: '🥂', text: 'I have a reservation at the rooftop bar I found on Google 3 weeks ago.',    type: 'typea' },
-      { emoji: '🎉', text: 'Mass texting the group "I\'M HERE I LOVE TEXAS LET\'S GOOOO"',              type: 'hotmess' },
-      { emoji: '🫶', text: 'Confirming everyone landed before I do literally anything else',             type: 'glue' },
-      { emoji: '📸', text: 'Airport arrival shot. Austin content has officially begun.',                 type: 'influencer' },
+      { emoji: '🤠', text: 'Send "WHERE ARE YALL I\'M HERE 🤠" and start heading to baggage claim.',   type: 'cowgirl' },
+      { emoji: '🥂', text: 'Scroll to the top and read every single one. Need the full picture.',       type: 'typea' },
+      { emoji: '🎉', text: 'Send a voice memo because you can\'t type and pull your bag at the same time.', type: 'hotmess' },
+      { emoji: '🫶', text: 'Text Shannon directly first — just her — before responding to anything.',   type: 'glue' },
+      { emoji: '📸', text: 'Open the camera. Airport arrival content. It\'s begun.',                    type: 'influencer' },
+      { emoji: '🎲', text: 'Put your phone away and walk. You\'ll figure it out when you get outside.', type: 'wildcard' },
     ],
   },
   {
-    q: 'It\'s 99°F and humid. You did not prepare for this. How are you handling July in Texas?',
+    q: 'It\'s the first night and no one can decide where to go. You:',
     options: [
-      { emoji: '🤠', text: 'Completely fine. I\'m wearing jeans and boots and I have no regrets.',      type: 'cowgirl' },
-      { emoji: '🥂', text: 'I researched the weather. Linen outfit, SPF 50, early dinner reservation.', type: 'typea' },
-      { emoji: '🎉', text: 'Wait, it\'s HOW hot? It\'s fine. Another frozen marg will help.',           type: 'hotmess' },
-      { emoji: '🫶', text: 'Already handing out Liquid IV to everyone like a hydration sergeant.',      type: 'glue' },
-      { emoji: '📸', text: 'Strictly golden hour content. No outdoor activity between noon and 5pm.',   type: 'influencer' },
+      { emoji: '🤠', text: 'Suggest the honky tonk. You\'ve been thinking about this since you booked the trip.', type: 'cowgirl' },
+      { emoji: '🥂', text: 'Pull out the list you made before you got here. Already narrowed to three.', type: 'typea' },
+      { emoji: '🎉', text: 'Say "I\'m fine with anything" while actively hoping it escalates.',          type: 'hotmess' },
+      { emoji: '🫶', text: 'Make sure everyone\'s actually heard before anyone commits.',                 type: 'glue' },
+      { emoji: '📸', text: 'Suggest the place with the patio you saw on Instagram. The lighting\'s perfect.', type: 'influencer' },
+      { emoji: '🎲', text: 'Start walking toward whatever music you can hear from outside.',              type: 'wildcard' },
     ],
   },
   {
-    q: 'Shannon says "I\'m good with whatever the group wants." You:',
+    q: 'It\'s 99°F and nobody packed for this. How are you handling July in Texas?',
     options: [
-      { emoji: '🤠', text: 'Honky tonk. Obviously. I\'ve been waiting to say that since we landed.',   type: 'cowgirl' },
-      { emoji: '🥂', text: 'Pull up your color-coded Google Doc of options with Yelp ratings.',         type: 'typea' },
-      { emoji: '🎉', text: 'Say "I\'m down for anything" while hoping it escalates somehow.',           type: 'hotmess' },
-      { emoji: '🫶', text: 'Redirect: "But what does SHANNON actually want? This is her weekend."',     type: 'glue' },
-      { emoji: '📸', text: 'Suggest the place with the mural on the patio. Incredible lighting.',       type: 'influencer' },
+      { emoji: '🤠', text: 'Fine. Wearing jeans and new boots. Zero regrets. This is Texas.',            type: 'cowgirl' },
+      { emoji: '🥂', text: 'Researched the forecast. Linen outfit, SPF 50, moving between air-conditioned spots.', type: 'typea' },
+      { emoji: '🎉', text: 'It\'s HOW hot? Cool, another frozen marg fixes everything.',                 type: 'hotmess' },
+      { emoji: '🫶', text: 'Already distributed Liquid IV. You bought extra before the trip.',           type: 'glue' },
+      { emoji: '📸', text: 'Golden hour only. No outdoor activity between noon and 6pm. Non-negotiable.', type: 'influencer' },
+      { emoji: '🎲', text: 'You kind of love it? You\'ve been cold for months. Let\'s sweat.',          type: 'wildcard' },
+    ],
+  },
+  {
+    q: 'Shannon says "honestly I\'m good with whatever." You:',
+    options: [
+      { emoji: '🤠', text: 'She said whatever. We\'re going to the honky tonk. Settled.',               type: 'cowgirl' },
+      { emoji: '🥂', text: 'Pull up the pros and cons doc. She doesn\'t know what she wants. You do.',   type: 'typea' },
+      { emoji: '🎉', text: 'Interpret this as a green light to escalate the original plan.',             type: 'hotmess' },
+      { emoji: '🫶', text: '"No but what does Shannon ACTUALLY want. This is her weekend." And you mean it.', type: 'glue' },
+      { emoji: '📸', text: 'Already have three venue options with photos pulled up. You\'ll show her the vibes.', type: 'influencer' },
+      { emoji: '🎲', text: 'Propose something not on any list. Trust the instinct.',                     type: 'wildcard' },
     ],
   },
   {
     q: 'It\'s 1:30am Saturday. Where are you?',
     options: [
-      { emoji: '🤠', text: 'On the dance floor. I learned to two-step tonight. I\'m never leaving.',   type: 'cowgirl' },
-      { emoji: '🥂', text: 'In bed. Skincare on. Truly lovely evening.',                                type: 'typea' },
-      { emoji: '🎉', text: 'At a third location I don\'t remember agreeing to. Having a blast.',        type: 'hotmess' },
-      { emoji: '🫶', text: 'Tracking everyone\'s location like an unpaid air traffic controller.',      type: 'glue' },
-      { emoji: '📸', text: 'Editing tonight\'s content while the lighting is still in my head.',        type: 'influencer' },
+      { emoji: '🤠', text: 'Dance floor. I learned to two-step tonight and I am not leaving.',          type: 'cowgirl' },
+      { emoji: '🥂', text: 'In bed. Moisturizer on. Excellent night.',                                   type: 'typea' },
+      { emoji: '🎉', text: 'At a third location. I don\'t remember agreeing to come here. Having the best time.', type: 'hotmess' },
+      { emoji: '🫶', text: 'Running a mental headcount. Everyone\'s tracked. Everything\'s fine.',       type: 'glue' },
+      { emoji: '📸', text: 'Editing tonight\'s photos while the memory\'s fresh. The lighting was incredible.', type: 'influencer' },
+      { emoji: '🎲', text: 'Somewhere unexpected. It\'s working out better than anything that was planned.', type: 'wildcard' },
     ],
   },
   {
-    q: 'Sunday farewell brunch. How are you doing?',
+    q: 'Sunday farewell brunch. How\'s the table?',
     options: [
-      { emoji: '🤠', text: 'Bloody mary in hand, still wearing yesterday\'s hat, no notes.',            type: 'cowgirl' },
-      { emoji: '🥂', text: 'Hydrated, rested, mildly judging everyone else\'s life choices.',           type: 'typea' },
-      { emoji: '🎉', text: 'Can\'t fully account for Saturday. Wouldn\'t change a single thing.',       type: 'hotmess' },
-      { emoji: '🫶', text: 'Already made everyone water and located the nearest CVS for Advil.',        type: 'glue' },
-      { emoji: '📸', text: 'Recap reel is posted. 200 likes. Brunch can wait.',                         type: 'influencer' },
-      { emoji: '🎲', text: 'Somehow ended up at a completely different restaurant than planned. Amazing food though.', type: 'wildcard' },
-    ],
-  },
-  {
-    q: 'You have 4 hours and zero plans. What happens?',
-    options: [
-      { emoji: '🤠', text: 'Boot shopping. No discussion needed.',                                       type: 'cowgirl' },
-      { emoji: '🥂', text: 'Immediately open Google Maps, sort by rating, make a plan within 8 minutes.', type: 'typea' },
-      { emoji: '🎉', text: 'Suggest day drinking. Aggressively.',                                        type: 'hotmess' },
-      { emoji: '🫶', text: 'Run a group poll via text. Democracy first.',                                 type: 'glue' },
-      { emoji: '📸', text: 'Google "most Instagrammable spots in Austin" and propose a content crawl.',  type: 'influencer' },
-      { emoji: '🎲', text: 'Start walking. Something interesting will happen. It always does.',           type: 'wildcard' },
+      { emoji: '🤠', text: 'Bloody mary in hand, still wearing yesterday\'s hat, no notes whatsoever.',  type: 'cowgirl' },
+      { emoji: '🥂', text: 'You\'re hydrated, rested, and mildly judging some of last night\'s decisions.', type: 'typea' },
+      { emoji: '🎉', text: 'Cannot fully account for Saturday. Would not change a single thing.',         type: 'hotmess' },
+      { emoji: '🫶', text: 'Already got everyone water and located the nearest pharmacy.',                type: 'glue' },
+      { emoji: '📸', text: 'Recap reel is up. 200+ likes. Brunch can wait.',                             type: 'influencer' },
+      { emoji: '🎲', text: 'At a completely different restaurant than planned. The food is incredible.',  type: 'wildcard' },
     ],
   },
 ];
@@ -1291,6 +1296,54 @@ const PERSONA_TITLES = {
   ],
 };
 
+// Hybrid titles — when your top two types are different, you get a combined title.
+// This gives 36 possible outcomes vs 6, nearly eliminating duplicate results.
+// Only used when runner-up score >= 2 (a meaningful secondary type).
+const PERSONA_HYBRID_TITLES = {
+  cowgirl: {
+    typea:      'The Cowgirl With a Spreadsheet',
+    hotmess:    'The Boot-Wearing Instigator',
+    glue:       'The Designated Driver in Full Western',
+    influencer: 'The One With the Boot-Buying Reel',
+    wildcard:   'The Spontaneous Country Girl',
+  },
+  typea: {
+    cowgirl:    'The Planner Who Went Rogue for One Night',
+    hotmess:    'The Color-Coded Plans, Deleted by 10pm',
+    glue:       'The Itinerary AND the Advil',
+    influencer: 'The Yelp Review Poster',
+    wildcard:   'The Contingency Plan That Also Went Off Script',
+  },
+  hotmess: {
+    cowgirl:    'The Dance Floor Occupation Specialist',
+    typea:      'The Chaos With a Side of Google Maps',
+    glue:       'The One Who Started It AND Got Everyone Home',
+    influencer: 'The Beautiful Disaster, Documented',
+    wildcard:   'The Escalation Enthusiast',
+  },
+  glue: {
+    cowgirl:    'The Mom Friend in New Boots',
+    typea:      'The Backup Plan With Advil',
+    hotmess:    'The One Who Let Loose and Still Got Everyone Home',
+    influencer: 'The Group Photo Wrangler',
+    wildcard:   'The Safety Net in Unpredictable Conditions',
+  },
+  influencer: {
+    cowgirl:    'The Mural Finder in New Boots',
+    typea:      'The Pre-Scouted Content Calendar',
+    hotmess:    'The One Who Made Last Night Look Intentional',
+    glue:       'The Group Shot AND Got Everyone Home',
+    wildcard:   'The Accidental Content Creator',
+  },
+  wildcard: {
+    cowgirl:    'The Spontaneous Boot Buyer',
+    typea:      'The Chaos That Somehow Made Reservations',
+    hotmess:    'The Living Unpredictable Highlight Reel',
+    glue:       'The Wild Card Who Got Everyone Home',
+    influencer: 'The One Who Made the Story Nobody Planned',
+  },
+};
+
 // Compute a unique title for a persona based on their answer pattern.
 // Same persona type + different answers = different title.
 // For people loaded from Supabase (no answer data), hash their voter_id.
@@ -1361,17 +1414,22 @@ function showPersonaResult() {
   if (tied.length === 1) {
     winner = tied[0];
   } else {
-    // Tiebreaker: use the first-answered type among the tied options
     winner = quizAnswers.find(t => tied.includes(t));
-    // If still ambiguous (shouldn't happen), fall back to the one answered most recently
     if (!winner) winner = tied[tied.length - 1];
   }
 
+  // Runner-up type — the second-most-answered type (must be different from winner and score >= 2)
+  const runner = sorted.find(([k, v]) => k !== winner && v >= 2)?.[0] || null;
+
   const persona = PERSONAS[winner];
 
-  // Compute a unique title from this person's exact answer pattern
-  const answerHash = quizAnswers.join('');
-  const uniqueTitle = getPersonaTitle(winner, answerHash);
+  // Pick title: hybrid if there's a meaningful runner-up, otherwise pure variant
+  let uniqueTitle;
+  if (runner && PERSONA_HYBRID_TITLES[winner]?.[runner]) {
+    uniqueTitle = PERSONA_HYBRID_TITLES[winner][runner];
+  } else {
+    uniqueTitle = getPersonaTitle(winner, quizAnswers.join(''));
+  }
 
   // Store persona and their unique title locally
   localStorage.setItem('bach_persona', winner);
