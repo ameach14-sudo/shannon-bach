@@ -115,15 +115,15 @@ const EVENTS_RAW = [
     category: 'restaurant',
     type: 'drinking',
     location: 'South Congress',
-    desc: 'Honestly the food is mid, but the Oak Garden patio is the move — live music, frozen margaritas, string lights, big group energy. Great for day drinking.',
+    desc: 'The food is mid, but the Oak Garden patio is genuinely great — huge, shaded, live music on weekends, and their frozen margs are legitimately strong. Come for the patio, stay for the margaritas.',
     price: '$20–35/person',
     address: '1412 S Congress Ave, Austin, TX 78704',
     tips: [
-      'The Oak Garden patio out back is huge — great for a group',
-      'Live music on the patio most weekends',
+      'The Oak Garden patio out back is the real reason to come — huge, string lights, live music',
+      'Full Tex-Mex menu but honestly nothing to write home about — the margs are the star',
       'Try the Oak Garden margarita — their signature frozen marg',
-      'Gets busy on weekends — go for late lunch or early dinner to avoid the wait',
-      'Right in the heart of SoCo, easy to walk to from everywhere',
+      'Open 11am daily — great for a patio lunch before exploring SoCo',
+      'Right in the heart of SoCo, easy walk from everywhere on the strip',
     ],
   },
   {
@@ -137,11 +137,11 @@ const EVENTS_RAW = [
     price: '$40–65/person',
     address: '1400 S Congress Ave, Austin, TX 78704',
     tips: [
-      'Reservation strongly recommended on weekends',
-      'Oyster happy hour on weekdays (3–6pm) if the timing works',
-      'The patio is beautiful — one of the best outdoor dining spots on SoCo',
-      'Great for a Friday lunch or early dinner before heading out',
-      'Seafood towers are perfect for sharing as a group',
+      'Reservation strongly recommended on weekends — books out fast',
+      'Dinner (5:30pm–close) is the prime experience — full menu, great cocktails',
+      'Weekend brunch (10:30am–3pm) is also excellent if you want a late start',
+      'The SoCo patio is one of the best outdoor dining spots in the city',
+      'Gulf oysters, seafood towers, and cocktails are the move for a group',
     ],
   },
   {
@@ -267,14 +267,14 @@ const EVENTS_RAW = [
     category: 'restaurant',
     type: 'non-drinking',
     location: 'East 6th',
-    desc: 'A well-known Austin spot — creative, loaded burgers with local ingredients. Unpretentious, good, and genuinely Austin.',
+    desc: 'Late-night food truck near the East 6th bar scene. This is drunk food — creative loaded burgers when the group needs something after the bars. Good call at 1am.',
     price: '$12–18/person',
-    address: 'East Austin area (check current location)',
+    address: 'East Austin area (check current location — it\'s a food truck)',
     tips: [
-      'A legit Austin institution — not a chain, not a gimmick, just a great burger',
-      'Creative toppings and daily specials — check the menu before you go',
-      'Great for lunch or a casual dinner before a night out',
-      'Cash friendly, small operation — part of what makes it worth going',
+      'Food truck setup near the East 6th bar corridor — late night is when it shines',
+      'Creative loaded burgers with local ingredients — hits different after a few drinks',
+      'Cash friendly, walk-up window',
+      'Check hours before you go — it\'s a food truck so verify they\'re open',
     ],
     website: 'Search "JewBoy Burgers Austin" for current location and hours',
   },
@@ -285,17 +285,17 @@ const EVENTS_RAW = [
     category: 'bar',
     type: 'drinking',
     location: 'East 6th',
-    desc: 'Best frozen margaritas in Austin and it\'s not close. Famously strong. Great stop before or after anything.',
+    desc: 'Best frozen margaritas in Austin and it\'s not close. People don\'t go here for the food — they go for the margs. Famously strong, perfect afternoon pitstop.',
     price: '$10–15/drink',
-    address: 'Multiple Austin locations (East 6th area)',
+    address: 'Multiple Austin locations — E Cesar Chavez (original) and South 1st',
     tips: [
       'These are NOT normal margaritas — they are strong, be warned',
-      'Perfect pre-game stop or afternoon pitstop',
+      'Perfect afternoon pitstop before dinner or a pre-game stop before going out',
+      'Happy hour Mon–Fri 3:30–6:30pm',
       'Usually a line but it moves fast',
       'Get the classic frozen margarita — don\'t overthink it',
-      'Cash friendly, outdoor seating available',
     ],
-    website: 'Search "De Nada Cantina Austin" for nearest location',
+    website: 'denadacantina.com',
   },
   {
     id: 'taco-speakeasy',
@@ -304,16 +304,17 @@ const EVENTS_RAW = [
     category: 'restaurant',
     type: 'drinking',
     location: 'East 6th',
-    desc: 'Hidden bar behind a taco shop — find the secret entrance. Craft cocktails, tacos, and serious late-night energy.',
+    desc: 'A hidden taco restaurant (Taqueria de Diez) accessed through a secret entrance — handmade tortillas, carne asada, al pastor. The food is the actual draw, the hidden entrance is the experience.',
     price: '$20–35/person',
-    address: 'East 6th St area, Austin, TX',
+    address: '206 Trinity St, Austin, TX 78701 (look for the hidden alley entrance)',
     tips: [
-      'The entrance is hidden — look for the bookshelf or ask the host',
-      'Reservation recommended on weekends',
-      'Known for strong, well-crafted cocktails and excellent tacos',
-      'Late-night vibes, usually stays busy until close',
+      'The entrance is hidden — it\'s in an alley behind the building, look for the door',
+      'Food-forward: handmade corn tortillas pressed to order, carne asada, al pastor, nopal',
+      'Thu–Sat open until 1am — great late-night dinner option near 6th Street',
+      'The "speakeasy" vibe is real — fun for a group to hunt down together',
+      'Open 11:30am daily but best Thu–Sat night when the surrounding bar scene is active',
     ],
-    website: 'Search "taco speakeasy Austin" for current location & reservations',
+    website: 'Search "Taqueria de Diez Austin" for reservations',
   },
   {
     id: 'comedy-mothership',
@@ -399,14 +400,16 @@ const EVENTS_RAW = [
     category: 'other',
     type: 'non-drinking',
     location: 'Downtown',
-    desc: 'Sunset boat cruise on Lady Bird Lake. Relaxed, cheap, and a great way to see the city from the water.',
+    desc: 'Sunset bat colony cruise on Lady Bird Lake. 1.5 million Mexican free-tailed bats emerge from the Congress Ave Bridge at dusk — it\'s an insane natural spectacle and uniquely Austin.',
     price: '$25–35/person',
-    address: 'Various departure docks — Congress Ave Bridge area, Downtown',
+    address: 'Congress Ave Bridge area — Lone Star Riverboat or Capital Cruises',
     tips: [
-      'Evening cruises often include the Congress Ave bat colony (1.5M bats emerge at dusk — insane)',
-      'Book a private charter for the group or join a public cruise',
+      '🦇 1.5 million bats emerge from the Congress Ave Bridge every night at dusk (late March–October)',
+      'Emergence is 20–30 min after sunset — July 2026 sunset is around 8:30pm, so bats at ~9pm',
+      'Board 45 min before departure — cruises fill up in summer, book in advance',
+      'Lone Star Riverboat and Capital Cruises are the main operators',
       'BYOB sometimes allowed on private charters — check when booking',
-      'Best in the evening: cooler temps and sunset over the skyline',
+      'This is a strictly evening/sunset activity — don\'t plan it for afternoon',
     ],
     website: 'Search "Lady Bird Lake boat cruise Austin" to compare operators',
   },
@@ -459,11 +462,11 @@ const EVENTS_RAW = [
     price: '$5/person',
     address: '2201 Barton Springs Rd, Austin, TX 78746',
     tips: [
-      'Open daily, usually 5am–10pm (hours vary by season)',
-      'Stays 68°F year-round — incredibly refreshing in July heat',
+      '⏰ Get there before 10am on weekends — parking and pool get packed by midday in July',
+      'Stays 68°F year-round — shockingly cold and refreshing in the summer heat',
+      'Admission: $5–9/person depending on season (check austintexas.gov for current pricing)',
       'Bring towels, sunscreen, and snacks — no food vendors inside',
-      'Parking fills fast on weekends — arrive before noon',
-      'Free before the pool opens for lap swim in the early morning',
+      'Pair it with lunch after at Terry Black\'s or Zilker Brewing — both nearby',
     ],
     website: 'austintexas.gov — search "Barton Springs Pool"',
   },
@@ -757,6 +760,25 @@ const EVENTS_RAW = [
     website: 'Search "Butler Pitch and Putt Austin"',
   },
   {
+    id: 'matts-el-rancho',
+    emoji: '🫙',
+    name: 'Matt\'s El Rancho',
+    category: 'restaurant',
+    type: 'drinking',
+    location: 'South Lamar',
+    desc: 'You\'re going for two things: the Bob Armstrong Dip and the Knockout Margarita. That\'s it. Don\'t overthink it.',
+    price: '$25–40/person',
+    address: '2613 S Lamar Blvd, Austin, TX 78704',
+    tips: [
+      '🫙 Bob Armstrong Dip — layers of queso, guac, and taco meat. They invented it. Mandatory.',
+      '🍹 The Knockout Margarita — it\'s called that for a reason',
+      'Austin institution since 1952 — a genuinely historic Tex-Mex spot',
+      'Open Tue–Sun 11am, closed Mondays',
+      'Can get busy on weekends — either get there early or put your name in and grab a marg at the bar',
+    ],
+    website: 'mattselrancho.com',
+  },
+  {
     id: 'rainey-street',
     emoji: '🍺',
     name: 'Rainey Street Bar Hop',
@@ -814,31 +836,36 @@ const EVENTS = [...EVENTS_RAW].sort((a, b) => {
 // sat-lunch · sat-activity · sat-night
 // sun-lunch · sun-activity · sun-night
 const SLOT_MAP = {
-  // Friday lunch — SoCo, easy, first meal in Austin
-  'gueros':             'fri-lunch',    // SoCo patio, frozen margs, great group lunch
-  'perlas':             'fri-lunch',    // SoCo oysters/seafood, upscale but fun for lunch
+  // Friday lunch — SoCo, first meal in Austin
+  'gueros':             'fri-lunch',    // SoCo patio Tex-Mex — food is mid but patio and margs are great
+  'matts-el-rancho':    'fri-lunch',    // Bob Armstrong Dip + Knockout Marg — come for those two things
 
   // Friday afternoon activity — chill after arriving, before dinner
   'spa-day':            'fri-activity', // relaxing first afternoon
   'cocktail-class':     'fri-activity', // fun group warm-up activity
   'escape-room':        'fri-activity', // afternoon puzzle challenge
-  'de-nada-margs':      'fri-activity', // classic Austin pitstop
-  'town-lake-cruise':   'fri-activity', // sunset bat cruise is perfect on Friday
+  'de-nada-margs':      'fri-activity', // classic Austin marg pitstop
+  'town-lake-cruise':   'fri-activity', // sunset bat cruise — 9pm bat emergence in July
   'austin-city-limits': 'fri-activity', // if there's a Friday taping, bucket list
 
   // Friday dinner — first night out, set the tone
   'aba':                'fri-dinner',   // upscale Mediterranean, rooftop, perfect opener
   'fogo-de-chao':       'fri-dinner',   // Brazilian churrascaria, upscale group splurge
+  'perlas':             'fri-dinner',   // upscale SoCo seafood — dinner is the prime slot (5:30pm+)
 
   // Friday night — first night bar/music
   'rainey-street':      'fri-night',    // bar hop to kick off the weekend
-  'donns-depot':        'fri-night',    // train car bar, open Fri, intimate and weird (good)
+  'donns-depot':        'fri-night',    // train car bar, open Fri from 2pm (Sat from 6pm only)
   'rooftop-bars':       'fri-night',    // skyline views, cocktails, bachelorette energy
-  'taco-speakeasy':     'fri-night',    // hidden bar, late night
   'continental-club':   'fri-night',    // live music, SoCo legend
 
+  // Friday dinner/night — works as late dinner or late-night stop
+  'taco-speakeasy':     'fri-dinner',   // hidden taco spot (Taqueria de Diez) — food-forward, best Thu-Sat night
+
+  // Friday night — late night drunk food
+  'jewboy-burgers':     'fri-night',    // late-night food truck near bars — drunk food, that's the move
+
   // Saturday lunch — after nails, before the big day
-  'jewboy-burgers':     'sat-lunch',
   'terry-blacks-bbq':   'sat-lunch',
   'franklin-bbq':       'sat-lunch',    // legendary — catering available, skip the line
   'la-barbecue':        'sat-lunch',    // top-tier, far more accessible than Franklin
