@@ -822,6 +822,8 @@ let voterData = {};   // { eventId: [ { voter_id, voter_name } ] }
 let myVotes = new Set();
 let usingFallback = false;
 let _pendingPersona = null; // persona key waiting for name to be set
+let allComments = {};        // { eventId: [{ id, voter_id, voter_name, text, created_at }] }
+let currentModalEventId = null;
 
 // =========================================
 // VOTER IDENTITY
@@ -1554,6 +1556,7 @@ function refreshAllBars() {
 function openDetailModal(eventId) {
   const event = EVENTS.find(e => e.id === eventId);
   if (!event) return;
+  currentModalEventId = eventId;
 
   const tipsHTML = event.tips
     ? event.tips.map(t => `<li>${t}</li>`).join('')
@@ -1610,7 +1613,22 @@ function openDetailModal(eventId) {
         `;
       })()}
     </div>
+
+    <div class="detail-section">
+      <h4>💬 Comments</h4>
+      <div id="detail-comments-list"></div>
+      <div class="comment-form">
+        <input type="text" id="comment-input" placeholder="Leave a comment…" maxlength="200" autocomplete="off" />
+        <button id="comment-submit-btn">Post</button>
+      </div>
+    </div>
   `;
+
+  renderModalComments(eventId);
+  document.getElementById('comment-submit-btn').addEventListener('click', () => submitComment(eventId));
+  document.getElementById('comment-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitComment(eventId);
+  });
 
   document.getElementById('detail-modal').classList.add('visible');
 }
@@ -2056,6 +2074,26 @@ async function init() {
         })
         .subscribe();
 
+      await loadComments();
+      supabaseClient
+        .channel('comments-channel')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'comments' }, payload => {
+          const c = payload.new;
+          if (!allComments[c.event_id]) allComments[c.event_id] = [];
+          if (!allComments[c.event_id].find(x => x.id === c.id)) {
+            allComments[c.event_id].push(c);
+            if (currentModalEventId === c.event_id) renderModalComments(c.event_id);
+          }
+        })
+        .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'comments' }, payload => {
+          const c = payload.old;
+          if (allComments[c.event_id]) {
+            allComments[c.event_id] = allComments[c.event_id].filter(x => x.id !== c.id);
+            if (currentModalEventId === c.event_id) renderModalComments(c.event_id);
+          }
+        })
+        .subscribe();
+
     } catch (e) {
       console.warn('Supabase connection failed, running in demo mode.', e);
       usingFallback = true;
@@ -2070,6 +2108,84 @@ async function init() {
 }
 
 init();
+
+// =========================================
+// COMMENTS
+// =========================================
+async function loadComments() {
+  if (!supabaseClient) return;
+  const { data, error } = await supabaseClient
+    .from('comments')
+    .select('*')
+    .order('created_at', { ascending: true });
+  if (error) return;
+  allComments = {};
+  (data || []).forEach(c => {
+    if (!allComments[c.event_id]) allComments[c.event_id] = [];
+    allComments[c.event_id].push(c);
+  });
+}
+
+function renderModalComments(eventId) {
+  const list = document.getElementById('detail-comments-list');
+  if (!list) return;
+  const comments = allComments[eventId] || [];
+  if (comments.length === 0) {
+    list.innerHTML = '<p class="no-comments">No comments yet — be first!</p>';
+    return;
+  }
+  list.innerHTML = comments.map(c => {
+    const isMe = c.voter_id === voterId;
+    const d = new Date(c.created_at);
+    const timeStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    return `
+      <div class="comment-item">
+        <div class="comment-header">
+          <span class="comment-author">${c.voter_name}</span>
+          <span class="comment-time">${timeStr}</span>
+          ${isMe ? `<button class="comment-delete-btn" data-comment-id="${c.id}" data-event-id="${eventId}" title="Delete">✕</button>` : ''}
+        </div>
+        <p class="comment-text">${c.text}</p>
+      </div>
+    `;
+  }).join('');
+  list.querySelectorAll('.comment-delete-btn').forEach(btn => {
+    btn.addEventListener('click', () => deleteComment(btn.dataset.commentId, btn.dataset.eventId));
+  });
+}
+
+async function submitComment(eventId) {
+  const input = document.getElementById('comment-input');
+  const text = input ? input.value.trim() : '';
+  if (!text) return;
+  if (!voterName) { showNameModal(); return; }
+
+  const comment = { event_id: eventId, voter_id: voterId, voter_name: voterName, text };
+
+  if (supabaseClient) {
+    const { data, error } = await supabaseClient.from('comments').insert(comment).select();
+    if (!error && data) {
+      if (!allComments[eventId]) allComments[eventId] = [];
+      allComments[eventId].push(data[0]);
+      renderModalComments(eventId);
+    }
+  } else {
+    if (!allComments[eventId]) allComments[eventId] = [];
+    allComments[eventId].push({ ...comment, id: String(Date.now()), created_at: new Date().toISOString() });
+    renderModalComments(eventId);
+  }
+  if (input) input.value = '';
+}
+
+async function deleteComment(commentId, eventId) {
+  if (supabaseClient) {
+    await supabaseClient.from('comments').delete().eq('id', commentId).eq('voter_id', voterId);
+  }
+  if (allComments[eventId]) {
+    allComments[eventId] = allComments[eventId].filter(c => String(c.id) !== String(commentId));
+  }
+  renderModalComments(eventId);
+}
 
 // =========================================
 // ARRIVALS
