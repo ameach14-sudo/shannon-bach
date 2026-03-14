@@ -2860,6 +2860,48 @@ body {
 }
 
 /* =========================================
+   CARD FOOTER (details + comment count)
+   ========================================= */
+.card-footer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.card-footer .details-btn {
+  flex: 1;
+}
+
+.comment-count-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--gray);
+  font-family: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.comment-count-chip:hover {
+  border-color: var(--rose);
+  color: var(--rose);
+  background: #fdf3ee;
+}
+
+.comment-count-chip.has-comments {
+  color: var(--brown);
+  border-color: var(--rose);
+  font-weight: 500;
+}
+
+/* =========================================
    COMMENTS
    ========================================= */
 .comment-form {

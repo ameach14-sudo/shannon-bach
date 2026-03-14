@@ -1824,7 +1824,12 @@ function renderEvents() {
           </button>
         </div>
       </div>
-      <button class="details-btn">See details →</button>
+      <div class="card-footer">
+        <button class="details-btn">See details →</button>
+        <button class="comment-count-chip" data-event-id="${event.id}">
+          ${(() => { const n = (allComments[event.id] || []).length; return n > 0 ? `💬 ${n} comment${n !== 1 ? 's' : ''}` : '💬 Comment'; })()}
+        </button>
+      </div>
     `;
 
     // Location info toggle
@@ -1848,6 +1853,10 @@ function renderEvents() {
       castVote(event.id, 'maybe');
     });
     card.querySelector('.details-btn').addEventListener('click', e => {
+      e.stopPropagation();
+      openDetailModal(event.id);
+    });
+    card.querySelector('.comment-count-chip').addEventListener('click', e => {
       e.stopPropagation();
       openDetailModal(event.id);
     });
@@ -2083,6 +2092,7 @@ async function init() {
           if (!allComments[c.event_id].find(x => x.id === c.id)) {
             allComments[c.event_id].push(c);
             if (currentModalEventId === c.event_id) renderModalComments(c.event_id);
+            renderCommentCounts();
           }
         })
         .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'comments' }, payload => {
@@ -2090,6 +2100,7 @@ async function init() {
           if (allComments[c.event_id]) {
             allComments[c.event_id] = allComments[c.event_id].filter(x => x.id !== c.id);
             if (currentModalEventId === c.event_id) renderModalComments(c.event_id);
+            renderCommentCounts();
           }
         })
         .subscribe();
@@ -2112,6 +2123,15 @@ init();
 // =========================================
 // COMMENTS
 // =========================================
+function renderCommentCounts() {
+  document.querySelectorAll('.comment-count-chip').forEach(chip => {
+    const eventId = chip.dataset.eventId;
+    const n = (allComments[eventId] || []).length;
+    chip.textContent = n > 0 ? `💬 ${n} comment${n !== 1 ? 's' : ''}` : '💬 Comment';
+    chip.classList.toggle('has-comments', n > 0);
+  });
+}
+
 async function loadComments() {
   if (!supabaseClient) return;
   const { data, error } = await supabaseClient
@@ -2168,11 +2188,13 @@ async function submitComment(eventId) {
       if (!allComments[eventId]) allComments[eventId] = [];
       allComments[eventId].push(data[0]);
       renderModalComments(eventId);
+      renderCommentCounts();
     }
   } else {
     if (!allComments[eventId]) allComments[eventId] = [];
     allComments[eventId].push({ ...comment, id: String(Date.now()), created_at: new Date().toISOString() });
     renderModalComments(eventId);
+    renderCommentCounts();
   }
   if (input) input.value = '';
 }
@@ -2185,6 +2207,7 @@ async function deleteComment(commentId, eventId) {
     allComments[eventId] = allComments[eventId].filter(c => String(c.id) !== String(commentId));
   }
   renderModalComments(eventId);
+  renderCommentCounts();
 }
 
 // =========================================
