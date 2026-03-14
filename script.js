@@ -972,6 +972,81 @@ const PERSONAS = {
   },
 };
 
+// Multiple title variants per persona — picked based on the individual's answer pattern.
+// This ensures two people with the same winning type still get a different title.
+const PERSONA_TITLES = {
+  cowgirl: [
+    'The Boot-Buying Rookie',
+    'The Two-Step Convert',
+    'The Honorary Texan',
+    'The Jeans-in-July Enthusiast',
+    'The Honky Tonk True Believer',
+    'The Boots-Before-Bags Girl',
+    'The Lone Star Newcomer',
+    'The Accidental Texan',
+  ],
+  typea: [
+    'The Google Doc With Tabs',
+    'The One Who Already Has a Reservation',
+    'The Linen Outfit in July',
+    'The Color-Coded Itinerary',
+    'The Yelp Rating Decider',
+    'The Spreadsheet That Walks Around',
+    'The Person Who Read the Reviews',
+    'The Early Dinner Reservation Haver',
+  ],
+  hotmess: [
+    'The Third Location Suggester',
+    'The Bartender\'s New Best Friend',
+    'The Can\'t-Account-For-Saturday',
+    'The Escalation Specialist',
+    'The Reason Everyone Has a Story',
+    'The Unintentional Group Ringleader',
+    'The One Who Suggested the Shots',
+    'The Beautiful Disaster Everyone Loves',
+  ],
+  glue: [
+    'The Liquid IV Distributor',
+    'The Unpaid Air Traffic Controller',
+    'The Group Chat Moderator',
+    'The CVS Run Coordinator',
+    'The Hydration Sergeant',
+    'The One Who Got Everyone Home',
+    'The Person Who Remembered the Address',
+    'The Portable Charger Person',
+  ],
+  influencer: [
+    'The Mural Finder',
+    'The Golden Hour Only Policy',
+    'The 400 Photos, Kept 12',
+    'The Recap Reel Already Posted',
+    'The Ring Light in the Carry-On',
+    'The Content First, Brunch Second',
+    'The One Who Found That Spot',
+    'The Lighting Is Perfect Right Here',
+  ],
+  wildcard: [
+    'The Accidental Adventure',
+    'The Beautiful Chaos Generator',
+    'The Unplanned Third Location',
+    'The Just Start Walking Strategy',
+    'The Randy Situation',
+    'The Somehow Everything Worked Out',
+    'The We\'re Going WHERE?',
+    'The Plot Twist of the Group',
+  ],
+};
+
+// Compute a unique title for a persona based on their answer pattern.
+// Same persona type + different answers = different title.
+// For people loaded from Supabase (no answer data), hash their voter_id.
+function getPersonaTitle(personaKey, hashSource) {
+  const titles = PERSONA_TITLES[resolvePersonaKey(personaKey)];
+  if (!titles || !titles.length) return PERSONAS[resolvePersonaKey(personaKey)]?.title || personaKey;
+  const hash = String(hashSource).split('').reduce((a, c) => a + c.charCodeAt(0), 0);
+  return titles[Math.abs(hash) % titles.length];
+}
+
 let quizAnswers = [];
 
 function openQuizModal() {
@@ -1040,8 +1115,13 @@ function showPersonaResult() {
 
   const persona = PERSONAS[winner];
 
-  // Store persona locally
+  // Compute a unique title from this person's exact answer pattern
+  const answerHash = quizAnswers.join('');
+  const uniqueTitle = getPersonaTitle(winner, answerHash);
+
+  // Store persona and their unique title locally
   localStorage.setItem('bach_persona', winner);
+  localStorage.setItem('bach_persona_title', uniqueTitle);
   updateNavWithPersona();
   updateQuizCta();
 
@@ -1052,8 +1132,8 @@ function showPersonaResult() {
   box.innerHTML = `
     <div class="quiz-result">
       <span class="quiz-result-emoji">${persona.emoji}</span>
-      <p class="quiz-result-label">You are</p>
-      <h2 class="quiz-result-title">${persona.title}</h2>
+      <p class="quiz-result-label">Your title for the weekend:</p>
+      <h2 class="quiz-result-title">${uniqueTitle}</h2>
       <p class="quiz-result-desc">${persona.desc}</p>
       <button class="quiz-close-btn" id="quiz-close-final">Let's go! →</button>
       <button class="quiz-retake-btn" id="quiz-retake">Retake quiz</button>
@@ -1071,7 +1151,8 @@ function updateNavWithPersona() {
   const persona = PERSONAS[personaKey];
   const badge = document.getElementById('nav-persona-badge');
   if (badge) {
-    badge.textContent = persona ? `${persona.emoji} ${persona.title}` : '';
+    const title = localStorage.getItem('bach_persona_title') || persona?.title || '';
+    badge.textContent = persona ? `${persona.emoji} ${title}` : '';
     badge.style.display = persona ? '' : 'none';
   }
 }
@@ -1846,12 +1927,16 @@ function renderPersonas() {
     if (!persona) return '';
     const isMe = p.voter_id === voterId;
     const isBride = p.voter_name.trim().toLowerCase() === 'shannon';
+    // Use the locally-stored unique title for the current user; hash voter_id for others
+    const title = isMe && localStorage.getItem('bach_persona_title')
+      ? localStorage.getItem('bach_persona_title')
+      : getPersonaTitle(p.persona, p.voter_id);
     return `
       <div class="persona-card ${isMe ? 'persona-card-me' : ''} ${isBride ? 'persona-card-bride' : ''}"
            data-admin-target="persona" data-admin-id="${p.voter_id}" data-admin-name="${p.voter_name}">
         <span class="persona-card-emoji">${isBride ? '💍' : persona.emoji}</span>
         <span class="persona-card-name">${p.voter_name}${isMe ? ' (you)' : ''}</span>
-        <span class="persona-card-title">${persona.title}</span>
+        <span class="persona-card-title">${title}</span>
       </div>
     `;
   }).join('');
@@ -2162,8 +2247,9 @@ function updateQuizCta() {
   if (!btn) return;
   const savedPersona = resolvePersonaKey(localStorage.getItem('bach_persona'));
   const persona = savedPersona && PERSONAS[savedPersona];
+  const savedTitle = localStorage.getItem('bach_persona_title') || persona?.title || '';
   btn.textContent = persona
-    ? `${persona.emoji} You're a ${persona.title} · Retake the quiz →`
+    ? `${persona.emoji} ${savedTitle} · Retake the quiz →`
     : '✨ What\'s your bachelorette persona? Take the quiz →';
   btn.classList.toggle('quiz-cta-taken', !!persona);
 }
