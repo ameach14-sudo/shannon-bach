@@ -1939,6 +1939,14 @@ function openDetailModal(eventId) {
 document.getElementById('detail-modal-close').addEventListener('click', () => {
   document.getElementById('detail-modal').classList.remove('visible');
 });
+
+// Agenda: clicking a dynamic slot opens the detail modal for the winning event
+document.getElementById('agenda-container').addEventListener('click', e => {
+  const card = e.target.closest('[data-event-id]');
+  if (card && !e.target.closest('[data-admin-target]')) {
+    openDetailModal(card.dataset.eventId);
+  }
+});
 document.getElementById('detail-modal').addEventListener('click', e => {
   if (e.target === document.getElementById('detail-modal')) {
     document.getElementById('detail-modal').classList.remove('visible');
@@ -2026,13 +2034,15 @@ function renderAgenda() {
       const bridePicksWinner = (voterData[winner.id] || []).some(v => v.voter_name.trim().toLowerCase() === 'shannon' && v.vote_type !== 'maybe');
 
       return `
-        <div class="day-item agenda-dynamic${bridePicksWinner ? ' bride-pick' : ''}"
-             data-admin-target="agenda-slot" data-admin-slot="${item.slot}" data-admin-name="${item.time}">
+        <div class="day-item agenda-dynamic${bridePicksWinner ? ' bride-pick' : ''} agenda-clickable"
+             data-admin-target="agenda-slot" data-admin-slot="${item.slot}" data-admin-name="${item.time}"
+             data-event-id="${winner.id}" role="button" tabindex="0">
           <span class="item-time">${item.time}</span>
           <div class="item-body">
             ${bridePicksWinner ? '<span class="item-badge agenda-bride-badge">💍 Bride\'s Pick</span>' : '<span class="item-badge agenda-leading-badge">🗳️ Leading</span>'}
             <span class="item-name">${winner.emoji} ${winner.name}</span>
             <span class="item-note">${winner.location} · ${votes} vote${votes !== 1 ? 's' : ''} (${voters})${tieNote}</span>
+            <span class="agenda-details-hint">tap for details →</span>
           </div>
         </div>`;
     }).join('');
